@@ -3,8 +3,6 @@ package basic;
 import javafx.stage.Stage;
 
 // Basic Imports
-import javafx.application.Application;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 // Button Imports
@@ -13,16 +11,12 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
 // Text Imports
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 // Layout Imports
 import javafx.scene.layout.VBox;
-import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 
 public class MyList {
-    public void MyListScreen (Stage primaryStage) {
+    public static void MyListScreen (Stage primaryStage) {
         Button HomeMenu = new Button();
         HomeMenu.setText("Back");
         HomeMenu.setMaxSize(100, 50);
@@ -30,9 +24,10 @@ public class MyList {
  
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hi");
+                Main.mainMenu(primaryStage);
             }
         });
-        primaryStage.setScene(HomeMenu);
+        VBox MyListVBox = new VBox(HomeMenu);
+        primaryStage.setScene(new Scene(MyListVBox));
     }
 }
