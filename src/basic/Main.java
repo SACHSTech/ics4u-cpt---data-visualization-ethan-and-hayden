@@ -16,7 +16,7 @@ import javafx.scene.text.FontWeight;
 
 // Layout Imports
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.BorderPane;
+import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 
 public class Main extends Application {
@@ -27,6 +27,7 @@ public class Main extends Application {
 
         Font MenuFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
+        // Full Screen Button
         Button FullScreenBtn = new Button();
         FullScreenBtn.setText("Full Screen");
         FullScreenBtn.setFont(MenuFont);
@@ -39,12 +40,55 @@ public class Main extends Application {
                 primaryStage.setFullScreen(true);
             }
         });
-        VBox MenuVBox = new VBox(FullScreenBtn);
-        MenuVBox.setPadding(new Insets(15, 12, 15, 12));
-        MenuVBox.setSpacing(10);
+
+        // My List Button
+        Button MyListBtn = new Button();
+        MyListBtn.setText("My List");
+        MyListBtn.setFont(MenuFont);
+        MyListBtn.setWrapText(true);
+        MyListBtn.setMaxSize(100, 50);
+        MyListBtn.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                MyListScreen(primaryStage);
+            }
+        });
+
+        // Database Button
+        Button DatabaseBtn = new Button();
+        DatabaseBtn.setText("Database");
+        DatabaseBtn.setFont(MenuFont);
+        DatabaseBtn.setWrapText(true);
+        DatabaseBtn.setMaxSize(100, 50);
+        DatabaseBtn.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                primaryStage.setFullScreen(true);
+            }
+        });
+
+        // Game Comparison Button
+        Button CompareBtn = new Button();
+        CompareBtn.setText("Compare");
+        CompareBtn.setFont(MenuFont);
+        CompareBtn.setWrapText(true);
+        CompareBtn.setMaxSize(100, 50);
+        CompareBtn.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                primaryStage.setFullScreen(true);
+            }
+        });
+
+        // Setting up Background of Menu
+        VBox MenuVBox = new VBox(MyListBtn, DatabaseBtn, CompareBtn, FullScreenBtn);
+        MenuVBox.setAlignment(Pos.CENTER);
         MenuVBox.setStyle("-fx-background-color: #336699;");
-        MenuVBox.setSpacing(100);
-        primaryStage.setScene(new Scene(MenuVBox, 200, 200));
+        MenuVBox.setSpacing(20);
+        primaryStage.setScene(new Scene(MenuVBox));
         primaryStage.show();
     }
 
