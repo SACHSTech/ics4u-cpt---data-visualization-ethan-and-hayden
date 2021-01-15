@@ -1,6 +1,10 @@
 package basic;
 
+import java.io.IOException;
+
 // Basic Libraries Imports
+import java.io.*;
+import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -81,7 +85,9 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String fileName = "src/basic/VideoGames.csv";
+        Games.csvToObject(fileName);
         Application.launch(args);
     }
 }
