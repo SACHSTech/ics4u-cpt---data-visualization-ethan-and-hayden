@@ -25,8 +25,8 @@ public class Main extends Application {
 
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("MyGamesList");
-        primaryStage.setHeight(400);
-        primaryStage.setWidth(500);
+        primaryStage.setHeight(600);
+        primaryStage.setWidth(700);
         primaryStage.setResizable(true);
         String fileName = "src/basic/VideoGames.csv";
         ArrayList<Games> GamesList = Games.csvToObject(fileName);

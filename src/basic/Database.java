@@ -22,10 +22,6 @@ public class Database {
         titleColumn.setText("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory("strTitle"));
 
-        TableColumn handheldColumn = new TableColumn<>("isHandheld");
-        handheldColumn.setText("Handheld?");
-        handheldColumn.setCellValueFactory(new PropertyValueFactory("isHandheld"));
-
         TableColumn maxplayersColumn = new TableColumn<>("intMaxPlayers");
         maxplayersColumn.setText("Max Players");
         // maxplayersColumn.setMinWidth(200);
@@ -42,10 +38,6 @@ public class Database {
         TableColumn publisherColumn = new TableColumn();
         publisherColumn.setText("Publisher");
         publisherColumn.setCellValueFactory(new PropertyValueFactory("strPublisher"));
-
-        TableColumn sequelColumn = new TableColumn();
-        sequelColumn.setText("Sequel?");
-        sequelColumn.setCellValueFactory(new PropertyValueFactory("isSequel"));
 
         TableColumn scoreColumn = new TableColumn();
         scoreColumn.setText("Score");
@@ -67,10 +59,6 @@ public class Database {
         ratingColumn.setText("Rating");
         ratingColumn.setCellValueFactory(new PropertyValueFactory("strRating"));
 
-        TableColumn rereleaseColumn = new TableColumn();
-        rereleaseColumn.setText("Re-release?");
-        rereleaseColumn.setCellValueFactory(new PropertyValueFactory("isRereleased"));
-
         TableColumn yearColumn = new TableColumn();
         yearColumn.setText("Year Released");
         yearColumn.setCellValueFactory(new PropertyValueFactory("intYear"));
@@ -81,7 +69,7 @@ public class Database {
 
         final TableView tableView = new TableView();
         tableView.setItems(data);
-        tableView.getColumns().addAll(titleColumn, handheldColumn, maxplayersColumn, multiplayerColumn, genreColumn, publisherColumn, sequelColumn, scoreColumn, salesColumn, priceColumn, consoleColumn, ratingColumn, rereleaseColumn, yearColumn, playtimeColumn);
+        tableView.getColumns().addAll(titleColumn, maxplayersColumn, multiplayerColumn, genreColumn, publisherColumn, scoreColumn, salesColumn, priceColumn, consoleColumn, ratingColumn, yearColumn, playtimeColumn);
         return tableView;
     }
 
