@@ -3,162 +3,171 @@ package basic;
 import java.io.*;
 import java.util.*;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class Games {
-    private String strTitle;
-    private boolean isHandheld;
-    private int intMaxPlayers;
-    private boolean isMultiplayer;
-    private String strGenre;
-    private String strPublisher;
-    private boolean isSequel;
-    private int intScore; 
-    private double dblSales;
-    private double dblPrice;
-    private String strConsole;
-    private String strRating;
-    private boolean isRereleased;
-    private int intYear;
-    private double dblPlaytime;
+    private StringProperty strTitle;
+    private BooleanProperty isHandheld;
+    private IntegerProperty intMaxPlayers;
+    private BooleanProperty isMultiplayer;
+    private StringProperty strGenre;
+    private StringProperty strPublisher;
+    private BooleanProperty isSequel;
+    private IntegerProperty intScore; 
+    private DoubleProperty dblSales;
+    private DoubleProperty dblPrice;
+    private StringProperty strConsole;
+    private StringProperty strRating;
+    private BooleanProperty isRereleased;
+    private IntegerProperty intYear;
+    private DoubleProperty dblPlaytime;
 
     public Games(String strTitle, boolean isHandheld, int intMaxPlayers, boolean isMultiplayer, String strGenre, String strPublisher, boolean isSequel, int intScore, double dblSales, double dblPrice, String strConsole, String strRating, boolean isRereleased, int intYear, double dblPlaytime) {
-        this.strTitle = strTitle;
-        this.isHandheld = isHandheld;
-        this.intMaxPlayers = intMaxPlayers;
-        this.isMultiplayer = isMultiplayer;
-        this.strGenre = strGenre;
-        this.strPublisher = strPublisher;
-        this.isSequel = isSequel;
-        this.intScore = intScore; 
-        this.dblSales = dblSales;
-        this.dblPrice = dblPrice;
-        this.strConsole = strConsole;
-        this.strRating = strRating;
-        this.isRereleased = isRereleased;
-        this.intYear = intYear;
-        this.dblPlaytime = dblPlaytime;    
+        this.strTitle = new SimpleStringProperty(strTitle);
+        this.isHandheld = new SimpleBooleanProperty(isHandheld);
+        this.intMaxPlayers = new SimpleIntegerProperty(intMaxPlayers);
+        this.isMultiplayer = new SimpleBooleanProperty(isMultiplayer);
+        this.strGenre = new SimpleStringProperty(strGenre);
+        this.strPublisher = new SimpleStringProperty(strPublisher);
+        this.isSequel = new SimpleBooleanProperty(isSequel);
+        this.intScore = new SimpleIntegerProperty(intScore); 
+        this.dblSales = new SimpleDoubleProperty(dblSales);
+        this.dblPrice = new SimpleDoubleProperty(dblPrice);
+        this.strConsole = new SimpleStringProperty(strConsole);
+        this.strRating = new SimpleStringProperty(strRating);
+        this.isRereleased = new SimpleBooleanProperty(isRereleased);
+        this.intYear = new SimpleIntegerProperty(intYear);
+        this.dblPlaytime = new SimpleDoubleProperty(dblPlaytime);    
     }
 
-    public String getTitle() {
+    public StringProperty strTitleProperty() {
         return strTitle;
     }
 
-    public boolean getHandheld() {
+    public BooleanProperty isHandheldProperty() {
         return isHandheld;
     }
 
-    public int getMaxPlayers() {
+    public IntegerProperty intMaxPlayersProperty() {
         return intMaxPlayers;
     }
 
-    public boolean getMultiplayer() {
+    public BooleanProperty isMultiplayerProperty() {
         return isMultiplayer;
     }
 
-    public String getGenre() {
+    public StringProperty strGenreProperty() {
         return strGenre;
     }
 
-    public String getPublisher() {
+    public StringProperty strPublisherProperty() {
         return strPublisher;
     }
 
-    public boolean getSequel() {
+    public BooleanProperty isSequelProperty() {
         return isSequel;
     }
 
-    public int getScore() {
+    public IntegerProperty intScoreProperty() {
         return intScore;
     }
 
-    public double getSales() {
+    public DoubleProperty dblSalesProperty() {
         return dblSales;
     }
 
-    public double getPrice() {
+    public DoubleProperty dblPriceProperty() {
         return dblPrice;
     }
 
-    public String getConsole() {
+    public StringProperty strConsoleProperty() {
         return strConsole;
     }
 
-    public String getRating() {
+    public StringProperty strRatingProperty() {
         return strRating;
     }
 
-    public boolean getRereleased() {
+    public BooleanProperty isRereleasedProperty() {
         return isRereleased;
     }
 
-    public int getYear() {
+    public IntegerProperty intYearProperty() {
         return intYear;
     }
 
-    public double getPlaytime() {
+    public DoubleProperty dblPlaytimeProperty() {
         return dblPlaytime;
     }
 
     public void setTitle(String strTitle) {
-        this.strTitle = strTitle;
+        this.strTitle = new SimpleStringProperty(strTitle);
     }
 
     public void setHandheld(boolean isHandheld) {
-        this.isHandheld = isHandheld;
+        this.isHandheld = new SimpleBooleanProperty(isHandheld);
     }
 
     public void setMaxPlayers(int intMaxPlayers) {
-        this.intMaxPlayers = intMaxPlayers;
+        this.intMaxPlayers = new SimpleIntegerProperty(intMaxPlayers);
     }
 
     public void setMultiplayer(boolean isMultiplayer) {
-        this.isMultiplayer = isMultiplayer;
+        this.isMultiplayer = new SimpleBooleanProperty(isMultiplayer);
     }
 
     public void setGenre(String strGenre) {
-        this.strGenre = strGenre;
+        this.strGenre = new SimpleStringProperty(strGenre);
     }
 
     public void setPublisher(String strPublisher) {
-        this.strPublisher = strPublisher;
+        this.strPublisher = new SimpleStringProperty(strPublisher);
     }
 
     public void setSequel(boolean isSequel) {
-        this.isSequel = isSequel;
+        this.isSequel = new SimpleBooleanProperty(isSequel);
     }
 
     public void setScore(int intScore) {
-        this.intScore = intScore;
+        this.intScore = new SimpleIntegerProperty(intScore); 
     }
 
     public void setSales(double dblSales) {
-        this.dblSales = dblSales;
+        this.dblSales = new SimpleDoubleProperty(dblSales);
     }
 
     public void setPrice(double dblPrice) {
-        this.dblPrice = dblPrice;
+        this.dblPrice = new SimpleDoubleProperty(dblPrice);
     }
 
     public void setConsole(String strConsole) {
-        this.strConsole = strConsole;
+        this.strConsole = new SimpleStringProperty(strConsole);
     }
 
     public void setRating(String strRating) {
-        this.strRating = strRating;
+        this.strRating = new SimpleStringProperty(strRating);
     }
 
     public void setRereleased(boolean isRereleased) {
-        this.isRereleased = isRereleased;
+        this.isRereleased = new SimpleBooleanProperty(isRereleased);
     }
 
     public void setYear(int intYear) {
-        this.intYear = intYear;
+        this.intYear = new SimpleIntegerProperty(intYear);
     }
 
     public void setPlaytime(double dblPlaytime) {
-        this.dblPlaytime = dblPlaytime;
+        this.dblPlaytime = new SimpleDoubleProperty(dblPlaytime);
     }
 
-    public static void csvToObject(String fileName) throws IOException {
+    public static List<Games> csvToObject(String fileName) throws IOException {
         BufferedReader CSVFile = new BufferedReader(new FileReader(fileName));  
         List<Games> GamesList = new ArrayList<>();
 
@@ -187,9 +196,10 @@ public class Games {
             gamesObj.setYear(Integer.parseInt(gamesCsv[13]));
             gamesObj.setPlaytime(Double.parseDouble(gamesCsv[14]));
 
-            // adding car objects to a list  
+            // adding objects to a list  
             GamesList.add(gamesObj);         
         }
         CSVFile.close();
+        return GamesList;
     }
 }

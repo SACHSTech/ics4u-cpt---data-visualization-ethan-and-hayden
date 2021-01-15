@@ -1,8 +1,7 @@
 package basic;
 
-import javafx.stage.Stage;
-
 // Basic Imports
+import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.io.*;
 import java.util.*;

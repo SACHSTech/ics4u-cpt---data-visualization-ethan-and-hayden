@@ -28,7 +28,7 @@ public class Main extends Application {
         primaryStage.setTitle("MyGamesList");
         primaryStage.setHeight(400);
         primaryStage.setWidth(500);
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         mainMenu(primaryStage);
     }
     
@@ -59,7 +59,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hi");
+                Database.DatabaseScreen(primaryStage);
             }
         });
 
@@ -87,7 +87,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         String fileName = "src/basic/VideoGames.csv";
-        Games.csvToObject(fileName);
+        List<Games> GamesList = Games.csvToObject(fileName);
         Application.launch(args);
     }
 }
