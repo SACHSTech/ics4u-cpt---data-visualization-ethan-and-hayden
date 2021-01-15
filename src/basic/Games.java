@@ -167,9 +167,9 @@ public class Games {
         this.dblPlaytime = new SimpleDoubleProperty(dblPlaytime);
     }
 
-    public static List<Games> csvToObject(String fileName) throws IOException {
+    public static ArrayList<Games> csvToObject(String fileName) throws IOException {
         BufferedReader CSVFile = new BufferedReader(new FileReader(fileName));  
-        List<Games> GamesList = new ArrayList<>();
+        ArrayList<Games> GamesList = new ArrayList<>();
 
         while (CSVFile.readLine() != null) {
             

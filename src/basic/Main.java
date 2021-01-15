@@ -20,19 +20,20 @@ import javafx.scene.text.FontWeight;
 
 // Layout Imports
 import javafx.scene.layout.VBox;
-import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 
 public class Main extends Application {
-    public void start(Stage primaryStage) throws Exception {
+
+    public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("MyGamesList");
         primaryStage.setHeight(400);
         primaryStage.setWidth(500);
         primaryStage.setResizable(true);
-        mainMenu(primaryStage);
+        String fileName = "src/basic/VideoGames.csv";
+        ArrayList<Games> GamesList = Games.csvToObject(fileName);
+        mainMenu(primaryStage, GamesList);
     }
     
-    public static void mainMenu(Stage primaryStage) {
+    public static void mainMenu(Stage primaryStage, ArrayList<Games> GamesList) {
         Font MenuFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // My List Button
@@ -45,7 +46,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                MyList.MyListScreen(primaryStage);
+                MyList.MyListScreen(primaryStage, GamesList);
             }
         });
 
@@ -59,7 +60,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage);
+                Database.DatabaseScreen(primaryStage, GamesList);
             }
         });
 
@@ -86,8 +87,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        String fileName = "src/basic/VideoGames.csv";
-        List<Games> GamesList = Games.csvToObject(fileName);
         Application.launch(args);
     }
 }

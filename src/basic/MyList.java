@@ -17,7 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.VBox;
 
 public class MyList {
-    public static void MyListScreen (Stage primaryStage) {
+    public static void MyListScreen (Stage primaryStage, ArrayList<Games> GamesList) {
         Button HomeMenu = new Button();
         HomeMenu.setText("Back");
         HomeMenu.setMaxSize(100, 50);
@@ -25,7 +25,7 @@ public class MyList {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenu(primaryStage);
+                Main.mainMenu(primaryStage, GamesList);
             }
         });
         VBox MyListVBox = new VBox(HomeMenu);

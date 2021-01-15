@@ -3,16 +3,8 @@ package basic;
 // Basic Imports
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import java.io.*;
-import java.util.*;
 
-// Button Imports
-import javafx.scene.control.Button;
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
-
-// Layout Imports
-import javafx.scene.layout.VBox;
+import java.util.ArrayList;
 
 // Table Imports
 import javafx.collections.FXCollections;
@@ -23,10 +15,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Database {
-    public static Parent createContent() {
-        final ObservableList<Games> data = FXCollections.observableArrayList(
-                new Games("Hi Lmao", false, 3, false, "", "", false, 0, 0, 0, "", "", false, 0, 0),
-                new Games("Lol", false, 5, false, "", "", false, 0, 0, 0, "", "", false, 0, 0));
+    public static Parent createContent(ArrayList<Games> GamesList) {
+        final ObservableList<Games> data = FXCollections.observableArrayList(GamesList);
  
         TableColumn titleColumn = new TableColumn("strTitle");
         titleColumn.setText("Title");
@@ -95,10 +85,10 @@ public class Database {
         return tableView;
     }
 
-    public static void DatabaseScreen (Stage primaryStage) {
+    public static void DatabaseScreen (Stage primaryStage, ArrayList<Games> GamesList) {
 
         // Table
-        primaryStage.setScene(new Scene(createContent()));
+        primaryStage.setScene(new Scene(createContent(GamesList)));
         primaryStage.show();
 
         /*
