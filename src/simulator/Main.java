@@ -1,4 +1,4 @@
-package basic;
+package simulator;
 
 import java.io.IOException;
 
@@ -32,7 +32,7 @@ public class Main extends Application {
         primaryStage.setHeight(500);
         primaryStage.setWidth(600);
         primaryStage.setResizable(false);
-        String fileName = "src/basic/VideoGames.csv";
+        String fileName = "src/simulator/VideoGames.csv";
         ArrayList<Games> GamesList = Games.csvToObject(fileName);
         mainMenu(primaryStage, GamesList);
     }

@@ -1,4 +1,4 @@
-package basic;
+package simulator;
 
 // Basic Imports
 import javafx.stage.Stage;
