@@ -17,27 +17,46 @@ import javafx.event.ActionEvent;
 // Text Imports
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 // Layout Imports
 import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.scene.layout.GridPane;
+import javafx.geometry.Insets;
 
 public class Main extends Application {
 
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("MyGamesList");
-        primaryStage.setHeight(600);
-        primaryStage.setWidth(700);
-        primaryStage.setResizable(true);
+        primaryStage.setTitle("'My Games List' by Ethan Lai & Hayden Chung");
+        primaryStage.setHeight(500);
+        primaryStage.setWidth(600);
+        primaryStage.setResizable(false);
         String fileName = "src/basic/VideoGames.csv";
         ArrayList<Games> GamesList = Games.csvToObject(fileName);
         mainMenu(primaryStage, GamesList);
     }
     
     public static void mainMenu(Stage primaryStage, ArrayList<Games> GamesList) {
+        
+        // Refreshes stage
+        primaryStage.setWidth(600);
+
+        GridPane menuGrid = new GridPane();
+        menuGrid.setVgap(10);
+        menuGrid.setHgap(10);
+        menuGrid.setGridLinesVisible(false);
+        menuGrid.setPadding(new Insets(25, 25, 25, 25));
         Font MenuFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+
+        // Title
+        Text mainTitle = new Text("My Games List");
+        mainTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+        menuGrid.add(mainTitle, 0, 0);
 
         // My List Button
         Button MyListBtn = new Button();
+        menuGrid.add(MyListBtn, 0, 1);
         MyListBtn.setText("My List");
         MyListBtn.setFont(MenuFont);
         MyListBtn.setWrapText(true);
@@ -52,6 +71,7 @@ public class Main extends Application {
 
         // Database Button
         Button DatabaseBtn = new Button();
+        menuGrid.add(DatabaseBtn, 0, 2);
         DatabaseBtn.setText("Database");
         DatabaseBtn.setFont(MenuFont);
         DatabaseBtn.setWrapText(true);
@@ -66,6 +86,7 @@ public class Main extends Application {
 
         // Game Comparison Button
         Button CompareBtn = new Button();
+        menuGrid.add(CompareBtn, 0, 3);
         CompareBtn.setText("Compare");
         CompareBtn.setFont(MenuFont);
         CompareBtn.setWrapText(true);
@@ -74,15 +95,12 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hi");
+                Compare.CompareScreen(primaryStage, GamesList);
             }
         });
 
         // Setting up Background of Menu
-        VBox MenuVBox = new VBox(MyListBtn, DatabaseBtn, CompareBtn);
-        MenuVBox.setStyle("-fx-background-color: #336699;");
-        MenuVBox.setSpacing(20);
-        primaryStage.setScene(new Scene(MenuVBox));
+        primaryStage.setScene(new Scene(menuGrid));
         primaryStage.show();
     }
 

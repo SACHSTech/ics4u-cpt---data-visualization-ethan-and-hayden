@@ -3,16 +3,26 @@ package basic;
 // Basic Imports
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-
 import java.util.ArrayList;
+
+// Button Imports
+import javafx.scene.control.Button;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 
 // Table Imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.TableHeaderRow;
+
+// Layout Imports
+import javafx.geometry.Insets;
+import javafx.scene.layout.GridPane;
 
 public class Database {
     public static Parent createContent(ArrayList<Games> GamesList) {
@@ -24,7 +34,6 @@ public class Database {
 
         TableColumn maxplayersColumn = new TableColumn<>("intMaxPlayers");
         maxplayersColumn.setText("Max Players");
-        // maxplayersColumn.setMinWidth(200);
         maxplayersColumn.setCellValueFactory(new PropertyValueFactory("intMaxPlayers"));
 
         TableColumn multiplayerColumn = new TableColumn();
@@ -68,31 +77,40 @@ public class Database {
         playtimeColumn.setCellValueFactory(new PropertyValueFactory("dblPlaytime"));
 
         final TableView tableView = new TableView();
+        tableView.setEditable(false);
         tableView.setItems(data);
         tableView.getColumns().addAll(titleColumn, maxplayersColumn, multiplayerColumn, genreColumn, publisherColumn, scoreColumn, salesColumn, priceColumn, consoleColumn, ratingColumn, yearColumn, playtimeColumn);
         return tableView;
     }
 
     public static void DatabaseScreen (Stage primaryStage, ArrayList<Games> GamesList) {
-
+        
+        GridPane databaseGrid = new GridPane();
+        databaseGrid.setVgap(10);
+        databaseGrid.setHgap(10);
+        databaseGrid.setGridLinesVisible(false);
+        databaseGrid.setPadding(new Insets(25, 25, 25, 25));
+        
         // Table
-        primaryStage.setScene(new Scene(createContent(GamesList)));
-        primaryStage.show();
+        databaseGrid.add(createContent(GamesList), 0, 0);
 
-        /*
         // Home Menu Button
-        Button HomeMenu = new Button();
-        HomeMenu.setText("Back");
-        HomeMenu.setMaxSize(100, 50);
-        HomeMenu.setOnAction(new EventHandler<ActionEvent>() {
+        Button homeMenu = new Button();
+        databaseGrid.add(homeMenu, 0, 1);
+        homeMenu.setText("Back");
+        homeMenu.setMaxSize(100, 50);
+        homeMenu.setOnAction(new EventHandler<ActionEvent>() {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenu(primaryStage);
+                Main.mainMenu(primaryStage, GamesList);
             }
         });
-        VBox MyListVBox = new VBox(HomeMenu);
-        primaryStage.setScene(new Scene(MyListVBox)); */
+
+        // Refreshes the stage so the table would not be glitched
+        primaryStage.setScene(new Scene(databaseGrid));
+        primaryStage.setWidth(601);
+        primaryStage.show();
     }
 }
 
