@@ -20,7 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 
 public class Compare {
-    public static void CompareScreen (Stage primaryStage, ArrayList<Games> GamesList, ArrayList<Games> UserList) {
+    public static void CompareScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<Manga> UserList) {
         GridPane compareGrid = new GridPane();
         compareGrid.setVgap(10);
         compareGrid.setHgap(10);
@@ -35,7 +35,7 @@ public class Compare {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenu(primaryStage, GamesList, UserList);
+                Main.mainMenu(primaryStage, MangaList, UserList);
             }
         });
 

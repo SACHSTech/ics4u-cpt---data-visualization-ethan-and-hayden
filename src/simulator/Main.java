@@ -28,17 +28,17 @@ import javafx.geometry.Insets;
 public class Main extends Application {
 
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("'My Games List' by Ethan Lai & Hayden Chung");
+        primaryStage.setTitle("'My Manga List' by Ethan Lai");
         primaryStage.setHeight(500);
         primaryStage.setWidth(600);
         primaryStage.setResizable(false);
-        String fileName = "src/simulator/VideoGames.csv";
-        ArrayList<Games> GamesList = Games.csvToObject(fileName);
-        ArrayList<Games> UserList = new ArrayList<Games>();
-        mainMenu(primaryStage, GamesList, UserList);
+        String fileName = "src/simulator/AllManga.csv";
+        ArrayList<Manga> MangaList = Manga.csvToObject(fileName);
+        ArrayList<Manga> UserList = new ArrayList<Manga>();
+        mainMenu(primaryStage, MangaList, UserList);
     }
     
-    public static void mainMenu(Stage primaryStage, ArrayList<Games> GamesList, ArrayList<Games> UserList) {
+    public static void mainMenu(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<Manga> UserList) {
         
         // Refreshes stage
         primaryStage.setWidth(600);
@@ -51,7 +51,7 @@ public class Main extends Application {
         Font MenuFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Title
-        Text mainTitle = new Text("My Games List");
+        Text mainTitle = new Text("My Manga List");
         mainTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         menuGrid.add(mainTitle, 0, 0);
 
@@ -66,7 +66,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                MyList.MyListScreen(primaryStage, GamesList, UserList);
+                MyList.MyListScreen(primaryStage, MangaList, UserList);
             }
         });
 
@@ -81,7 +81,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage, GamesList, UserList);
+                Database.DatabaseScreen(primaryStage, MangaList, UserList);
             }
         });
 
@@ -96,7 +96,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                Compare.CompareScreen(primaryStage, GamesList, UserList);
+                Compare.CompareScreen(primaryStage, MangaList, UserList);
             }
         });
 

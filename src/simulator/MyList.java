@@ -38,14 +38,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MyList {
-    private static Parent searchBox(ArrayList<Games> GamesList, ArrayList<Games> UserList, GridPane myListGrid) {    
+    private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<Manga> UserList, GridPane myListGrid) {    
         TextField searchText = new TextField();
         searchText.setPromptText("Enter game name here");
         searchText.setMaxSize(140, TextField.USE_COMPUTED_SIZE);
         searchText.setOnKeyReleased((KeyEvent currentKey) -> {
             if (currentKey.getCode() == KeyCode.ENTER) {
                 String strKey = searchText.getText();
-                AddingToList(GamesList, strKey, UserList);
+                AddingToList(MangaList, strKey, UserList);
                 myListGrid.add(createMyList(UserList), 0, 1);
                 searchText.clear();
             }
@@ -54,12 +54,12 @@ public class MyList {
     }
 
     // Linear Search
-    private static void AddingToList (ArrayList<Games> GamesList, String strKey, ArrayList<Games> UserList) {
+    private static void AddingToList (ArrayList<Manga> MangaList, String strKey, ArrayList<Manga> UserList) {
         int intCheck = 0;
         boolean isItemInUserList = false;
-        for (Games Current : GamesList) {
+        for (Manga Current : MangaList) {
             if (strKey.equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
-                for (Games CurrentUserList : UserList) {
+                for (Manga CurrentUserList : UserList) {
                     if (((CurrentUserList.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
                         isItemInUserList = true;
                         break;
@@ -74,38 +74,36 @@ public class MyList {
                 }
             }else {
                 intCheck++;
-                if (intCheck == GamesList.size()) {
+                if (intCheck == MangaList.size()) {
                     System.out.println("Item is not in the database");
                 }
             }
         }
     }
 
-    public static Parent createMyList(ArrayList<Games> UserList) {
-        final ObservableList<Games> data = FXCollections.observableArrayList(UserList);
+    public static Parent createMyList(ArrayList<Manga> UserList) {
+        final ObservableList<Manga> data = FXCollections.observableArrayList(UserList);
  
         TableColumn titleColumn = new TableColumn("strTitle");
         titleColumn.setText("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory("strTitle"));
 
-
         TableColumn scoreColumn = new TableColumn();
         scoreColumn.setText("Your Score");
-        scoreColumn.setCellValueFactory(new PropertyValueFactory("intScore"));
+        scoreColumn.setCellValueFactory(new PropertyValueFactory("dblScore"));
 
-        TableColumn playtimeColumn = new TableColumn();
-        playtimeColumn.setText("Your Play Time");
-        playtimeColumn.setCellValueFactory(new PropertyValueFactory("dblPlaytime"));
-
+        TableColumn chaptersColumn = new TableColumn();
+        chaptersColumn.setText("Read Chapters");
+        chaptersColumn.setCellValueFactory(new PropertyValueFactory("strChapter"));
 
         final TableView tableView = new TableView();
         tableView.setEditable(true);
         tableView.setItems(data);
-        tableView.getColumns().addAll(titleColumn, scoreColumn, playtimeColumn);
+        tableView.getColumns().addAll(titleColumn, scoreColumn, chaptersColumn);
         return tableView;
     } 
 
-    public static void MyListScreen (Stage primaryStage, ArrayList<Games> GamesList, ArrayList<Games> UserList) {
+    public static void MyListScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<Manga> UserList) {
 
         // Creating GridPane
         GridPane myListGrid = new GridPane();
@@ -123,12 +121,12 @@ public class MyList {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenu(primaryStage, GamesList, UserList);
+                Main.mainMenu(primaryStage, MangaList, UserList);
             }
         });
 
         // Creating search box
-        myListGrid.add(searchBox(GamesList, UserList, myListGrid), 0 ,0);
+        myListGrid.add(searchBox(MangaList, UserList, myListGrid), 0 ,0);
 
         // Creating User's List
         myListGrid.add(createMyList(UserList), 0, 1);
