@@ -64,7 +64,7 @@ public class Database {
         popularityColumn.setCellValueFactory(new PropertyValueFactory("intPopularity"));
 
         TableColumn scorenumbersColumn = new TableColumn();
-        scorenumbersColumn.setText("Scores");
+        scorenumbersColumn.setText("Number of Scores");
         scorenumbersColumn.setCellValueFactory(new PropertyValueFactory("intScoreNumbers"));
 
         final TableView tableView = new TableView();

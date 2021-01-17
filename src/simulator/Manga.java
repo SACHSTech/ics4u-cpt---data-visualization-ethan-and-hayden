@@ -141,11 +141,11 @@ public class Manga {
     public static ArrayList<Manga> csvToObject(String fileName) throws IOException {
         BufferedReader CSVFile = new BufferedReader(new FileReader(fileName));  
         ArrayList<Manga> MangaList = new ArrayList<>();
-
-        while (CSVFile.readLine() != null) {
+        String strLine;
+        while ((strLine = CSVFile.readLine()) != null) {
             
-            // split on comma(',')  
-            String[] MangaCsv = CSVFile.readLine().split(",");   
+            // split on comma(',')
+            String[] MangaCsv = strLine.split(",");   
 
             // create car object to store values  
             Manga MangaObj = new Manga("", "", "", "", "", "", "", "", 0, 0, 0, 0);  
