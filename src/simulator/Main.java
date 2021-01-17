@@ -34,10 +34,11 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         String fileName = "src/simulator/VideoGames.csv";
         ArrayList<Games> GamesList = Games.csvToObject(fileName);
-        mainMenu(primaryStage, GamesList);
+        ArrayList<Games> UserList = new ArrayList<Games>();
+        mainMenu(primaryStage, GamesList, UserList);
     }
     
-    public static void mainMenu(Stage primaryStage, ArrayList<Games> GamesList) {
+    public static void mainMenu(Stage primaryStage, ArrayList<Games> GamesList, ArrayList<Games> UserList) {
         
         // Refreshes stage
         primaryStage.setWidth(600);
@@ -65,7 +66,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                MyList.MyListScreen(primaryStage, GamesList);
+                MyList.MyListScreen(primaryStage, GamesList, UserList);
             }
         });
 
@@ -80,7 +81,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage, GamesList);
+                Database.DatabaseScreen(primaryStage, GamesList, UserList);
             }
         });
 
@@ -95,7 +96,7 @@ public class Main extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                Compare.CompareScreen(primaryStage, GamesList);
+                Compare.CompareScreen(primaryStage, GamesList, UserList);
             }
         });
 

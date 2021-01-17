@@ -18,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.skin.TableHeaderRow;
 
 // Layout Imports
 import javafx.geometry.Insets;
@@ -53,7 +52,7 @@ public class Database {
         scoreColumn.setCellValueFactory(new PropertyValueFactory("intScore"));
 
         TableColumn salesColumn = new TableColumn();
-        salesColumn.setText("Sales");
+        salesColumn.setText("Sales (in Millions of Dollars)");
         salesColumn.setCellValueFactory(new PropertyValueFactory("dblSales"));
 
         TableColumn priceColumn = new TableColumn();
@@ -73,7 +72,7 @@ public class Database {
         yearColumn.setCellValueFactory(new PropertyValueFactory("intYear"));
 
         TableColumn playtimeColumn = new TableColumn();
-        playtimeColumn.setText("Play time");
+        playtimeColumn.setText("Play Time (Mean Average in Hours)");
         playtimeColumn.setCellValueFactory(new PropertyValueFactory("dblPlaytime"));
 
         final TableView tableView = new TableView();
@@ -83,7 +82,7 @@ public class Database {
         return tableView;
     }
 
-    public static void DatabaseScreen (Stage primaryStage, ArrayList<Games> GamesList) {
+    public static void DatabaseScreen (Stage primaryStage, ArrayList<Games> GamesList, ArrayList<Games> UserList) {
         
         GridPane databaseGrid = new GridPane();
         databaseGrid.setVgap(10);
@@ -103,7 +102,7 @@ public class Database {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenu(primaryStage, GamesList);
+                Main.mainMenu(primaryStage, GamesList, UserList);
             }
         });
 

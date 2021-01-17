@@ -3,6 +3,7 @@ package simulator;
 import java.io.*;
 import java.util.*;
 
+// Property imports
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.BooleanProperty;
