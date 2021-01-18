@@ -4,7 +4,6 @@ package simulator;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
-import java.io.*;
 import java.util.*;
 
 // Button Imports
@@ -16,45 +15,78 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 // Layout Imports
-import javafx.scene.layout.VBox;
-import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
-
-// Property Imports 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.geometry.Side;
 
 // Table Imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MyList {
-    private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<Manga> UserList, GridPane myListGrid) {    
+    private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<Manga> UserList, GridPane myListGrid, Text AddingItemText) { 
+        
+        // Context Box
+        ContextMenu autoSuggest = new ContextMenu();
+        autoSuggest.prefWidth(200.0);
+        
         TextField searchText = new TextField();
         searchText.setPromptText("Enter game name here");
         searchText.setMaxSize(140, TextField.USE_COMPUTED_SIZE);
+        searchText.setOnKeyTyped((KeyEvent currentKeyChar) -> {
+            String strPressedChar = searchText.getText();
+            SearchingByChar(strPressedChar, MangaList, autoSuggest);
+            autoSuggest.show(searchText, Side.BOTTOM, 0, 0);
+        });
         searchText.setOnKeyReleased((KeyEvent currentKey) -> {
             if (currentKey.getCode() == KeyCode.ENTER) {
                 String strKey = searchText.getText();
-                AddingToList(MangaList, strKey, UserList);
+                AddingToList(MangaList, strKey, UserList, AddingItemText);
                 myListGrid.add(createMyList(UserList), 0, 1);
                 searchText.clear();
+                autoSuggest.hide();
             }
         });
         return searchText;
     }
 
+    private static void SearchingByChar(String strPressedChar, ArrayList<Manga> MangaList, ContextMenu autoSuggest) {
+        autoSuggest.getItems().clear();
+        int intCheck = 0;
+        for (Manga Current : MangaList) {
+            if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").length() >= strPressedChar.length()) {
+                if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
+                    intCheck++;
+                    if (intCheck == 5) {
+                        autoSuggest.getItems().addAll(new MenuItem(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                        break;
+                    }else if (intCheck < 5 && intCheck > 0) {
+                        autoSuggest.getItems().addAll(new MenuItem(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                    }else if (intCheck <= 0 || intCheck > 5) {
+                        autoSuggest.hide();
+                        break;
+                    }
+                }
+            }else {
+                continue;
+            }
+        }
+    }
+
     // Linear Search
-    private static void AddingToList (ArrayList<Manga> MangaList, String strKey, ArrayList<Manga> UserList) {
+    private static void AddingToList(ArrayList<Manga> MangaList, String strKey, ArrayList<Manga> UserList, Text AddingItemText) {
         int intCheck = 0;
         boolean isItemInUserList = false;
         for (Manga Current : MangaList) {
@@ -68,14 +100,15 @@ public class MyList {
                     }
                 }
                 if (isItemInUserList == true) {
-                    System.out.println("Item is already in your list");
+                    AddingItemText.setText("This is already in your list");
                 }else if (isItemInUserList == false) {
                     UserList.add(Current);
+                    AddingItemText.setText("Added Manga");
                 }
             }else {
                 intCheck++;
                 if (intCheck == MangaList.size()) {
-                    System.out.println("Item is not in the database");
+                    AddingItemText.setText("This is not in the database");
                 }
             }
         }
@@ -112,6 +145,17 @@ public class MyList {
         myListGrid.setGridLinesVisible(false);
         myListGrid.setPadding(new Insets(25, 25, 25, 25));
 
+        // Creating Text Field
+        Text AddingItemText = new Text();
+        AddingItemText.setTextAlignment(TextAlignment.CENTER);
+        AddingItemText.setWrappingWidth(175);
+        AddingItemText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
+
+        // Adding search box and text field to HBox
+        HBox UserInputTextBox = new HBox(searchBox(MangaList, UserList, myListGrid, AddingItemText), AddingItemText);
+        UserInputTextBox.setSpacing(10);
+        myListGrid.add(UserInputTextBox, 0, 0);
+
         // Creating home button
         Button homeMenu = new Button();
         myListGrid.add(homeMenu, 0, 2);
@@ -124,9 +168,6 @@ public class MyList {
                 Main.mainMenu(primaryStage, MangaList, UserList);
             }
         });
-
-        // Creating search box
-        myListGrid.add(searchBox(MangaList, UserList, myListGrid), 0 ,0);
 
         // Creating User's List
         myListGrid.add(createMyList(UserList), 0, 1);
