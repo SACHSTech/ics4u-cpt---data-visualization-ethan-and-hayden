@@ -4,8 +4,6 @@ package simulator;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 // Button Imports
@@ -26,8 +24,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.geometry.Side;
 
@@ -58,7 +56,7 @@ public class MyList {
             autoSuggest.show(searchText, Side.BOTTOM, 0, 0);
             if (currentKey.getCode() == KeyCode.ENTER) {
                 String strKey = searchText.getText();
-                AddingToList(MangaList, strKey, UserList, AddingItemText);
+                AddingToList(MangaList, strKey, UserList, AddingItemText, myListGrid);
                 myListGrid.add(createMyList(UserList), 0, 1);
                 searchText.clear();
                 autoSuggest.hide();
@@ -92,7 +90,7 @@ public class MyList {
     }
 
     // Linear Search
-    private static void AddingToList(ArrayList<Manga> MangaList, String strKey, ArrayList<UserManga> UserList, Text AddingItemText) {
+    private static void AddingToList(ArrayList<Manga> MangaList, String strKey, ArrayList<UserManga> UserList, Text AddingItemText, GridPane myListGrid) {
         int intCheck = 0;
         boolean isItemInUserList = false;
         for (Manga Current : MangaList) {
@@ -120,7 +118,7 @@ public class MyList {
         }
     }
     
-    // Recursion
+    // Recursion and Linear Search
     private static void deleteFromList(ArrayList<UserManga> UserList, GridPane myListGrid) {
         int intCheck = 0;
         for (UserManga Current : UserList) {
@@ -137,6 +135,56 @@ public class MyList {
         }
     }
         
+    private static int totalReading(ArrayList<UserManga> UserList) {
+        int intTotalReading = 0;
+        for(UserManga Current : UserList) {
+            if (((Current.strUserStatusProperty()).toString().replace("StringProperty [value: ", "").replace("]", "")).equalsIgnoreCase("Reading")) {
+                intTotalReading++;
+            }
+        }
+        return intTotalReading;
+    }
+
+    private static int totalFinished(ArrayList<UserManga> UserList) {
+        int intTotalFinished = 0;
+        for(UserManga Current : UserList) {
+            if (((Current.strUserStatusProperty()).toString().replace("StringProperty [value: ", "").replace("]", "")).equalsIgnoreCase("Finished")) {
+                intTotalFinished++;
+            }
+        }
+        return intTotalFinished;
+    }
+
+    private static int totalDropped(ArrayList<UserManga> UserList) {
+        int intTotalDropped = 0;
+        for(UserManga Current : UserList) {
+            if (((Current.strUserStatusProperty()).toString().replace("StringProperty [value: ", "").replace("]", "")).equalsIgnoreCase("Dropped")) {
+                intTotalDropped++;
+            }
+        }
+        return intTotalDropped;
+    }
+
+    private static double meanScore(ArrayList<UserManga> UserList) {
+        double dblTotalScore = 0.00;
+        int intTotalManga = UserList.size();
+        double dblMeanScore = 0.00;
+        if (intTotalManga != 0) {
+            for(UserManga Current : UserList) {
+                dblTotalScore = dblTotalScore + Integer.parseInt((Current.intUserScoreProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", ""));
+            }
+            dblMeanScore = dblTotalScore / intTotalManga;
+            return Math.round(dblMeanScore * 100) / 100.00;
+        }
+        return 0;
+    }
+
+    private static void refreshSummary(ArrayList<UserManga> UserList, Text MeanScoreText, Text TotalReadingText, Text TotalFinishedText, Text TotalDroppedText) {
+        MeanScoreText.setText("Mean Score: " + meanScore(UserList));
+        TotalReadingText.setText("Reading: " + totalReading(UserList));
+        TotalFinishedText.setText("Finished: " + totalFinished(UserList));
+        TotalDroppedText.setText("Dropped: " + totalDropped(UserList));
+    }
 
     public static Parent createMyList(ArrayList<UserManga> UserList) {
 
@@ -182,11 +230,50 @@ public class MyList {
         myListGrid.setPadding(new Insets(25, 25, 25, 25));
         Font MyListFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
-        // Creating Text Field
+        // Creating TextBox
         Text AddingItemText = new Text("Click on cells to edit");
         AddingItemText.setTextAlignment(TextAlignment.CENTER);
         AddingItemText.setWrappingWidth(200);
         AddingItemText.setFont(MyListFont);
+
+        // Creating Summary TextBox
+        Font UserSummaryFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+
+        Text MeanScoreText = new Text("Mean Score: " + meanScore(UserList));
+        MeanScoreText.setTextAlignment(TextAlignment.CENTER);
+        MeanScoreText.setWrappingWidth(120);
+        MeanScoreText.setFont(UserSummaryFont);
+
+        Text TotalReadingText = new Text("Reading: " + totalReading(UserList));
+        TotalReadingText.setTextAlignment(TextAlignment.CENTER);
+        TotalReadingText.setWrappingWidth(120);
+        TotalReadingText.setFont(UserSummaryFont);
+
+        Text TotalFinishedText = new Text("Finished: " + totalFinished(UserList));
+        TotalFinishedText.setTextAlignment(TextAlignment.CENTER);
+        TotalFinishedText.setWrappingWidth(120);
+        TotalFinishedText.setFont(UserSummaryFont);
+
+        Text TotalDroppedText = new Text("Dropped: " + totalDropped(UserList));
+        TotalDroppedText.setTextAlignment(TextAlignment.CENTER);
+        TotalDroppedText.setWrappingWidth(120);
+        TotalDroppedText.setFont(UserSummaryFont);
+
+        // Creating Summary Refresh Button
+        Button summaryRefresh = new Button();
+        summaryRefresh.setText("Refresh Summary");
+        summaryRefresh.setFont(MyListFont);
+        summaryRefresh.setPrefSize(120, 50);
+        summaryRefresh.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                refreshSummary(UserList, MeanScoreText, TotalReadingText, TotalFinishedText, TotalDroppedText);
+            }
+        });
+
+        VBox UserSummaryBox = new VBox(summaryRefresh, MeanScoreText, TotalReadingText, TotalFinishedText, TotalDroppedText);
+        UserSummaryBox.setSpacing(10);
+        myListGrid.add(UserSummaryBox, 1, 1);
 
         // Adding search box and text field to HBox
         HBox UserInputTextBox = new HBox(searchBox(MangaList, UserList, myListGrid, AddingItemText), AddingItemText);
