@@ -25,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.geometry.Side;
 
@@ -40,17 +41,17 @@ public class MyList {
         
         // Context Box
         ContextMenu autoSuggest = new ContextMenu();
-        autoSuggest.prefWidth(200.0);
         
         TextField searchText = new TextField();
         searchText.setPromptText("Enter game name here");
         searchText.setMaxSize(140, TextField.USE_COMPUTED_SIZE);
+
         searchText.setOnKeyTyped((KeyEvent currentKeyChar) -> {
             String strPressedChar = searchText.getText();
-            SearchingByChar(strPressedChar, MangaList, autoSuggest);
-            autoSuggest.show(searchText, Side.BOTTOM, 0, 0);
+            SearchingByChar(strPressedChar, MangaList, autoSuggest, searchText);
         });
         searchText.setOnKeyReleased((KeyEvent currentKey) -> {
+            autoSuggest.show(searchText, Side.BOTTOM, 0, 0);
             if (currentKey.getCode() == KeyCode.ENTER) {
                 String strKey = searchText.getText();
                 AddingToList(MangaList, strKey, UserList, AddingItemText);
@@ -62,7 +63,7 @@ public class MyList {
         return searchText;
     }
 
-    private static void SearchingByChar(String strPressedChar, ArrayList<Manga> MangaList, ContextMenu autoSuggest) {
+    private static void SearchingByChar(String strPressedChar, ArrayList<Manga> MangaList, ContextMenu autoSuggest, TextField searchText) {
         autoSuggest.getItems().clear();
         int intCheck = 0;
         for (Manga Current : MangaList) {
