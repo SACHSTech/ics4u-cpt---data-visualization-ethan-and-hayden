@@ -10,6 +10,10 @@ import javafx.scene.control.Button;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
+// Text Imports
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 // Layout Imports
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
@@ -21,10 +25,12 @@ public class Compare {
         compareGrid.setHgap(10);
         compareGrid.setGridLinesVisible(false);
         compareGrid.setPadding(new Insets(25, 25, 25, 25));
+        Font CompareFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         Button homeMenu = new Button();
         compareGrid.add(homeMenu, 0, 0);
         homeMenu.setText("Back");
+        homeMenu.setFont(CompareFont);
         homeMenu.setMaxSize(100, 50);
         homeMenu.setOnAction(new EventHandler<ActionEvent>() {
  

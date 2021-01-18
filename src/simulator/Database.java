@@ -10,6 +10,10 @@ import javafx.scene.control.Button;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
+// Text Imports
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 // Table Imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -80,6 +84,7 @@ public class Database {
         databaseGrid.setHgap(10);
         databaseGrid.setGridLinesVisible(false);
         databaseGrid.setPadding(new Insets(25, 25, 25, 25));
+        Font DatabaseFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
         
         // Table
         databaseGrid.add(createContent(MangaList), 0, 0);
@@ -88,6 +93,7 @@ public class Database {
         Button homeMenu = new Button();
         databaseGrid.add(homeMenu, 0, 1);
         homeMenu.setText("Back");
+        homeMenu.setFont(DatabaseFont);
         homeMenu.setMaxSize(100, 50);
         homeMenu.setOnAction(new EventHandler<ActionEvent>() {
  

@@ -4,6 +4,8 @@ package simulator;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
+
+import java.lang.reflect.Array;
 import java.util.*;
 
 // Button Imports
@@ -35,8 +37,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.CheckBoxTableCell;
 
 public class MyList {
     private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane myListGrid, Text AddingItemText) { 
@@ -68,8 +70,7 @@ public class MyList {
     private static void SearchingByChar(String strPressedChar, ArrayList<Manga> MangaList, ContextMenu autoSuggest, TextField searchText) {
         autoSuggest.getItems().clear();
         int intCheck = 0;
-        autoSuggest.setOnAction(e -> 
-            searchText.setText(((MenuItem)e.getTarget()).getText()));
+        autoSuggest.setOnAction(e -> searchText.setText(((MenuItem)e.getTarget()).getText()));
         for (Manga Current : MangaList) {
             if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").length() >= strPressedChar.length()) {
                 if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
@@ -118,11 +119,35 @@ public class MyList {
             }
         }
     }
+    
+    // Recursion
+    private static void deleteFromList(ArrayList<UserManga> UserList, GridPane myListGrid) {
+        int intCheck = 0;
+        for (UserManga Current : UserList) {
+            intCheck++;
+            if (Boolean.parseBoolean((Current.isUserSelectedProperty()).toString().replace("BooleanProperty [value: ", "").replace("]", "")) == true) {
+                UserList.remove(Current);
+                break;
+            }
+        }
+        if (intCheck == UserList.size()) {
+            myListGrid.add(createMyList(UserList), 0, 1);
+        }else {
+            deleteFromList(UserList, myListGrid);
+        }
+    }
+        
 
     public static Parent createMyList(ArrayList<UserManga> UserList) {
 
         final ObservableList<UserManga> data = FXCollections.observableArrayList(UserList);
- 
+        
+        TableColumn selectedColumn = new TableColumn<>();
+        selectedColumn.setText("");
+        selectedColumn.setPrefWidth(50);
+        selectedColumn.setCellValueFactory(new PropertyValueFactory("isUserSelected"));
+        selectedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectedColumn));
+
         TableColumn titleColumn = new TableColumn("strTitle");
         titleColumn.setText("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory("strTitle"));
@@ -143,7 +168,7 @@ public class MyList {
         final TableView tableView = new TableView();
         tableView.setEditable(true);
         tableView.setItems(data);
-        tableView.getColumns().addAll(titleColumn, scoreColumn, statusColumn);
+        tableView.getColumns().addAll(selectedColumn, titleColumn, scoreColumn, statusColumn);
         return tableView;
     } 
 
@@ -155,12 +180,13 @@ public class MyList {
         myListGrid.setHgap(10);
         myListGrid.setGridLinesVisible(false);
         myListGrid.setPadding(new Insets(25, 25, 25, 25));
+        Font MyListFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Creating Text Field
         Text AddingItemText = new Text("Click on cells to edit");
         AddingItemText.setTextAlignment(TextAlignment.CENTER);
-        AddingItemText.setWrappingWidth(175);
-        AddingItemText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
+        AddingItemText.setWrappingWidth(200);
+        AddingItemText.setFont(MyListFont);
 
         // Adding search box and text field to HBox
         HBox UserInputTextBox = new HBox(searchBox(MangaList, UserList, myListGrid, AddingItemText), AddingItemText);
@@ -171,12 +197,27 @@ public class MyList {
         Button homeMenu = new Button();
         myListGrid.add(homeMenu, 0, 2);
         homeMenu.setText("Back");
+        homeMenu.setFont(MyListFont);
         homeMenu.setMaxSize(100, 50);
         homeMenu.setOnAction(new EventHandler<ActionEvent>() {
  
             @Override
             public void handle(ActionEvent event) {
                 Main.mainMenu(primaryStage, MangaList, UserList);
+            }
+        });
+
+        // Creating delete button
+        Button deleteButton = new Button();
+        myListGrid.add(deleteButton, 1, 0);
+        deleteButton.setText("Delete Selected");
+        deleteButton.setFont(MyListFont);
+        deleteButton.setPrefSize(120, 50);
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                deleteFromList(UserList, myListGrid);
             }
         });
 
