@@ -11,7 +11,7 @@ Edit this page to include:
 ## Description of the Data Set
 
 ## Link For Source of the data set
-[Click Here](https://researchportal.port.ac.uk/portal/en/publications/what-makes-a-blockbuster-video-game(a6d848fe-38ae-4584-8c95-a0f735ec9b4c).html)
+[Click Here](https://www.kaggle.com/ajpass/top-ranked-mangas-myanimelist-mal)
 
 ## Why We Selected This Data Set
 
