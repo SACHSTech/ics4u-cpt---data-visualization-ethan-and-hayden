@@ -1,6 +1,6 @@
 package simulator;
 
-// Basic Libraries Imports
+// Basic Libraries Import
 import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
