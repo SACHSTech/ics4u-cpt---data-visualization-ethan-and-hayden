@@ -25,7 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.geometry.Side;
 
@@ -35,9 +35,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.scene.control.cell.ComboBoxTableCell;
 
 public class MyList {
-    private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<Manga> UserList, GridPane myListGrid, Text AddingItemText) { 
+    private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane myListGrid, Text AddingItemText) { 
         
         // Context Box
         ContextMenu autoSuggest = new ContextMenu();
@@ -66,6 +68,8 @@ public class MyList {
     private static void SearchingByChar(String strPressedChar, ArrayList<Manga> MangaList, ContextMenu autoSuggest, TextField searchText) {
         autoSuggest.getItems().clear();
         int intCheck = 0;
+        autoSuggest.setOnAction(e -> 
+            searchText.setText(((MenuItem)e.getTarget()).getText()));
         for (Manga Current : MangaList) {
             if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").length() >= strPressedChar.length()) {
                 if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
@@ -87,12 +91,12 @@ public class MyList {
     }
 
     // Linear Search
-    private static void AddingToList(ArrayList<Manga> MangaList, String strKey, ArrayList<Manga> UserList, Text AddingItemText) {
+    private static void AddingToList(ArrayList<Manga> MangaList, String strKey, ArrayList<UserManga> UserList, Text AddingItemText) {
         int intCheck = 0;
         boolean isItemInUserList = false;
         for (Manga Current : MangaList) {
             if (strKey.equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
-                for (Manga CurrentUserList : UserList) {
+                for (UserManga CurrentUserList : UserList) {
                     if (((CurrentUserList.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
                         isItemInUserList = true;
                         break;
@@ -103,7 +107,7 @@ public class MyList {
                 if (isItemInUserList == true) {
                     AddingItemText.setText("This is already in your list");
                 }else if (isItemInUserList == false) {
-                    UserList.add(Current);
+                    UserList.add(UserManga.convertToUserManga(Current));
                     AddingItemText.setText("Added Manga");
                 }
             }else {
@@ -115,29 +119,35 @@ public class MyList {
         }
     }
 
-    public static Parent createMyList(ArrayList<Manga> UserList) {
-        final ObservableList<Manga> data = FXCollections.observableArrayList(UserList);
+    public static Parent createMyList(ArrayList<UserManga> UserList) {
+
+        final ObservableList<UserManga> data = FXCollections.observableArrayList(UserList);
  
         TableColumn titleColumn = new TableColumn("strTitle");
         titleColumn.setText("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory("strTitle"));
+        titleColumn.setPrefWidth(150);
 
         TableColumn scoreColumn = new TableColumn();
         scoreColumn.setText("Your Score");
-        scoreColumn.setCellValueFactory(new PropertyValueFactory("dblScore"));
-
-        TableColumn chaptersColumn = new TableColumn();
-        chaptersColumn.setText("Read Chapters");
-        chaptersColumn.setCellValueFactory(new PropertyValueFactory("strChapter"));
+        scoreColumn.setCellValueFactory(new PropertyValueFactory("intUserScore"));
+        scoreColumn.setCellFactory(ComboBoxTableCell.forTableColumn(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        scoreColumn.setPrefWidth(100);
+        
+        TableColumn statusColumn = new TableColumn();
+        statusColumn.setText("Your Status");
+        statusColumn.setCellValueFactory(new PropertyValueFactory("strUserStatus"));
+        statusColumn.setCellFactory(ComboBoxTableCell.forTableColumn("Reading", "Finished", "Dropped"));
+        statusColumn.setPrefWidth(100);
 
         final TableView tableView = new TableView();
         tableView.setEditable(true);
         tableView.setItems(data);
-        tableView.getColumns().addAll(titleColumn, scoreColumn, chaptersColumn);
+        tableView.getColumns().addAll(titleColumn, scoreColumn, statusColumn);
         return tableView;
     } 
 
-    public static void MyListScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<Manga> UserList) {
+    public static void MyListScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
 
         // Creating GridPane
         GridPane myListGrid = new GridPane();
@@ -147,7 +157,7 @@ public class MyList {
         myListGrid.setPadding(new Insets(25, 25, 25, 25));
 
         // Creating Text Field
-        Text AddingItemText = new Text();
+        Text AddingItemText = new Text("Click on cells to edit");
         AddingItemText.setTextAlignment(TextAlignment.CENTER);
         AddingItemText.setWrappingWidth(175);
         AddingItemText.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));

@@ -1,13 +1,12 @@
 package simulator;
 
+// Basic imports
 import java.io.*;
 import java.util.*;
 
 // Property imports
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.DoubleProperty;

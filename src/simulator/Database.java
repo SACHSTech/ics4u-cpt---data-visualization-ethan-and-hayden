@@ -20,7 +20,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 // Layout Imports
-import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 
 public class Database {
@@ -74,7 +73,7 @@ public class Database {
         return tableView;
     }
 
-    public static void DatabaseScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<Manga> UserList) {
+    public static void DatabaseScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
         
         GridPane databaseGrid = new GridPane();
         databaseGrid.setVgap(10);

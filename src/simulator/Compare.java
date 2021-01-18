@@ -3,7 +3,6 @@ package simulator;
 // Basic Imports
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import java.io.*;
 import java.util.*;
 
 // Button Imports
@@ -11,16 +10,12 @@ import javafx.scene.control.Button;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
-// Text Imports
-
 // Layout Imports
-import javafx.scene.layout.VBox;
-import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 
 public class Compare {
-    public static void CompareScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<Manga> UserList) {
+    public static void CompareScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
         GridPane compareGrid = new GridPane();
         compareGrid.setVgap(10);
         compareGrid.setHgap(10);

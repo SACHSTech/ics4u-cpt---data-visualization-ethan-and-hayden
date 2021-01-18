@@ -1,13 +1,11 @@
 package simulator;
 
-import java.io.IOException;
-
 // Basic Libraries Imports
-import java.io.*;
 import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import java.io.IOException;
 
 // Button Imports
 import javafx.scene.control.Button;
@@ -20,7 +18,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 // Layout Imports
-import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
@@ -34,11 +31,11 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         String fileName = "src/simulator/AllManga.csv";
         ArrayList<Manga> MangaList = Manga.csvToObject(fileName);
-        ArrayList<Manga> UserList = new ArrayList<Manga>();
+        ArrayList<UserManga> UserList = new ArrayList<UserManga>();
         mainMenu(primaryStage, MangaList, UserList);
     }
     
-    public static void mainMenu(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<Manga> UserList) {
+    public static void mainMenu(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
         
         // Refreshes stage
         primaryStage.setWidth(600);
