@@ -69,6 +69,7 @@ public class Database {
         TableColumn scorenumbersColumn = new TableColumn();
         scorenumbersColumn.setText("Number of Scores");
         scorenumbersColumn.setCellValueFactory(new PropertyValueFactory("intScoreNumbers"));
+        // scorenumbersColumn.setSortable(false);
 
         final TableView tableView = new TableView();
         tableView.setEditable(false);

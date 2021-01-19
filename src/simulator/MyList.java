@@ -128,6 +128,8 @@ public class MyList {
                 break;
             }
         }
+        // System.out.println("UserList size: "+ UserList.size());
+        // System.out.println("intCheck: " + intCheck);
         if (intCheck == UserList.size()) {
             myListGrid.add(createMyList(UserList), 0, 1);
         }else {
@@ -233,7 +235,7 @@ public class MyList {
         // Creating TextBox
         Text AddingItemText = new Text("Click on cells to edit");
         AddingItemText.setTextAlignment(TextAlignment.CENTER);
-        AddingItemText.setWrappingWidth(200);
+        AddingItemText.setWrappingWidth(250);
         AddingItemText.setFont(MyListFont);
 
         // Creating Summary TextBox
