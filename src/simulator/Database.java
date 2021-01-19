@@ -67,6 +67,7 @@ public class Database {
         return MangaList;
     }
 
+    // Selection Sort
     private static ArrayList<Manga> sortByDouble(ArrayList<Manga> MangaList) {
         int currentMinIndex;
         for (int i = 0; i < MangaList.size() - 1; i++) {
@@ -87,13 +88,72 @@ public class Database {
         return MangaList;
     }
 
+    private static ArrayList<Manga> sortByString(ArrayList<Manga> MangaList, String strMethodName) {
+        int currentMinIndex;
+        for (int i = 0; i < MangaList.size() - 1; i++) {
+            currentMinIndex = i;
+            for (int j = i + 1; j < MangaList.size(); j++) {
+                switch (strMethodName) {
+                    case "Title" :
+                        if( (MangaList.get(j).strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(MangaList.get(currentMinIndex).strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0 ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Type" :
+                        if( (MangaList.get(j).strTypeProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(MangaList.get(currentMinIndex).strTypeProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0 ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Chapters" :
+                        if( (MangaList.get(j).strChapterProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(MangaList.get(currentMinIndex).strChapterProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0 ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Status" :
+                        if( (MangaList.get(j).strStatusProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(MangaList.get(currentMinIndex).strStatusProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0 ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Published" :
+                        if( (MangaList.get(j).strPublishedProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(MangaList.get(currentMinIndex).strPublishedProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0 ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Genres" :
+                        if( (MangaList.get(j).strGenreProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(MangaList.get(currentMinIndex).strGenreProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0 ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Author" :
+                        if( (MangaList.get(j).strAuthorProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(MangaList.get(currentMinIndex).strAuthorProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0 ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Serialization" :
+                        if( (MangaList.get(j).strSerializationProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(MangaList.get(currentMinIndex).strSerializationProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0 ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                }
+            }
+            
+            // swap numbers if needed
+            if (i != currentMinIndex) {
+                Manga temp = MangaList.get(currentMinIndex);
+                MangaList.set(currentMinIndex, MangaList.get(i));
+                MangaList.set(i, temp);
+            }
+        }
+        return MangaList;
+    }
+
     private static Parent createContent(ArrayList<Manga> MangaList) {
         final ObservableList<Manga> data = FXCollections.observableArrayList(MangaList);
  
         TableColumn titleColumn = new TableColumn();
         titleColumn.setText("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory("strTitle"));
-        titleColumn.setSortable(true);
+        titleColumn.setSortable(false);
 
         TableColumn typeColumn = new TableColumn<>();
         typeColumn.setText("Type");
@@ -105,13 +165,23 @@ public class Database {
         chaptersColumn.setCellValueFactory(new PropertyValueFactory("strChapter"));
         chaptersColumn.setSortable(false);
 
+        TableColumn statusColumn = new TableColumn();
+        statusColumn.setText("Status");
+        statusColumn.setCellValueFactory(new PropertyValueFactory("strStatus"));
+        statusColumn.setSortable(false);
+
+        TableColumn publishDateColumn = new TableColumn();
+        publishDateColumn.setText("Publish Date");
+        publishDateColumn.setCellValueFactory(new PropertyValueFactory("strPublished"));
+        publishDateColumn.setSortable(false);
+
         TableColumn genreColumn = new TableColumn();
         genreColumn.setText("Genre");
         genreColumn.setCellValueFactory(new PropertyValueFactory("strGenre"));
         genreColumn.setSortable(false);
 
         TableColumn authorColumn = new TableColumn();
-        authorColumn.setText("Publisher");
+        authorColumn.setText("Author");
         authorColumn.setCellValueFactory(new PropertyValueFactory("strAuthor"));
         authorColumn.setSortable(false);
 
@@ -143,7 +213,7 @@ public class Database {
         final TableView tableView = new TableView();
         tableView.setEditable(false);
         tableView.setItems(data);
-        tableView.getColumns().addAll(titleColumn, typeColumn, chaptersColumn, genreColumn, authorColumn, serializationColumn, scoreColumn, rankedColumn, popularityColumn, scorenumbersColumn);
+        tableView.getColumns().addAll(titleColumn, typeColumn, chaptersColumn, statusColumn, publishDateColumn, genreColumn, authorColumn, serializationColumn, scoreColumn, rankedColumn, popularityColumn, scorenumbersColumn);
         return tableView;
     }
     
@@ -186,6 +256,8 @@ public class Database {
         categorySort.getItems().add("Sort by Title");
         categorySort.getItems().add("Sort by Type");
         categorySort.getItems().add("Sort by Chapters");
+        categorySort.getItems().add("Sort by Status");
+        categorySort.getItems().add("Sort by Publish Date");
         categorySort.getItems().add("Sort by Genres");
         categorySort.getItems().add("Sort by Author");
         categorySort.getItems().add("Sort by Serialization");
@@ -196,16 +268,40 @@ public class Database {
 
         categorySort.setOnAction((event) -> {
             int selectedIndex = categorySort.getSelectionModel().getSelectedIndex();
-            if (selectedIndex == 6) {
-                sortByDouble(MangaList);
+            if (selectedIndex == 0) {
+                sortByString(MangaList, "Title");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 1) {
+                sortByString(MangaList, "Type");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 2) {
+                sortByString(MangaList, "Chapters");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 3) {
+                sortByString(MangaList, "Status");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 4) {
+                sortByString(MangaList, "Published");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 5) {
+                sortByString(MangaList, "Genres");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 6) {
+                sortByString(MangaList, "Author");
                 databaseGrid.add(createContent(MangaList), 0, 1);
             }else if (selectedIndex == 7) {
-                sortByInteger(MangaList, "Rank");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                sortByString(MangaList, "Serialization");
+                databaseGrid.add(createContent(MangaList), 0, 1);         
             }else if (selectedIndex == 8) {
-                sortByInteger(MangaList, "Popularity");
+                sortByDouble(MangaList);
                 databaseGrid.add(createContent(MangaList), 0, 1);
             }else if (selectedIndex == 9) {
+                sortByInteger(MangaList, "Rank");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 10) {
+                sortByInteger(MangaList, "Popularity");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 11) {
                 sortByInteger(MangaList, "Number of Scores");
                 databaseGrid.add(createContent(MangaList), 0, 1);
             }
