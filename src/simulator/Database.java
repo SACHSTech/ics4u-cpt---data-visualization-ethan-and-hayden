@@ -26,50 +26,119 @@ import javafx.scene.control.cell.PropertyValueFactory;
 // Layout Imports
 import javafx.scene.layout.GridPane;
 
+// Toolbox Imports
+import javafx.scene.control.ToolBar;
+import javafx.scene.control.ComboBox;
+
 public class Database {
-    public static Parent createContent(ArrayList<Manga> MangaList) {
+
+    // Selection Sort
+    private static ArrayList<Manga> sortByInteger(ArrayList<Manga> MangaList, String strMethodName) {
+        int currentMinIndex;
+        for (int i = 0; i < MangaList.size() - 1; i++) {
+            currentMinIndex = i;
+            for (int j = i + 1; j < MangaList.size(); j++) {
+                switch (strMethodName) {
+                    case "Rank" :
+                        if(Integer.parseInt(MangaList.get(j).intRankProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) < Integer.parseInt(MangaList.get(currentMinIndex).intRankProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Popularity" :
+                        if(Integer.parseInt(MangaList.get(j).intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) < Integer.parseInt(MangaList.get(currentMinIndex).intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    case "Number of Scores" :
+                        if(Integer.parseInt(MangaList.get(j).intScoreNumbersProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) > Integer.parseInt(MangaList.get(currentMinIndex).intScoreNumbersProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) ) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                }
+            }
+            
+            // swap numbers if needed
+            if (i != currentMinIndex) {
+                Manga temp = MangaList.get(currentMinIndex);
+                MangaList.set(currentMinIndex, MangaList.get(i));
+                MangaList.set(i, temp);
+            }
+        }
+        return MangaList;
+    }
+
+    private static ArrayList<Manga> sortByDouble(ArrayList<Manga> MangaList) {
+        int currentMinIndex;
+        for (int i = 0; i < MangaList.size() - 1; i++) {
+            currentMinIndex = i;
+            for (int j = i + 1; j < MangaList.size(); j++) {
+                if(Double.parseDouble(MangaList.get(j).dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")) > Double.parseDouble(MangaList.get(currentMinIndex).dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")) ) {
+                    currentMinIndex = j;
+                }
+            }
+            
+            // swap numbers if needed
+            if (i != currentMinIndex) {
+                Manga temp = MangaList.get(currentMinIndex);
+                MangaList.set(currentMinIndex, MangaList.get(i));
+                MangaList.set(i, temp);
+            }
+        }
+        return MangaList;
+    }
+
+    private static Parent createContent(ArrayList<Manga> MangaList) {
         final ObservableList<Manga> data = FXCollections.observableArrayList(MangaList);
  
         TableColumn titleColumn = new TableColumn();
         titleColumn.setText("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory("strTitle"));
+        titleColumn.setSortable(true);
 
         TableColumn typeColumn = new TableColumn<>();
         typeColumn.setText("Type");
         typeColumn.setCellValueFactory(new PropertyValueFactory("strType"));
+        typeColumn.setSortable(false);
 
         TableColumn chaptersColumn = new TableColumn();
         chaptersColumn.setText("Chapters");
         chaptersColumn.setCellValueFactory(new PropertyValueFactory("strChapter"));
+        chaptersColumn.setSortable(false);
 
         TableColumn genreColumn = new TableColumn();
         genreColumn.setText("Genre");
         genreColumn.setCellValueFactory(new PropertyValueFactory("strGenre"));
+        genreColumn.setSortable(false);
 
         TableColumn authorColumn = new TableColumn();
         authorColumn.setText("Publisher");
         authorColumn.setCellValueFactory(new PropertyValueFactory("strAuthor"));
+        authorColumn.setSortable(false);
 
         TableColumn serializationColumn = new TableColumn();
         serializationColumn.setText("Serialization");
         serializationColumn.setCellValueFactory(new PropertyValueFactory("strSerialization"));
+        serializationColumn.setSortable(false);
 
         TableColumn scoreColumn = new TableColumn();
         scoreColumn.setText("Score");
         scoreColumn.setCellValueFactory(new PropertyValueFactory("dblScore"));
+        scoreColumn.setSortable(false);
 
         TableColumn rankedColumn = new TableColumn();
         rankedColumn.setText("Ranked");
         rankedColumn.setCellValueFactory(new PropertyValueFactory("intRank"));
+        rankedColumn.setSortable(false);
 
         TableColumn popularityColumn = new TableColumn();
         popularityColumn.setText("Popularity");
         popularityColumn.setCellValueFactory(new PropertyValueFactory("intPopularity"));
+        popularityColumn.setSortable(false);
 
         TableColumn scorenumbersColumn = new TableColumn();
         scorenumbersColumn.setText("Number of Scores");
         scorenumbersColumn.setCellValueFactory(new PropertyValueFactory("intScoreNumbers"));
-        // scorenumbersColumn.setSortable(false);
+        scorenumbersColumn.setSortable(false);
 
         final TableView tableView = new TableView();
         tableView.setEditable(false);
@@ -77,7 +146,7 @@ public class Database {
         tableView.getColumns().addAll(titleColumn, typeColumn, chaptersColumn, genreColumn, authorColumn, serializationColumn, scoreColumn, rankedColumn, popularityColumn, scorenumbersColumn);
         return tableView;
     }
-
+    
     public static void DatabaseScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
         
         GridPane databaseGrid = new GridPane();
@@ -87,12 +156,72 @@ public class Database {
         databaseGrid.setPadding(new Insets(25, 25, 25, 25));
         Font DatabaseFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
         
+        // Toolbox
+        ToolBar toolbar = new ToolBar();
+
+        // GenreFilter combobox
+        ComboBox<String> genreFilter = new ComboBox<>();
+        genreFilter.setPromptText("Genre Filter");
+        genreFilter.getItems().add("Action");
+        genreFilter.getItems().add("Adventure");
+        genreFilter.getItems().add("Horror");
+        genreFilter.getItems().add("Fantasy");
+        genreFilter.getItems().add("Psychological");
+        genreFilter.getItems().add("Mystery");
+        genreFilter.getItems().add("Comedy");
+        genreFilter.getItems().add("Romance");
+        genreFilter.getItems().add("Sci-Fi");
+        genreFilter.getItems().add("School");
+        genreFilter.getItems().add("Slice of Life");
+        genreFilter.getItems().add("Super Powers");
+        genreFilter.getItems().add("Music");
+        genreFilter.getItems().add("Shounen");
+        genreFilter.getItems().add("Seinen");
+        genreFilter.getItems().add("Shoujo");
+        genreFilter.getItems().add("Josei");
+
+        // Sort By combobox
+        ComboBox<String> categorySort = new ComboBox<>();
+        categorySort.setPromptText("Sort Category");
+        categorySort.getItems().add("Sort by Title");
+        categorySort.getItems().add("Sort by Type");
+        categorySort.getItems().add("Sort by Chapters");
+        categorySort.getItems().add("Sort by Genres");
+        categorySort.getItems().add("Sort by Author");
+        categorySort.getItems().add("Sort by Serialization");
+        categorySort.getItems().add("Sort by Score");
+        categorySort.getItems().add("Sort by Rank");
+        categorySort.getItems().add("Sort by Popularity");
+        categorySort.getItems().add("Sort by Number of Scores");
+
+        categorySort.setOnAction((event) -> {
+            int selectedIndex = categorySort.getSelectionModel().getSelectedIndex();
+            if (selectedIndex == 6) {
+                sortByDouble(MangaList);
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 7) {
+                sortByInteger(MangaList, "Rank");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 8) {
+                sortByInteger(MangaList, "Popularity");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }else if (selectedIndex == 9) {
+                sortByInteger(MangaList, "Number of Scores");
+                databaseGrid.add(createContent(MangaList), 0, 1);
+            }
+        });
+
+        toolbar.getItems().add(genreFilter);
+        toolbar.getItems().add(categorySort);
+        toolbar.getItems().add(new Button("Help"));
+        databaseGrid.add(toolbar, 0, 0);
+
         // Table
-        databaseGrid.add(createContent(MangaList), 0, 0);
+        databaseGrid.add(createContent(MangaList), 0, 1);
 
         // Home Menu Button
         Button homeMenu = new Button();
-        databaseGrid.add(homeMenu, 0, 1);
+        databaseGrid.add(homeMenu, 0, 2);
         homeMenu.setText("Back");
         homeMenu.setFont(DatabaseFont);
         homeMenu.setMaxSize(100, 50);
