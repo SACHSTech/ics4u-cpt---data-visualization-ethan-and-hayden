@@ -129,8 +129,6 @@ public class MyList {
                 break;
             }
         }
-        // System.out.println("UserList size: "+ UserList.size());
-        // System.out.println("intCheck: " + intCheck);
         if (intCheck == UserList.size()) {
             data.clear();
             data.addAll(UserList);
