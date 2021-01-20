@@ -272,55 +272,68 @@ public class Database {
         categorySort.getItems().add("Sort by Number of Scores");
 
         categorySort.setOnAction((event) -> {
-            int selectedIndex = categorySort.getSelectionModel().getSelectedIndex();
-            if (selectedIndex == 0) {
-                sortByString(MangaList, "Title");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 1) {
-                sortByString(MangaList, "Type");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 2) {
-                sortByString(MangaList, "Chapters");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 3) {
-                sortByString(MangaList, "Status");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 4) {
-                sortByString(MangaList, "Published");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 5) {
-                sortByString(MangaList, "Genres");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 6) {
-                sortByString(MangaList, "Author");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 7) {
-                sortByString(MangaList, "Serialization");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 8) {
-                sortByDouble(MangaList);
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 9) {
-                sortByInteger(MangaList, "Rank");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 10) {
-                sortByInteger(MangaList, "Popularity");
-                data.clear();
-                data.addAll(MangaList);
-            }else if (selectedIndex == 11) {
-                sortByInteger(MangaList, "Number of Scores");
-                data.clear();
-                data.addAll(MangaList);
+            int intSelectedIndex = categorySort.getSelectionModel().getSelectedIndex();
+            switch (intSelectedIndex) {
+                case 0 :
+                    sortByString(MangaList, "Title");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 1 :
+                    sortByString(MangaList, "Type");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 2 :
+                    sortByString(MangaList, "Chapters");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 3 :
+                    sortByString(MangaList, "Status");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 4 :
+                    sortByString(MangaList, "Published");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 5 :
+                    sortByString(MangaList, "Genres");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 6 :
+                    sortByString(MangaList, "Author");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 7 :
+                    sortByString(MangaList, "Serialization");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 8 :
+                    sortByDouble(MangaList);
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 9 :
+                    sortByInteger(MangaList, "Rank");
+                    data.clear();
+                    data.addAll(MangaList); 
+                    break;
+                case 10 :
+                    sortByInteger(MangaList, "Popularity");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
+                case 11 :
+                    sortByInteger(MangaList, "Number of Scores");
+                    data.clear();
+                    data.addAll(MangaList);
+                    break;
             }
         });
 
