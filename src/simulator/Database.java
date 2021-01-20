@@ -29,6 +29,7 @@ import javafx.scene.layout.GridPane;
 // Toolbox Imports
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
 
 public class Database {
 
@@ -147,8 +148,7 @@ public class Database {
         return MangaList;
     }
 
-    private static Parent createContent(ArrayList<Manga> MangaList) {
-        final ObservableList<Manga> data = FXCollections.observableArrayList(MangaList);
+    private static TableView<Manga> createContent(ArrayList<Manga> MangaList, ObservableList<Manga> data) {
  
         TableColumn titleColumn = new TableColumn();
         titleColumn.setText("Title");
@@ -219,6 +219,8 @@ public class Database {
     
     public static void DatabaseScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
         
+        final ObservableList<Manga> data = FXCollections.observableArrayList(MangaList);
+
         GridPane databaseGrid = new GridPane();
         databaseGrid.setVgap(10);
         databaseGrid.setHgap(10);
@@ -226,6 +228,9 @@ public class Database {
         databaseGrid.setPadding(new Insets(25, 25, 25, 25));
         Font DatabaseFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
         
+        // Table
+        databaseGrid.add(createContent(MangaList, data), 0, 1);
+
         // Toolbox
         ToolBar toolbar = new ToolBar();
 
@@ -270,50 +275,58 @@ public class Database {
             int selectedIndex = categorySort.getSelectionModel().getSelectedIndex();
             if (selectedIndex == 0) {
                 sortByString(MangaList, "Title");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 1) {
                 sortByString(MangaList, "Type");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 2) {
                 sortByString(MangaList, "Chapters");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 3) {
                 sortByString(MangaList, "Status");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 4) {
                 sortByString(MangaList, "Published");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 5) {
                 sortByString(MangaList, "Genres");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 6) {
                 sortByString(MangaList, "Author");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 7) {
                 sortByString(MangaList, "Serialization");
-                databaseGrid.add(createContent(MangaList), 0, 1);         
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 8) {
                 sortByDouble(MangaList);
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 9) {
                 sortByInteger(MangaList, "Rank");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 10) {
                 sortByInteger(MangaList, "Popularity");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }else if (selectedIndex == 11) {
                 sortByInteger(MangaList, "Number of Scores");
-                databaseGrid.add(createContent(MangaList), 0, 1);
+                data.clear();
+                data.addAll(MangaList);
             }
         });
 
         toolbar.getItems().add(genreFilter);
         toolbar.getItems().add(categorySort);
-        toolbar.getItems().add(new Button("Help"));
         databaseGrid.add(toolbar, 0, 0);
-
-        // Table
-        databaseGrid.add(createContent(MangaList), 0, 1);
 
         // Home Menu Button
         Button homeMenu = new Button();
@@ -325,6 +338,9 @@ public class Database {
  
             @Override
             public void handle(ActionEvent event) {
+                sortByInteger(MangaList, "Rank");
+                data.clear();
+                data.addAll(MangaList);
                 Main.mainMenu(primaryStage, MangaList, UserList);
             }
         });

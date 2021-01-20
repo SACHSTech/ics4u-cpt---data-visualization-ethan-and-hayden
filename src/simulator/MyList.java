@@ -39,7 +39,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.CheckBoxTableCell;
 
 public class MyList {
-    private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane myListGrid, Text AddingItemText) { 
+    private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane myListGrid, Text AddingItemText, ObservableList<UserManga> data) { 
         
         // Context Box
         ContextMenu autoSuggest = new ContextMenu();
@@ -57,7 +57,8 @@ public class MyList {
             if (currentKey.getCode() == KeyCode.ENTER) {
                 String strKey = searchText.getText();
                 AddingToList(MangaList, strKey, UserList, AddingItemText, myListGrid);
-                myListGrid.add(createMyList(UserList), 0, 1);
+                data.clear();
+                data.addAll(UserList);
                 searchText.clear();
                 autoSuggest.hide();
             }
@@ -119,7 +120,7 @@ public class MyList {
     }
     
     // Recursion and Linear Search
-    private static void deleteFromList(ArrayList<UserManga> UserList, GridPane myListGrid) {
+    private static void deleteFromList(ArrayList<UserManga> UserList, GridPane myListGrid, ObservableList<UserManga> data) {
         int intCheck = 0;
         for (UserManga Current : UserList) {
             intCheck++;
@@ -131,9 +132,10 @@ public class MyList {
         // System.out.println("UserList size: "+ UserList.size());
         // System.out.println("intCheck: " + intCheck);
         if (intCheck == UserList.size()) {
-            myListGrid.add(createMyList(UserList), 0, 1);
+            data.clear();
+            data.addAll(UserList);
         }else {
-            deleteFromList(UserList, myListGrid);
+            deleteFromList(UserList, myListGrid, data);
         }
     }
         
@@ -188,10 +190,7 @@ public class MyList {
         TotalDroppedText.setText("Dropped: " + totalDropped(UserList));
     }
 
-    public static Parent createMyList(ArrayList<UserManga> UserList) {
-
-        final ObservableList<UserManga> data = FXCollections.observableArrayList(UserList);
-        
+    public static Parent createMyList(ArrayList<UserManga> UserList, ObservableList<UserManga> data) {
         TableColumn selectedColumn = new TableColumn<>();
         selectedColumn.setText("");
         selectedColumn.setPrefWidth(50);
@@ -224,6 +223,8 @@ public class MyList {
 
     public static void MyListScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
 
+        final ObservableList<UserManga> data = FXCollections.observableArrayList(UserList);
+
         // Creating GridPane
         GridPane myListGrid = new GridPane();
         myListGrid.setVgap(10);
@@ -231,6 +232,9 @@ public class MyList {
         myListGrid.setGridLinesVisible(false);
         myListGrid.setPadding(new Insets(25, 25, 25, 25));
         Font MyListFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+
+        // Creating User's List
+        myListGrid.add(createMyList(UserList, data), 0, 1);
 
         // Creating TextBox
         Text AddingItemText = new Text("Click on cells to edit");
@@ -278,7 +282,7 @@ public class MyList {
         myListGrid.add(UserSummaryBox, 1, 1);
 
         // Adding search box and text field to HBox
-        HBox UserInputTextBox = new HBox(searchBox(MangaList, UserList, myListGrid, AddingItemText), AddingItemText);
+        HBox UserInputTextBox = new HBox(searchBox(MangaList, UserList, myListGrid, AddingItemText, data), AddingItemText);
         UserInputTextBox.setSpacing(10);
         myListGrid.add(UserInputTextBox, 0, 0);
 
@@ -306,12 +310,9 @@ public class MyList {
  
             @Override
             public void handle(ActionEvent event) {
-                deleteFromList(UserList, myListGrid);
+                deleteFromList(UserList, myListGrid, data);
             }
         });
-
-        // Creating User's List
-        myListGrid.add(createMyList(UserList), 0, 1);
 
         primaryStage.setWidth(601);
         primaryStage.setScene(new Scene(myListGrid));
