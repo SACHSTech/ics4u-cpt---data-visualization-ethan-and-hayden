@@ -45,8 +45,9 @@ public class MyList {
         ContextMenu autoSuggest = new ContextMenu();
         
         TextField searchText = new TextField();
-        searchText.setPromptText("Enter game name here");
-        searchText.setMaxSize(140, TextField.USE_COMPUTED_SIZE);
+        searchText.setPromptText("Enter manga name here");
+        searchText.setPrefWidth(200);
+        searchText.setMaxSize(200, TextField.USE_COMPUTED_SIZE);
 
         searchText.setOnKeyTyped((KeyEvent currentKeyChar) -> {
             String strPressedChar = searchText.getText();
@@ -237,7 +238,7 @@ public class MyList {
         // Creating TextBox
         Text AddingItemText = new Text("Click on cells to edit");
         AddingItemText.setTextAlignment(TextAlignment.CENTER);
-        AddingItemText.setWrappingWidth(250);
+        AddingItemText.setWrappingWidth(200);
         AddingItemText.setFont(MyListFont);
 
         // Creating Summary TextBox

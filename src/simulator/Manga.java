@@ -25,8 +25,9 @@ public class Manga {
     private IntegerProperty intRank;
     private IntegerProperty intPopularity;
     private IntegerProperty intScoreNumbers;
+    private StringProperty strSynopsis;
 
-    public Manga(String strTitle, String strType, String strChapter, String strStatus, String strPublished, String strGenre, String strAuthor, String strSerialization, double dblScore, int intRank, int intPopularity, int intScoreNumbers) {
+    public Manga(String strTitle, String strType, String strChapter, String strStatus, String strPublished, String strGenre, String strAuthor, String strSerialization, double dblScore, int intRank, int intPopularity, int intScoreNumbers, String strSynopsis) {
         this.strTitle = new SimpleStringProperty(strTitle);
         this.strType = new SimpleStringProperty(strType);
         this.strChapter = new SimpleStringProperty(strChapter);
@@ -39,6 +40,7 @@ public class Manga {
         this.intRank = new SimpleIntegerProperty(intRank);
         this.intPopularity = new SimpleIntegerProperty(intPopularity);
         this.intScoreNumbers = new SimpleIntegerProperty(intScoreNumbers);
+        this.strSynopsis = new SimpleStringProperty(strSynopsis);
     }
 
     public StringProperty strTitleProperty() {
@@ -89,6 +91,10 @@ public class Manga {
         return intScoreNumbers;
     }
 
+    public StringProperty strSynopsisProperty() {
+        return strSynopsis;
+    }
+
     public void setTitle(String strTitle) {
         this.strTitle = new SimpleStringProperty(strTitle);
     }
@@ -137,6 +143,10 @@ public class Manga {
         this.intScoreNumbers = new SimpleIntegerProperty(intScoreNumbers);
     }
 
+    public void setSynopsis(String strSynopsis) {
+        this.strSynopsis = new SimpleStringProperty(strSynopsis);
+    }
+
     public static ArrayList<Manga> csvToObject(String fileName) throws IOException {
         BufferedReader CSVFile = new BufferedReader(new FileReader(fileName));  
         ArrayList<Manga> MangaList = new ArrayList<>();
@@ -147,7 +157,7 @@ public class Manga {
             String[] MangaCsv = strLine.split(",");   
 
             // create car object to store values  
-            Manga MangaObj = new Manga("", "", "", "", "", "", "", "", 0, 0, 0, 0);  
+            Manga MangaObj = new Manga("", "", "", "", "", "", "", "", 0, 0, 0, 0, "");  
 
             // add values from csv to car object  
             MangaObj.setTitle(MangaCsv[0]);   
@@ -162,6 +172,7 @@ public class Manga {
             MangaObj.setRank(Integer.parseInt(MangaCsv[9]));
             MangaObj.setPopularity(Integer.parseInt(MangaCsv[10]));
             MangaObj.setScoreNumbers(Integer.parseInt(MangaCsv[11]));
+            MangaObj.setSynopsis(MangaCsv[12]);
 
             // adding objects to a list  
             MangaList.add(MangaObj);         

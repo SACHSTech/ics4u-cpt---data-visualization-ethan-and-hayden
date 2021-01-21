@@ -4,6 +4,7 @@ package simulator;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.ArrayList;
+import javafx.scene.Parent;
 
 // Button Imports
 import javafx.scene.control.Button;
@@ -13,6 +14,9 @@ import javafx.event.ActionEvent;
 // Text Imports
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 // Table Imports
 import javafx.collections.FXCollections;
@@ -21,6 +25,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.geometry.Side;
 
 // Layout Imports
 import javafx.scene.layout.GridPane;
@@ -30,6 +37,64 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.control.ComboBox;
 
 public class Database {
+
+    private static Parent searchBox(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane databaseGrid) { 
+        
+        // Context Box
+        ContextMenu autoSuggest = new ContextMenu();
+        
+        TextField searchText = new TextField();
+        searchText.setPrefWidth(145);
+        searchText.setPromptText("Enter manga name");
+        searchText.setMaxSize(145, TextField.USE_COMPUTED_SIZE);
+
+        searchText.setOnKeyTyped((KeyEvent currentKeyChar) -> {
+            String strPressedChar = searchText.getText();
+            SearchingByChar(strPressedChar, MangaList, autoSuggest, searchText);
+        });
+        searchText.setOnKeyReleased((KeyEvent currentKey) -> {
+            autoSuggest.show(searchText, Side.BOTTOM, 0, 0);
+            if (currentKey.getCode() == KeyCode.ENTER) {
+                String strKey = searchText.getText();
+                individualSelect(primaryStage, MangaList, UserList, strKey, databaseGrid);
+                searchText.clear();
+                autoSuggest.hide();
+            }
+        });
+        return searchText;
+    }
+
+    private static void individualSelect(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, String strKey, GridPane databaseGrid) {
+        for (Manga Current : MangaList) {
+            if (strKey.equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
+                IndividualManga.individualRecord(primaryStage, MangaList, UserList, Current);
+            }
+        }
+    }
+
+    private static void SearchingByChar(String strPressedChar, ArrayList<Manga> MangaList, ContextMenu autoSuggest, TextField searchText) {
+        autoSuggest.getItems().clear();
+        int intCheck = 0;
+        autoSuggest.setOnAction(e -> searchText.setText(((MenuItem)e.getTarget()).getText()));
+        for (Manga Current : MangaList) {
+            if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").length() >= strPressedChar.length()) {
+                if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
+                    intCheck++;
+                    if (intCheck == 5) {
+                        autoSuggest.getItems().addAll(new MenuItem(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                        break;
+                    }else if (intCheck < 5 && intCheck > 0) {
+                        autoSuggest.getItems().addAll(new MenuItem(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                    }else if (intCheck <= 0 || intCheck > 5) {
+                        autoSuggest.hide();
+                        break;
+                    }
+                }
+            }else {
+                continue;
+            }
+        }
+    }
 
     // Selection Sort
     private static ArrayList<Manga> sortByInteger(ArrayList<Manga> MangaList, String strMethodName) {
@@ -206,7 +271,7 @@ public class Database {
         scoreColumn.setSortable(false);
 
         TableColumn rankedColumn = new TableColumn();
-        rankedColumn.setText("Ranked");
+        rankedColumn.setText("Rank");
         rankedColumn.setCellValueFactory(new PropertyValueFactory("intRank"));
         rankedColumn.setSortable(false);
 
@@ -247,7 +312,7 @@ public class Database {
         // GenreFilter combobox
         ComboBox<String> genreFilter = new ComboBox<>();
         genreFilter.setPromptText("Genre Filter");
-        genreFilter.getItems().add("Return to Full List");
+        genreFilter.getItems().add("Genre Filter");
         genreFilter.getItems().add("Action");
         genreFilter.getItems().add("Adventure");
         genreFilter.getItems().add("Horror");
@@ -420,8 +485,19 @@ public class Database {
             }
         });
 
+        Button summaryInfo = new Button("Summary");
+        summaryInfo.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                SummaryData.dataSummaryScreen(primaryStage, MangaList, UserList);
+            }
+        });
+        
+        toolbar.getItems().add(searchBox(primaryStage, MangaList, UserList, databaseGrid));
         toolbar.getItems().add(categorySort);
         toolbar.getItems().add(genreFilter);
+        toolbar.getItems().add(summaryInfo);
         databaseGrid.add(toolbar, 0, 0);
 
         // Home Menu Button
