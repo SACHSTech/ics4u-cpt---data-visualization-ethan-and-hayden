@@ -85,7 +85,7 @@ public class Main extends Application {
         // Game Comparison Button
         Button CompareBtn = new Button();
         menuGrid.add(CompareBtn, 0, 3);
-        CompareBtn.setText("Compare");
+        CompareBtn.setText("Graphs");
         CompareBtn.setFont(MenuFont);
         CompareBtn.setWrapText(true);
         CompareBtn.setMaxSize(100, 50);
