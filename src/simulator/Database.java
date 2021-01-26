@@ -225,64 +225,64 @@ public class Database {
 
     private static TableView<Manga> createContent(ArrayList<Manga> MangaList, ObservableList<Manga> data) {
 
-        TableColumn titleColumn = new TableColumn();
+        TableColumn<Object, String> titleColumn = new TableColumn<>();
         titleColumn.setText("Title");
-        titleColumn.setCellValueFactory(new PropertyValueFactory("strTitle"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strTitle"));
         titleColumn.setSortable(false);
 
-        TableColumn typeColumn = new TableColumn<>();
+        TableColumn<Object, String> typeColumn = new TableColumn<>();
         typeColumn.setText("Type");
-        typeColumn.setCellValueFactory(new PropertyValueFactory("strType"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strType"));
         typeColumn.setSortable(false);
 
-        TableColumn chaptersColumn = new TableColumn();
+        TableColumn<Object, String> chaptersColumn = new TableColumn<>();
         chaptersColumn.setText("Chapters");
-        chaptersColumn.setCellValueFactory(new PropertyValueFactory("strChapter"));
+        chaptersColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strChapter"));
         chaptersColumn.setSortable(false);
 
-        TableColumn statusColumn = new TableColumn();
+        TableColumn<Object, String> statusColumn = new TableColumn<>();
         statusColumn.setText("Status");
-        statusColumn.setCellValueFactory(new PropertyValueFactory("strStatus"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strStatus"));
         statusColumn.setSortable(false);
 
-        TableColumn publishDateColumn = new TableColumn();
+        TableColumn<Object, String> publishDateColumn = new TableColumn<>();
         publishDateColumn.setText("Publish Date");
-        publishDateColumn.setCellValueFactory(new PropertyValueFactory("strPublished"));
+        publishDateColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strPublished"));
         publishDateColumn.setSortable(false);
 
-        TableColumn genreColumn = new TableColumn();
+        TableColumn<Object, String> genreColumn = new TableColumn<>();
         genreColumn.setText("Genre");
-        genreColumn.setCellValueFactory(new PropertyValueFactory("strGenre"));
+        genreColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strGenre"));
         genreColumn.setSortable(false);
 
-        TableColumn authorColumn = new TableColumn();
+        TableColumn<Object, String> authorColumn = new TableColumn<>();
         authorColumn.setText("Author");
-        authorColumn.setCellValueFactory(new PropertyValueFactory("strAuthor"));
+        authorColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strAuthor"));
         authorColumn.setSortable(false);
 
-        TableColumn serializationColumn = new TableColumn();
+        TableColumn<Object, String> serializationColumn = new TableColumn<>();
         serializationColumn.setText("Serialization");
-        serializationColumn.setCellValueFactory(new PropertyValueFactory("strSerialization"));
+        serializationColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strSerialization"));
         serializationColumn.setSortable(false);
 
-        TableColumn scoreColumn = new TableColumn();
+        TableColumn<Object, Double> scoreColumn = new TableColumn<>();
         scoreColumn.setText("Score");
-        scoreColumn.setCellValueFactory(new PropertyValueFactory("dblScore"));
+        scoreColumn.setCellValueFactory(new PropertyValueFactory<Object, Double>("dblScore"));
         scoreColumn.setSortable(false);
 
-        TableColumn rankedColumn = new TableColumn();
+        TableColumn<Object, Integer> rankedColumn = new TableColumn<>();
         rankedColumn.setText("Rank");
-        rankedColumn.setCellValueFactory(new PropertyValueFactory("intRank"));
+        rankedColumn.setCellValueFactory(new PropertyValueFactory<Object, Integer>("intRank"));
         rankedColumn.setSortable(false);
 
-        TableColumn popularityColumn = new TableColumn();
+        TableColumn<Object, Integer> popularityColumn = new TableColumn<>();
         popularityColumn.setText("Popularity");
-        popularityColumn.setCellValueFactory(new PropertyValueFactory("intPopularity"));
+        popularityColumn.setCellValueFactory(new PropertyValueFactory<Object, Integer>("intPopularity"));
         popularityColumn.setSortable(false);
 
-        TableColumn scorenumbersColumn = new TableColumn();
+        TableColumn<Object, Integer> scorenumbersColumn = new TableColumn<>();
         scorenumbersColumn.setText("Number of Scores");
-        scorenumbersColumn.setCellValueFactory(new PropertyValueFactory("intScoreNumbers"));
+        scorenumbersColumn.setCellValueFactory(new PropertyValueFactory<Object, Integer>("intScoreNumbers"));
         scorenumbersColumn.setSortable(false);
 
         final TableView tableView = new TableView();

@@ -143,105 +143,190 @@ public class Compare {
     private static ScatterChart<Double, Integer> ScoreVsPopularityGraph(ArrayList<Manga> MangaList) {
         NumberAxis xAxis = new NumberAxis("Score", 8.1, 9.35, 0.1);
         NumberAxis yAxis = new NumberAxis("Popularity Rank", 1, 100, 1);
-        final Series<Double, Integer> series = new Series<>();
-        series.setName("Manga");
+        final Series<Double, Integer> AllManga = new Series<>();
+        final Series<Double, Integer> Top10Manga = new Series<>();
+        AllManga.setName("Top 11-100 in Popularity");
+        Top10Manga.setName("Top 10 in Popularity");
         for (Manga Current : MangaList) {
-            if (Integer.parseInt(Current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) <= 100) {
-                series.getData().add(new Data<>(Double.parseDouble(Current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(Current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
+            if (Integer.parseInt(Current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) <= 100 && Integer.parseInt(Current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) > 10) {
+                AllManga.getData().add(new Data<>(Double.parseDouble(Current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(Current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
+            }else if (Integer.parseInt(Current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) <= 10) {
+                Top10Manga.getData().add(new Data<>(Double.parseDouble(Current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(Current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
             }
         }
         ScatterChart<Double, Integer> chart = new ScatterChart(xAxis, yAxis);
         chart.setTitle("Scores vs Popularity for the Top 100 Most Popular Manga");
-        chart.getData().add(series);
+        chart.getData().add(AllManga);
+        chart.getData().add(Top10Manga);
         return chart;
     }
 
     private static BarChart<String, Integer> GenreVsTop500Graph(ArrayList<Manga> MangaList) {
         String[] genres = {"Act.", "Adv.", "Hor.", "Fan.", "Psych.", "Myst.", "Com.", "Rom.", "Sci.", "Sch.", "SOL", "Pow.", "Mus."};
-        int intActionCount = 0;
-        int intAdventureCount = 0;
-        int intHorrorCount = 0;
-        int intFantasyCount = 0;
-        int intPsychologicalCount = 0;
-        int intMysteryCount = 0;
-        int intComedyCount = 0;
-        int intRomanceCount = 0;
-        int intSciFiCount = 0;
-        int intSchoolCount = 0;
-        int intSliceofLifeCount = 0;
-        int intSuperPowersCount = 0;
-        int intMusicCount = 0;
+        int intActionAdultCount = 0;
+        int intAdventureAdultCount = 0;
+        int intHorrorAdultCount = 0;
+        int intFantasyAdultCount = 0;
+        int intPsychologicalAdultCount = 0;
+        int intMysteryAdultCount = 0;
+        int intComedyAdultCount = 0;
+        int intRomanceAdultCount = 0;
+        int intSciFiAdultCount = 0;
+        int intSchoolAdultCount = 0;
+        int intSliceofLifeAdultCount = 0;
+        int intSuperPowersAdultCount = 0;
+        int intMusicAdultCount = 0;
+
+        int intActionChildCount = 0;
+        int intAdventureChildCount = 0;
+        int intHorrorChildCount = 0;
+        int intFantasyChildCount = 0;
+        int intPsychologicalChildCount = 0;
+        int intMysteryChildCount = 0;
+        int intComedyChildCount = 0;
+        int intRomanceChildCount = 0;
+        int intSciFiChildCount = 0;
+        int intSchoolChildCount = 0;
+        int intSliceofLifeChildCount = 0;
+        int intSuperPowersChildCount = 0;
+        int intMusicChildCount = 0;
 
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setCategories(FXCollections.<String>observableArrayList(genres));
-        NumberAxis yAxis = new NumberAxis("Number of Manga", 0, 200, 5);
+        NumberAxis yAxis = new NumberAxis("Number of Manga", 0, 120, 5);
 
         for (Manga current : MangaList) {
             String[] strCurrentGenre = (current.strGenreProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).split(" / ");
             for (int i = 0; i < strCurrentGenre.length; i++) {
-                switch(strCurrentGenre[i]) {
-                    case "Action" :
-                        intActionCount++;
-                        break;
-                    case "Adventure" :
-                        intAdventureCount++;
-                        break;
-                    case "Horror" :
-                        intHorrorCount++;
-                        break;
-                    case "Fantasy" :
-                        intFantasyCount++;
-                        break;
-                    case "Psychological" :
-                        intPsychologicalCount++;
-                        break;
-                    case "Mystery" :
-                        intMysteryCount++;
-                        break;
-                    case "Comedy" :
-                        intComedyCount++;
-                        break;
-                    case "Romance" :  
-                        intRomanceCount++;
-                        break;
-                    case "Sci-Fi" :
-                        intSciFiCount++;
-                        break;
-                    case "School" :
-                        intSchoolCount++;
-                        break;
-                    case "Slice of Life" :
-                        intSliceofLifeCount++;
-                        break;
-                    case "Super" :
-                        intSuperPowersCount++;
-                        break;
-                    case "Music" :
-                        intMusicCount++;
-                        break;
+                if(strCurrentGenre[i].equalsIgnoreCase("Seinen") || strCurrentGenre[i].equalsIgnoreCase("Josei")) {
+                    for (int j = 0; j < strCurrentGenre.length; j++) {
+                        switch(strCurrentGenre[j]) {
+                            case "Action" :
+                                intActionAdultCount++;
+                                break;
+                            case "Adventure" :
+                                intAdventureAdultCount++;
+                                break;
+                            case "Horror" :
+                                intHorrorAdultCount++;
+                                break;
+                            case "Fantasy" :
+                                intFantasyAdultCount++;
+                                break;
+                            case "Psychological" :
+                                intPsychologicalAdultCount++;
+                                break;
+                            case "Mystery" :
+                                intMysteryAdultCount++;
+                                break;
+                            case "Comedy" :
+                                intComedyAdultCount++;
+                                break;
+                            case "Romance" :  
+                                intRomanceAdultCount++;
+                                break;
+                            case "Sci-Fi" :
+                                intSciFiAdultCount++;
+                                break;
+                            case "School" :
+                                intSchoolAdultCount++;
+                                break;
+                            case "Slice of Life" :
+                                intSliceofLifeAdultCount++;
+                                break;
+                            case "Super" :
+                                intSuperPowersAdultCount++;
+                                break;
+                            case "Music" :
+                                intMusicAdultCount++;
+                                break;
+                        }
+                    }
+                }else if(strCurrentGenre[i].equalsIgnoreCase("Shounen") || strCurrentGenre[i].equalsIgnoreCase("Shoujo")) {
+                    for (int j = 0; j < strCurrentGenre.length; j++) {
+                        switch(strCurrentGenre[j]) {
+                            case "Action" :
+                                intActionChildCount++;
+                                break;
+                            case "Adventure" :
+                                intAdventureChildCount++;
+                                break;
+                            case "Horror" :
+                                intHorrorChildCount++;
+                                break;
+                            case "Fantasy" :
+                                intFantasyChildCount++;
+                                break;
+                            case "Psychological" :
+                                intPsychologicalChildCount++;
+                                break;
+                            case "Mystery" :
+                                intMysteryChildCount++;
+                                break;
+                            case "Comedy" :
+                                intComedyChildCount++;
+                                break;
+                            case "Romance" :  
+                                intRomanceChildCount++;
+                                break;
+                            case "Sci-Fi" :
+                                intSciFiChildCount++;
+                                break;
+                            case "School" :
+                                intSchoolChildCount++;
+                                break;
+                            case "Slice of Life" :
+                                intSliceofLifeChildCount++;
+                                break;
+                            case "Super" :
+                                intSuperPowersChildCount++;
+                                break;
+                            case "Music" :
+                                intMusicChildCount++;
+                                break;
+                        }
+                    }
                 }
             }   
         }
-        XYChart.Series<String, Integer> MangaSeries = new XYChart.Series<String, Integer>();
-        MangaSeries.setName("Manga");
 
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[0], intActionCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[1], intAdventureCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[2], intHorrorCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[3], intFantasyCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[4], intPsychologicalCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[5], intMysteryCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[6], intComedyCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[7], intRomanceCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[8], intSciFiCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[9], intSchoolCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[10], intSliceofLifeCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[11], intSuperPowersCount));
-        MangaSeries.getData().add(new XYChart.Data<String, Integer>(genres[12], intMusicCount));
+        XYChart.Series<String, Integer> AdultManga = new XYChart.Series<String, Integer>();
+        AdultManga.setName("Older Demographic");
+
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[0], intActionAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[1], intAdventureAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[2], intHorrorAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[3], intFantasyAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[4], intPsychologicalAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[5], intMysteryAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[6], intComedyAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[7], intRomanceAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[8], intSciFiAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[9], intSchoolAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[10], intSliceofLifeAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[11], intSuperPowersAdultCount));
+        AdultManga.getData().add(new XYChart.Data<String, Integer>(genres[12], intMusicAdultCount));
+
+        XYChart.Series<String, Integer> ChildManga = new XYChart.Series<String, Integer>();
+        ChildManga.setName("Younger Demographic");
+
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[0], intActionChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[1], intAdventureChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[2], intHorrorChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[3], intFantasyChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[4], intPsychologicalChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[5], intMysteryChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[6], intComedyChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[7], intRomanceChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[8], intSciFiChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[9], intSchoolChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[10], intSliceofLifeChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[11], intSuperPowersChildCount));
+        ChildManga.getData().add(new XYChart.Data<String, Integer>(genres[12], intMusicChildCount));
 
         BarChart<String, Integer> chart = new BarChart(xAxis, yAxis);
-        chart.setTitle("Genre vs Number of Top 500 Manga");
-        chart.getData().add(MangaSeries);
+        chart.setTitle("Genre vs Number of Manga in the Top 500");
+        chart.getData().addAll(AdultManga, ChildManga);
         return chart;
     }
 }

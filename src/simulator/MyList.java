@@ -190,30 +190,30 @@ public class MyList {
     }
 
     public static Parent createMyList(ArrayList<UserManga> UserList, ObservableList<UserManga> data) {
-        TableColumn selectedColumn = new TableColumn<>();
+        TableColumn<Object, Boolean> selectedColumn = new TableColumn<>();
         selectedColumn.setText("");
         selectedColumn.setPrefWidth(50);
-        selectedColumn.setCellValueFactory(new PropertyValueFactory("isUserSelected"));
+        selectedColumn.setCellValueFactory(new PropertyValueFactory<Object, Boolean>("isUserSelected"));
         selectedColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectedColumn));
 
-        TableColumn titleColumn = new TableColumn("strTitle");
+        TableColumn<Object, String> titleColumn = new TableColumn<>();
         titleColumn.setText("Title");
-        titleColumn.setCellValueFactory(new PropertyValueFactory("strTitle"));
-        titleColumn.setPrefWidth(150);
+        titleColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strTitle"));
+        titleColumn.setPrefWidth(155);
 
-        TableColumn scoreColumn = new TableColumn();
+        TableColumn<Object, Integer> scoreColumn = new TableColumn<>();
         scoreColumn.setText("Your Score");
-        scoreColumn.setCellValueFactory(new PropertyValueFactory("intUserScore"));
+        scoreColumn.setCellValueFactory(new PropertyValueFactory<Object, Integer>("intUserScore"));
         scoreColumn.setCellFactory(ComboBoxTableCell.forTableColumn(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
         scoreColumn.setPrefWidth(100);
         
-        TableColumn statusColumn = new TableColumn();
+        TableColumn<Object, String> statusColumn = new TableColumn<>();
         statusColumn.setText("Your Status");
-        statusColumn.setCellValueFactory(new PropertyValueFactory("strUserStatus"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strUserStatus"));
         statusColumn.setCellFactory(ComboBoxTableCell.forTableColumn("Reading", "Finished", "Dropped"));
         statusColumn.setPrefWidth(100);
 
-        final TableView tableView = new TableView();
+        final TableView tableView = new TableView<>();
         tableView.setEditable(true);
         tableView.setItems(data);
         tableView.getColumns().addAll(selectedColumn, titleColumn, scoreColumn, statusColumn);
