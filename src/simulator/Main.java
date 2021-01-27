@@ -33,83 +33,85 @@ public class Main extends Application {
         primaryStage.setHeight(500);
         primaryStage.setWidth(600);
         primaryStage.setResizable(false);
-        Account.signInMenu(primaryStage);
+        Account.signInScreen(primaryStage);
     }
 
-    public static void mainMenu(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
+    public static void mainMenuScreen(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
 
         // Refreshes stage
-        primaryStage.setWidth(600);
+        primaryStage.setWidth(601);
 
+        // Setting up gridpane
         GridPane menuGrid = new GridPane();
         menuGrid.setVgap(10);
         menuGrid.setHgap(10);
         menuGrid.setGridLinesVisible(false);
         menuGrid.setPadding(new Insets(25, 25, 25, 25));
-        Font MenuFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+        Font menuFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Title
-        Text mainTitle = new Text("My Manga List");
+        Text mainTitle = new Text(currentAccount.getUsername() + "'s Manga List");
         mainTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         menuGrid.add(mainTitle, 0, 0);
 
         // My List Button
-        Button MyListBtn = new Button();
-        menuGrid.add(MyListBtn, 0, 1);
-        MyListBtn.setText("My List");
-        MyListBtn.setFont(MenuFont);
-        MyListBtn.setWrapText(true);
-        MyListBtn.setMaxSize(100, 50);
-        MyListBtn.setOnAction(new EventHandler<ActionEvent>() {
+        Button myListBtn = new Button();
+        menuGrid.add(myListBtn, 0, 1);
+        myListBtn.setText("My List");
+        myListBtn.setFont(menuFont);
+        myListBtn.setWrapText(true);
+        myListBtn.setMaxSize(100, 50);
+        myListBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                MyList.MyListScreen(primaryStage, MangaList, UserList, currentAccount);
+                MyList.MyListScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
         // Database Button
-        Button DatabaseBtn = new Button();
-        menuGrid.add(DatabaseBtn, 0, 2);
-        DatabaseBtn.setText("Database");
-        DatabaseBtn.setFont(MenuFont);
-        DatabaseBtn.setWrapText(true);
-        DatabaseBtn.setMaxSize(100, 50);
-        DatabaseBtn.setOnAction(new EventHandler<ActionEvent>() {
+        Button databaseBtn = new Button();
+        menuGrid.add(databaseBtn, 0, 2);
+        databaseBtn.setText("Database");
+        databaseBtn.setFont(menuFont);
+        databaseBtn.setWrapText(true);
+        databaseBtn.setMaxSize(100, 50);
+        databaseBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage, MangaList, UserList, currentAccount);
+                Database.DatabaseScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
         // Game Comparison Button
-        Button CompareBtn = new Button();
-        menuGrid.add(CompareBtn, 0, 3);
-        CompareBtn.setText("Graphs");
-        CompareBtn.setFont(MenuFont);
-        CompareBtn.setWrapText(true);
-        CompareBtn.setMaxSize(100, 50);
-        CompareBtn.setOnAction(new EventHandler<ActionEvent>() {
+        Button compareBtn = new Button();
+        menuGrid.add(compareBtn, 0, 3);
+        compareBtn.setText("Graphs");
+        compareBtn.setFont(menuFont);
+        compareBtn.setWrapText(true);
+        compareBtn.setMaxSize(100, 50);
+        compareBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                Compare.CompareScreen(primaryStage, MangaList, UserList, currentAccount);
+                Compare.CompareScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
-        Button LogOffBtn = new Button();
-        menuGrid.add(LogOffBtn, 0, 4);
-        LogOffBtn.setText("Save & Quit");
-        LogOffBtn.setFont(MenuFont);
-        LogOffBtn.setWrapText(true);
-        LogOffBtn.setMaxSize(100, 50);
-        LogOffBtn.setOnAction(new EventHandler<ActionEvent>() {
+        // Button to log off
+        Button logOffBtn = new Button();
+        menuGrid.add(logOffBtn, 0, 4);
+        logOffBtn.setText("Save & Quit");
+        logOffBtn.setFont(menuFont);
+        logOffBtn.setWrapText(true);
+        logOffBtn.setMaxSize(100, 50);
+        logOffBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    Account.savingToAccount(primaryStage, "src/simulator/Accounts.txt", UserList, currentAccount);
+                    Account.savingToAccount(primaryStage, "src/simulator/Accounts.txt", userList, currentAccount);
                     
                 }catch (IOException e){
                     e.printStackTrace();

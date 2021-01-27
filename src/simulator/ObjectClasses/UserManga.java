@@ -1,6 +1,5 @@
 package simulator.ObjectClasses;
 
-// Property imports
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -32,7 +31,7 @@ public class UserManga extends Manga {
         return isUserSelected;
     }
 
-    public void setUserChapter(String strUserStatus) {
+    public void setUserStatus(String strUserStatus) {
         this.strUserStatus = new SimpleStringProperty(strUserStatus);
     }
 

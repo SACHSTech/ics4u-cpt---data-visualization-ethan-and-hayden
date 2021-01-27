@@ -27,7 +27,7 @@ public class SummaryData {
     public static void dataSummaryScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
         
         // Refreshes stage
-        primaryStage.setWidth(600);
+        primaryStage.setWidth(601);
 
         GridPane summaryGrid = new GridPane();
         summaryGrid.setVgap(10);

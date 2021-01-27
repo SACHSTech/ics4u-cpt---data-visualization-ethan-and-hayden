@@ -224,6 +224,8 @@ public class MyList {
 
     public static void MyListScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
 
+        primaryStage.setWidth(600);
+
         final ObservableList<UserManga> data = FXCollections.observableArrayList(UserList);
 
         // Creating GridPane
@@ -297,7 +299,7 @@ public class MyList {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenu(primaryStage, MangaList, UserList, currentAccount);
+                Main.mainMenuScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
@@ -315,7 +317,6 @@ public class MyList {
             }
         });
 
-        primaryStage.setWidth(601);
         primaryStage.setScene(new Scene(myListGrid));
         primaryStage.show();
     }

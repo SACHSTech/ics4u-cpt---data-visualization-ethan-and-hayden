@@ -49,9 +49,9 @@ public class Database {
         ContextMenu autoSuggest = new ContextMenu();
         
         TextField searchText = new TextField();
-        searchText.setPrefWidth(315);
+        searchText.setPrefWidth(310);
         searchText.setPromptText("Enter manga title here");
-        searchText.setMaxSize(315, TextField.USE_COMPUTED_SIZE);
+        searchText.setMaxSize(310, TextField.USE_COMPUTED_SIZE);
 
         searchText.setOnKeyTyped((KeyEvent currentKeyChar) -> {
             String strPressedChar = searchText.getText();
@@ -319,6 +319,8 @@ public class Database {
 
     public static void DatabaseScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
 
+        primaryStage.setWidth(600);
+
         final ObservableList<Manga> data = FXCollections.observableArrayList(MangaList);
 
         GridPane databaseGrid = new GridPane();
@@ -569,13 +571,12 @@ public class Database {
             public void handle(ActionEvent event) {
                 data.clear();
                 data.addAll(MangaList);
-                Main.mainMenu(primaryStage, MangaList, UserList, currentAccount);
+                Main.mainMenuScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
         // Refreshes the stage so the table would not be glitched
         primaryStage.setScene(new Scene(databaseGrid));
-        primaryStage.setWidth(601);
         primaryStage.show();
     }
 }

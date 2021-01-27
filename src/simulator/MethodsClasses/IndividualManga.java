@@ -31,7 +31,7 @@ public class IndividualManga {
     public static void individualRecord(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Manga Current, Account currentAccount) {
         
         // Refreshes stage
-        primaryStage.setWidth(600);
+        primaryStage.setWidth(601);
 
         GridPane individualGrid = new GridPane();
         individualGrid.setVgap(10);
