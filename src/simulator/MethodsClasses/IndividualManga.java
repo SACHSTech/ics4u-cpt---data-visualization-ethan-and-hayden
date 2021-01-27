@@ -1,6 +1,7 @@
-package simulator;
+package simulator.MethodsClasses;
 
 // Basic Imports
+import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import javafx.geometry.HPos;
 
 public class IndividualManga {
 
-    public static void individualRecord(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Manga Current) {
+    public static void individualRecord(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Manga Current, Account currentAccount) {
         
         // Refreshes stage
         primaryStage.setWidth(600);
@@ -110,7 +111,7 @@ public class IndividualManga {
  
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage, MangaList, UserList);
+                Database.DatabaseScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 

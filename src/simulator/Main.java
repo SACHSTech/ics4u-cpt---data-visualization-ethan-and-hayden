@@ -1,5 +1,9 @@
 package simulator;
 
+// Importing other folders
+import simulator.ObjectClasses.*;
+import simulator.MethodsClasses.*;
+
 // Basic Libraries Import
 import java.util.*;
 import javafx.application.Application;
@@ -29,14 +33,11 @@ public class Main extends Application {
         primaryStage.setHeight(500);
         primaryStage.setWidth(600);
         primaryStage.setResizable(false);
-        String fileName = "src/simulator/AllManga.csv";
-        ArrayList<Manga> MangaList = Manga.csvToObject(fileName);
-        ArrayList<UserManga> UserList = new ArrayList<UserManga>();
-        mainMenu(primaryStage, MangaList, UserList);
+        Account.signInMenu(primaryStage);
     }
-    
-    public static void mainMenu(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
-        
+
+    public static void mainMenu(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
+
         // Refreshes stage
         primaryStage.setWidth(600);
 
@@ -60,10 +61,10 @@ public class Main extends Application {
         MyListBtn.setWrapText(true);
         MyListBtn.setMaxSize(100, 50);
         MyListBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
+
             @Override
             public void handle(ActionEvent event) {
-                MyList.MyListScreen(primaryStage, MangaList, UserList);
+                MyList.MyListScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
@@ -75,10 +76,10 @@ public class Main extends Application {
         DatabaseBtn.setWrapText(true);
         DatabaseBtn.setMaxSize(100, 50);
         DatabaseBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
+
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage, MangaList, UserList);
+                Database.DatabaseScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
@@ -90,10 +91,30 @@ public class Main extends Application {
         CompareBtn.setWrapText(true);
         CompareBtn.setMaxSize(100, 50);
         CompareBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
+
             @Override
             public void handle(ActionEvent event) {
-                Compare.CompareScreen(primaryStage, MangaList, UserList);
+                Compare.CompareScreen(primaryStage, MangaList, UserList, currentAccount);
+            }
+        });
+
+        Button LogOffBtn = new Button();
+        menuGrid.add(LogOffBtn, 0, 4);
+        LogOffBtn.setText("Save & Quit");
+        LogOffBtn.setFont(MenuFont);
+        LogOffBtn.setWrapText(true);
+        LogOffBtn.setMaxSize(100, 50);
+        LogOffBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    Account.savingToAccount(primaryStage, "src/simulator/Accounts.txt", UserList, currentAccount);
+                    
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+                primaryStage.close();
             }
         });
 

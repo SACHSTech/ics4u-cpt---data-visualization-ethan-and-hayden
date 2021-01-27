@@ -1,6 +1,7 @@
-package simulator;
+package simulator.MethodsClasses;
 
 // Basic Imports
+import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class SummaryData {
-    public static void dataSummaryScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
+    public static void dataSummaryScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
         
         // Refreshes stage
         primaryStage.setWidth(600);
@@ -63,7 +64,7 @@ public class SummaryData {
  
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage, MangaList, UserList);
+                Database.DatabaseScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 

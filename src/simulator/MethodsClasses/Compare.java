@@ -1,6 +1,8 @@
-package simulator;
+package simulator.MethodsClasses;
 
 // Basic Imports
+import simulator.*;
+import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.*;
@@ -30,7 +32,7 @@ import javafx.scene.chart.CategoryAxis;
 
 public class Compare {
 
-    public static void CompareScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
+    public static void CompareScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
         GridPane compareGrid = new GridPane();
         compareGrid.setVgap(10);
         compareGrid.setHgap(10);
@@ -47,7 +49,7 @@ public class Compare {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenu(primaryStage, MangaList, UserList);
+                Main.mainMenu(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
@@ -60,7 +62,7 @@ public class Compare {
  
             @Override
             public void handle(ActionEvent event) {
-                scoreVsPopularityScreen(primaryStage, MangaList, UserList);
+                scoreVsPopularityScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
@@ -73,7 +75,7 @@ public class Compare {
  
             @Override
             public void handle(ActionEvent event) {
-                genreVsTop500Screen(primaryStage, MangaList, UserList);
+                genreVsTop500Screen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
@@ -83,7 +85,7 @@ public class Compare {
     }
 
     // Graph Screens
-    private static void scoreVsPopularityScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
+    private static void scoreVsPopularityScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
         GridPane scoreVsPopularityGrid = new GridPane();
         scoreVsPopularityGrid.setVgap(10);
         scoreVsPopularityGrid.setHgap(10);
@@ -102,7 +104,7 @@ public class Compare {
  
             @Override
             public void handle(ActionEvent event) {
-                CompareScreen(primaryStage, MangaList, UserList);
+                CompareScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
@@ -111,7 +113,7 @@ public class Compare {
         primaryStage.show();
     }
 
-    private static void genreVsTop500Screen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
+    private static void genreVsTop500Screen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
         GridPane genreVsPopularityGrid = new GridPane();
         genreVsPopularityGrid.setVgap(10);
         genreVsPopularityGrid.setHgap(10);
@@ -130,7 +132,7 @@ public class Compare {
  
             @Override
             public void handle(ActionEvent event) {
-                CompareScreen(primaryStage, MangaList, UserList);
+                CompareScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 

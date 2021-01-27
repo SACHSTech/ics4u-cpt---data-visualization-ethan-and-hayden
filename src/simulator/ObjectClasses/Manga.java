@@ -1,4 +1,4 @@
-package simulator;
+package simulator.ObjectClasses;
 
 // Basic imports
 import java.io.*;

@@ -1,4 +1,4 @@
-package simulator;
+package simulator.ObjectClasses;
 
 // Property imports
 import javafx.beans.property.IntegerProperty;
@@ -46,5 +46,9 @@ public class UserManga extends Manga {
 
     public static UserManga convertToUserManga(Manga manga) {
         return new UserManga((manga.strTitleProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strTypeProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strChapterProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strStatusProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), Integer.parseInt((manga.intPublishedProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", "")), (manga.strGenreProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strAuthorProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strSerializationProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), Double.parseDouble((manga.dblScoreProperty()).toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt((manga.intRankProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", "")), Integer.parseInt((manga.intPopularityProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", "")), Integer.parseInt((manga.intScoreNumbersProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", "")), (manga.strSynopsisProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), 0, "Reading", false);
+    }
+
+    public String toString() {
+        return strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "") + "," + intUserScoreProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "") + "," + strUserStatusProperty().toString().replace("StringProperty [value: ", "").replace("]", "");
     }
 }

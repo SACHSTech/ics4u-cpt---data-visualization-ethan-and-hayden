@@ -1,6 +1,8 @@
-package simulator;
+package simulator.MethodsClasses;
 
 // Basic Imports
+import simulator.*;
+import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.ArrayList;
@@ -34,7 +36,6 @@ import javafx.geometry.Side;
 // Layout Imports
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.ListView;
-import javafx.collections.ListChangeListener;
 
 // Toolbox Imports
 import javafx.scene.control.ToolBar;
@@ -42,7 +43,7 @@ import javafx.scene.control.ComboBox;
 
 public class Database {
 
-    private static Parent searchBox(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane databaseGrid) { 
+    private static Parent searchBox(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane databaseGrid, Account currentAccount) { 
         
         // Context Box
         ContextMenu autoSuggest = new ContextMenu();
@@ -60,7 +61,7 @@ public class Database {
             autoSuggest.show(searchText, Side.BOTTOM, 0, 0);
             if (currentKey.getCode() == KeyCode.ENTER) {
                 String strKey = searchText.getText();
-                individualSelect(primaryStage, MangaList, UserList, strKey, databaseGrid);
+                individualSelect(primaryStage, MangaList, UserList, strKey, databaseGrid, currentAccount);
                 searchText.clear();
                 autoSuggest.hide();
             }
@@ -68,10 +69,10 @@ public class Database {
         return searchText;
     }
 
-    private static void individualSelect(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, String strKey, GridPane databaseGrid) {
+    private static void individualSelect(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, String strKey, GridPane databaseGrid, Account currentAccount) {
         for (Manga Current : MangaList) {
             if (strKey.equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
-                IndividualManga.individualRecord(primaryStage, MangaList, UserList, Current);
+                IndividualManga.individualRecord(primaryStage, MangaList, UserList, Current, currentAccount);
             }
         }
     }
@@ -316,7 +317,7 @@ public class Database {
         return tableView;
     }
 
-    public static void DatabaseScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
+    public static void DatabaseScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
 
         final ObservableList<Manga> data = FXCollections.observableArrayList(MangaList);
 
@@ -526,7 +527,7 @@ public class Database {
  
             @Override
             public void handle(ActionEvent event) {
-                SummaryData.dataSummaryScreen(primaryStage, MangaList, UserList);
+                SummaryData.dataSummaryScreen(primaryStage, MangaList, UserList, currentAccount);
             }
         });
         
@@ -542,7 +543,7 @@ public class Database {
             }
         });
 
-        searchToolbar.getItems().add(searchBox(primaryStage, MangaList, UserList, databaseGrid));
+        searchToolbar.getItems().add(searchBox(primaryStage, MangaList, UserList, databaseGrid, currentAccount));
         searchToolbar.getItems().add(summaryInfo);
         filterToolbar.getItems().add(categorySortTitle);
         filterToolbar.getItems().add(categorySort);
@@ -568,7 +569,7 @@ public class Database {
             public void handle(ActionEvent event) {
                 data.clear();
                 data.addAll(MangaList);
-                Main.mainMenu(primaryStage, MangaList, UserList);
+                Main.mainMenu(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 

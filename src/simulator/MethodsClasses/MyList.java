@@ -1,6 +1,8 @@
-package simulator;
+package simulator.MethodsClasses;
 
 // Basic Imports
+import simulator.*;
+import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
@@ -220,7 +222,7 @@ public class MyList {
         return tableView;
     } 
 
-    public static void MyListScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList) {
+    public static void MyListScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
 
         final ObservableList<UserManga> data = FXCollections.observableArrayList(UserList);
 
@@ -295,7 +297,7 @@ public class MyList {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenu(primaryStage, MangaList, UserList);
+                Main.mainMenu(primaryStage, MangaList, UserList, currentAccount);
             }
         });
 
