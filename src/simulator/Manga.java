@@ -17,7 +17,7 @@ public class Manga {
     private StringProperty strType;
     private StringProperty strChapter;
     private StringProperty strStatus;
-    private StringProperty strPublished;
+    private IntegerProperty intPublished;
     private StringProperty strGenre;
     private StringProperty strAuthor;
     private StringProperty strSerialization;
@@ -27,12 +27,12 @@ public class Manga {
     private IntegerProperty intScoreNumbers;
     private StringProperty strSynopsis;
 
-    public Manga(String strTitle, String strType, String strChapter, String strStatus, String strPublished, String strGenre, String strAuthor, String strSerialization, double dblScore, int intRank, int intPopularity, int intScoreNumbers, String strSynopsis) {
+    public Manga(String strTitle, String strType, String strChapter, String strStatus, int intPublished, String strGenre, String strAuthor, String strSerialization, double dblScore, int intRank, int intPopularity, int intScoreNumbers, String strSynopsis) {
         this.strTitle = new SimpleStringProperty(strTitle);
         this.strType = new SimpleStringProperty(strType);
         this.strChapter = new SimpleStringProperty(strChapter);
         this.strStatus = new SimpleStringProperty(strStatus);
-        this.strPublished = new SimpleStringProperty(strPublished);
+        this.intPublished = new SimpleIntegerProperty(intPublished);
         this.strGenre = new SimpleStringProperty(strGenre);
         this.strAuthor = new SimpleStringProperty(strAuthor);
         this.strSerialization = new SimpleStringProperty(strSerialization);
@@ -59,8 +59,8 @@ public class Manga {
         return strStatus;
     }
 
-    public StringProperty strPublishedProperty() {
-        return strPublished;
+    public IntegerProperty intPublishedProperty() {
+        return intPublished;
     }
 
     public StringProperty strGenreProperty() {
@@ -111,8 +111,8 @@ public class Manga {
         this.strStatus = new SimpleStringProperty(strStatus);
     }
 
-    public void setPublished(String strPublished) {
-        this.strPublished = new SimpleStringProperty(strPublished);
+    public void setPublished(int intPublished) {
+        this.intPublished = new SimpleIntegerProperty(intPublished);
     }
 
     public void setGenre(String strGenre) {
@@ -157,14 +157,14 @@ public class Manga {
             String[] MangaCsv = strLine.split(",");   
 
             // create car object to store values  
-            Manga MangaObj = new Manga("", "", "", "", "", "", "", "", 0, 0, 0, 0, "");  
+            Manga MangaObj = new Manga("", "", "", "", 0, "", "", "", 0, 0, 0, 0, "");  
 
             // add values from csv to car object  
             MangaObj.setTitle(MangaCsv[0]);   
             MangaObj.setType(MangaCsv[1]);  
             MangaObj.setChapter(MangaCsv[2]); 
             MangaObj.setStatus(MangaCsv[3]);
-            MangaObj.setPublished(MangaCsv[4]);
+            MangaObj.setPublished(Integer.parseInt(MangaCsv[4]));
             MangaObj.setGenre(MangaCsv[5]);
             MangaObj.setAuthor(MangaCsv[6]);
             MangaObj.setSerialization(MangaCsv[7]);

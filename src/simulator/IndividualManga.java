@@ -78,7 +78,7 @@ public class IndividualManga {
         individualChapters.setWrappingWidth(180);
         individualChapters.setFont(individualFont);
 
-        Text individualPublished = new Text("Publish Date: " + (Current.strPublishedProperty().toString()).replace("StringProperty [value: ", "").replace("]", ""));
+        Text individualPublished = new Text("Publish Year: " + (Current.intPublishedProperty().toString()).replace("IntegerProperty [value: ", "").replace("]", ""));
         individualPublished.setWrappingWidth(180);
         individualPublished.setFont(individualFont);
 

@@ -199,7 +199,7 @@ public class MyList {
         TableColumn<Object, String> titleColumn = new TableColumn<>();
         titleColumn.setText("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory<Object, String>("strTitle"));
-        titleColumn.setPrefWidth(155);
+        titleColumn.setPrefWidth(154);
 
         TableColumn<Object, Integer> scoreColumn = new TableColumn<>();
         scoreColumn.setText("Your Score");
