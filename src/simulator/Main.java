@@ -12,12 +12,13 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+
+
 
 public class Main extends Application {
 

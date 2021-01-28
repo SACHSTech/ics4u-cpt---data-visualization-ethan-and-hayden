@@ -1,9 +1,6 @@
 Ethan
 123
-Berserk,10,Reading / A Certain Magical Index: New Testament,8,Finished / Fruits Basket,9,Dropped / Eyeshield 21,3,Finished / One-Punch Man,5,Reading / Chainsaw Man,7,Finished / Fullmetal Alchemist,6,Finished / 
-Fabroa
-123
-Doraemon,7,Reading / Umineko WHEN THEY CRY Episode 5: End of the Golden Witch,8,Dropped / Ashita no Joe,2,Finished / Akira,10,Dropped / Berserk,10,Reading / 
+Berserk,10,Reading / Vinland Saga,9,Reading / The Flowers of Evil,9,Finished / Umineko When They Cry Episode 8: Twilight of the Golden Witch,8,Finished / Monster,8,Finished / Goodnight Punpun,8,Finished / Umineko WHEN THEY CRY Episode 5: End of the Golden Witch,8,Finished / Umineko WHEN THEY CRY Episode 7: Requiem of the Golden Witch,8,Finished / ReLIFE,8,Finished / Death Note,7,Finished / Gantz,7,Finished / Homunculus,7,Finished / Kingdom,7,Reading / Stargazing Dog,7,Finished / One Piece,6,Reading / Akira,6,Finished / Pokémon Adventures,6,Reading / Demon Slayer: Kimetsu no Yaiba,6,Finished / Spy x Family,6,Dropped / Dorohedoro,6,Dropped / Tokyo Ghoul,5,Finished / Chainsaw Man,5,Finished / Tokyo Ghoul:re,4,Dropped / A Silent Voice,7,Finished / 
 Test
 ABC123
-Dragon Ball,3,Reading / Ashita no Joe,4,Finished / Toradora!,2,Reading / Molester Man,10,Dropped / 
+Pandora Hearts,6,Dropped / 

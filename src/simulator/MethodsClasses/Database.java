@@ -268,6 +268,9 @@ public class Database {
             public void handle(ActionEvent event) {
                 data.clear();
                 data.addAll(mangaList);
+                categorySort.getSelectionModel().select("");
+                genreFilter.getSelectionModel().select("");
+                yearFilter.getSelectionModel().select("");
                 currentFilters.getItems().clear();
             }
         });
