@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Font;
@@ -120,7 +121,7 @@ public class Compare {
         Font CompareFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Adding a method which returns a scatterplot to the grid
-        scoreVsPopularityGrid.add(ScoreVsPopularityGraph(mangaList), 0, 0);
+        scoreVsPopularityGrid.add(ScoreVsPopularityGraph(mangaList, userList), 0, 0);
 
         // Creating button that allows the user to return to the compare menu
         Button compareMenuBtn = new Button();
@@ -190,32 +191,41 @@ public class Compare {
      * @param mangaList
      * @return ScatterChart<Double, Integer>
      */
-    private static ScatterChart<Double, Integer> ScoreVsPopularityGraph(ArrayList<Manga> mangaList) {
+    private static ScatterChart<Double, Integer> ScoreVsPopularityGraph(ArrayList<Manga> mangaList, ArrayList<UserManga> userList) {
+
+        int intCount;
 
         // Setting up y and x axis.
         NumberAxis xAxis = new NumberAxis("Score", 8.1, 9.35, 0.1);
         NumberAxis yAxis = new NumberAxis("Popularity Rank", 1, 100, 1);
 
         // Setting up series for the scatterplot.
-        final Series<Double, Integer> AllManga = new Series<>();
-        final Series<Double, Integer> Top10Manga = new Series<>();
-        AllManga.setName("Top 11-100 in Popularity");
-        Top10Manga.setName("Top 10 in Popularity");
+        final Series<Double, Integer> MangaFromUserList = new Series<>();
+        final Series<Double, Integer> MangaFromDatabase = new Series<>();
+        MangaFromUserList.setName("Manga from your list");
+        MangaFromDatabase.setName("Manga from Database");
 
         // For loop that iterates through the manga database. Then, places all manga with a popularity rank less than 100 in their appropriate series.
         for (Manga current : mangaList) {
-            if (Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) <= 100 && Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) > 10) {
-                AllManga.getData().add(new Data<>(Double.parseDouble(current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
-            }else if (Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) <= 10) {
-                Top10Manga.getData().add(new Data<>(Double.parseDouble(current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
+            intCount = 0;
+            if (Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) <= 100) {
+                for (UserManga currentUserManga : userList) {
+                    intCount++;
+                    if (current.strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "").equalsIgnoreCase(currentUserManga.strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", ""))) {
+                        MangaFromUserList.getData().add(new Data<>(Double.parseDouble(current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
+                        break;
+                    }else if (intCount == userList.size()) {
+                        MangaFromDatabase.getData().add(new Data<>(Double.parseDouble(current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
+                    } 
+                }
             }
         }
-
+        
         // Creating the scatterchart and returning it.
         ScatterChart<Double, Integer> chart = new ScatterChart(xAxis, yAxis);
         chart.setTitle("Scores vs Popularity for the Top 100 Most Popular Manga");
-        chart.getData().add(AllManga);
-        chart.getData().add(Top10Manga);
+        chart.getData().add(MangaFromDatabase);
+        chart.getData().add(MangaFromUserList);
         return chart;
     }
 
