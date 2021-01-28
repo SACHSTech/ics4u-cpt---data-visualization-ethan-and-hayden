@@ -54,7 +54,7 @@ public class Database {
         databaseGrid.setHgap(10);
         databaseGrid.setGridLinesVisible(false);
         databaseGrid.setPadding(new Insets(25, 25, 25, 25));
-        Font DatabaseFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+        Font databaseFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Adding a method which returns a tableview to the gridpane
         databaseGrid.add(createContent(mangaList, data), 0, 1);
@@ -68,7 +68,7 @@ public class Database {
         final ListView<String> currentFilters = new ListView<String>(FXCollections.<String>observableArrayList());
         Text currentFiltersTitle = new Text();
         currentFiltersTitle.setText("Current Filters:");
-        currentFiltersTitle.setFont(DatabaseFont);
+        currentFiltersTitle.setFont(databaseFont);
         currentFilters.setPrefWidth(120);
         currentFilters.setPrefHeight(140);
 
@@ -76,7 +76,7 @@ public class Database {
         ComboBox<String> genreFilter = new ComboBox<>();
         Text genreFilterTitle = new Text();
         genreFilterTitle.setText("Filter by Genre:");
-        genreFilterTitle.setFont(DatabaseFont);
+        genreFilterTitle.setFont(databaseFont);
         genreFilter.setPrefWidth(120);
         genreFilter.setPromptText("Genres");
         genreFilter.getItems().add("Action");
@@ -158,7 +158,7 @@ public class Database {
         ComboBox<String> yearFilter = new ComboBox<>();
         Text yearFilterTitle = new Text();
         yearFilterTitle.setText("Filter by Year:");
-        yearFilterTitle.setFont(DatabaseFont);
+        yearFilterTitle.setFont(databaseFont);
         yearFilter.setPrefWidth(120);
         yearFilter.setPromptText("Year Ranges");
         yearFilter.getItems().add("< 1979");
@@ -192,7 +192,7 @@ public class Database {
         ComboBox<String> categorySort = new ComboBox<>();
         Text categorySortTitle = new Text();
         categorySortTitle.setText("Sort By:");
-        categorySortTitle.setFont(DatabaseFont);
+        categorySortTitle.setFont(databaseFont);
         categorySort.setPrefWidth(120);
         categorySort.setPromptText("Categories");
         categorySort.getItems().add("Title");
@@ -251,6 +251,7 @@ public class Database {
 
         // Creating button that displays the database's summary
         Button summaryInfoBtn = new Button("Summary");
+        summaryInfoBtn.setFont(databaseFont);
         summaryInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -261,6 +262,7 @@ public class Database {
         
         // Creating button that resets all current filters on the database
         Button resetFiltersBtn = new Button("Reset Filters");
+        resetFiltersBtn.setFont(databaseFont);
         resetFiltersBtn.setPrefWidth(125);
         resetFiltersBtn.setOnAction(new EventHandler<ActionEvent>() {
  
@@ -296,7 +298,7 @@ public class Database {
         Button homeMenuBtn = new Button();
         databaseGrid.add(homeMenuBtn, 0, 2);
         homeMenuBtn.setText("Back");
-        homeMenuBtn.setFont(DatabaseFont);
+        homeMenuBtn.setFont(databaseFont);
         homeMenuBtn.setMaxSize(100, 50);
         homeMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
 

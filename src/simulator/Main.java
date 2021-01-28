@@ -18,8 +18,6 @@ import javafx.scene.layout.GridPane;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 
-
-
 public class Main extends Application {
 
     /**

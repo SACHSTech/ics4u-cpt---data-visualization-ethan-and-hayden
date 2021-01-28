@@ -76,8 +76,9 @@ public class Account {
         Font newAccountFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Title
-        Text newAccountTitle = new Text("Creating New Account");
+        Label newAccountTitle = new Label("Creating New Account");
         newAccountTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+        GridPane.setHalignment(newAccountTitle, HPos.CENTER);
 
         // Username
         TextField usernameText = new TextField();
@@ -126,14 +127,18 @@ public class Account {
 
             @Override
             public void handle(ActionEvent event) {
-                if (passwordText.getText().equals(reTypePasswordText.getText())) {
-                    try {
-                        creatingNewAccount(passwordText.getText(), usernameText.getText(), "src/simulator/Accounts.txt", errorText);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                if (usernameText.getText().equals("") || passwordText.getText().equals("")) {
+                    errorText.setText("Some fields are empty");
                 }else {
-                    errorText.setText("Confirm Password does not match");
+                    if (passwordText.getText().equals(reTypePasswordText.getText())) {
+                        try {
+                            creatingNewAccount(passwordText.getText(), usernameText.getText(), "src/simulator/Accounts.txt", errorText);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        errorText.setText("Passwords do not match");
+                    }
                 }
             }
         });
@@ -254,7 +259,7 @@ public class Account {
         });
 
         // Adding everything to gridpane
-        signInGrid.setAlignment(Pos.TOP_CENTER);
+        signInGrid.setAlignment(Pos.TOP_CENTER);;
         signInGrid.add(signInTitle, 0, 0);
         signInGrid.add(signInVbox, 0, 1);
         signInGrid.add(signInBtn, 0, 2);

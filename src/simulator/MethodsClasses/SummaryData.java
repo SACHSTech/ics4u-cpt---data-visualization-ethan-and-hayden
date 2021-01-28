@@ -35,6 +35,7 @@ public class SummaryData {
         summaryGrid.setGridLinesVisible(false);
         summaryGrid.setPadding(new Insets(25, 25, 25, 25));
         Font summaryFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+        Font dataFont = Font.font("Comic Sans MS", FontWeight.NORMAL, 12);
 
         // Title
         Text summaryTitle = new Text("Summary of the graph, 'Top 500 Manga'");
@@ -43,11 +44,17 @@ public class SummaryData {
 
         // Summary Info
         Text mangaCountText = new Text ("Number of Manga: " + mangaListCount(MangaList));
+        mangaCountText.setFont(dataFont);
         Text highestScoreText = new Text ("Manga with the Highest Score: " + mangaListMax(MangaList));
+        highestScoreText.setFont(dataFont);
         Text lowestScoreText = new Text ("Manga with the Lowest Score: " + mangaListMin(MangaList));
+        lowestScoreText.setFont(dataFont);
         Text averageScoreText = new Text ("Average Score (Mean): " + meanMangaScore(MangaList));
+        averageScoreText.setFont(dataFont);
         Text medianScoreText = new Text ("Average Score (Median): " + medianMangaScore(MangaList));
+        medianScoreText.setFont(dataFont);
         Text standardDeviationText = new Text ("Standard Deviation: " + standardDeviation(meanMangaScore(MangaList), MangaList));
+        standardDeviationText.setFont(dataFont);
 
         VBox summaryInfoBox = new VBox(mangaCountText, highestScoreText, lowestScoreText, averageScoreText, medianScoreText, standardDeviationText);
         summaryInfoBox.setSpacing(10);
