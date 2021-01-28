@@ -153,10 +153,10 @@ public class Manga {
             // split on comma(',')
             String[] MangaCsv = strLine.split(",");   
 
-            // create car object to store values  
+            // create manga object to store values  
             Manga MangaObj = new Manga("", "", "", "", 0, "", "", "", 0, 0, 0, 0, "");  
 
-            // add values from csv to car object  
+            // add values from csv to manga object  
             MangaObj.setTitle(MangaCsv[0]);   
             MangaObj.setType(MangaCsv[1]);  
             MangaObj.setChapter(MangaCsv[2]); 

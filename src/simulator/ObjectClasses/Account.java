@@ -19,7 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 
 public class Account {
@@ -57,7 +57,214 @@ public class Account {
         this.userList = userList;
     }
 
-    ///////////////////// Static methods /////////////////////
+    /**
+     * Screen for creating a new account. Allows the user to input a new password and username
+     * 
+     * @param primaryStage
+     * @throws IOException
+     */
+    public static void newAccountScreen(Stage primaryStage) throws IOException {
+        // Refreshes stage
+        primaryStage.setWidth(601);
+
+        // Creating gridpane to organize stage
+        GridPane newAccountGrid = new GridPane();
+        newAccountGrid.setVgap(10);
+        newAccountGrid.setHgap(10);
+        newAccountGrid.setGridLinesVisible(false);
+        newAccountGrid.setPadding(new Insets(25, 25, 25, 25));
+        Font newAccountFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+
+        // Title
+        Text newAccountTitle = new Text("Creating New Account");
+        newAccountTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+
+        // Username
+        TextField usernameText = new TextField();
+        Label usernameLabel = new Label("Username: ");
+        HBox usernameHbox = new HBox();
+        usernameHbox.getChildren().addAll(usernameLabel, usernameText);
+        usernameHbox.setSpacing(10);
+        usernameLabel.setFont(newAccountFont);
+        usernameText.setPrefWidth(200);
+
+        // Password
+        PasswordField passwordText = new PasswordField();
+        Label passwordLabel = new Label("Password: ");
+        HBox passwordHbox = new HBox();
+        passwordHbox.getChildren().addAll(passwordLabel, passwordText);
+        passwordHbox.setSpacing(13);
+        passwordLabel.setFont(newAccountFont);
+        passwordText.setPrefWidth(200);
+
+        // Password
+        PasswordField reTypePasswordText = new PasswordField();
+        Label reTypePasswordLabel = new Label("Confirm Password: ");
+        HBox reTypePasswordHbox = new HBox();
+        reTypePasswordHbox.getChildren().addAll(reTypePasswordLabel, reTypePasswordText);
+        reTypePasswordHbox.setSpacing(13);
+        reTypePasswordLabel.setFont(newAccountFont);
+        reTypePasswordText.setPrefWidth(150);
+
+        // Error Box
+        Text errorText = new Text();
+        errorText.setFont(newAccountFont);
+        errorText.setFill(Color.TOMATO);
+
+        // Creating VBox 
+        VBox newAccountVbox = new VBox();
+        newAccountVbox.setPrefSize(300, 100);
+        newAccountVbox.setSpacing(20);
+        newAccountVbox.getChildren().addAll(usernameHbox, passwordHbox, reTypePasswordHbox, errorText);
+
+        // create account Button
+        Button newAccountBtn = new Button();
+        newAccountBtn.setText("Create Account");
+        newAccountBtn.setFont(newAccountFont);
+        newAccountBtn.setMaxSize(300, 50);
+        newAccountBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                if (passwordText.getText().equals(reTypePasswordText.getText())) {
+                    try {
+                        creatingNewAccount(passwordText.getText(), usernameText.getText(), "src/simulator/Accounts.txt", errorText);
+                        errorText.setText("Created Account");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    errorText.setText("Confirm Password does not match");
+                }
+            }
+        });
+
+        // Return to Sign in Button
+        Button signInBtn = new Button();
+        signInBtn.setText("Back");
+        signInBtn.setFont(newAccountFont);
+        signInBtn.setMaxSize(300, 50);
+        signInBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    signInScreen(primaryStage);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Adding everything to gridpane
+        newAccountGrid.setAlignment(Pos.TOP_CENTER);
+        newAccountGrid.add(newAccountTitle, 0, 0);
+        newAccountGrid.add(newAccountVbox, 0, 1);
+        newAccountGrid.add(newAccountBtn, 0, 2);
+        newAccountGrid.add(signInBtn, 0, 3);
+
+        // Setting up Background of Menu
+        primaryStage.setScene(new Scene(newAccountGrid));
+        primaryStage.show();
+    }
+
+    /**
+     * A screen for the user to sign in with their account.
+     * 
+     * @param primaryStage
+     * @throws IOException
+     */
+    public static void signInScreen(Stage primaryStage) throws IOException {
+        
+        // Refreshes stage
+        primaryStage.setWidth(600);
+
+        // Creating gridpane to organize stage
+        GridPane signInGrid = new GridPane();
+        signInGrid.setVgap(10);
+        signInGrid.setHgap(10);
+        signInGrid.setGridLinesVisible(false);
+        signInGrid.setPadding(new Insets(25, 25, 25, 25));
+        Font signInFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+
+        // Title
+        Label signInTitle = new Label("My Manga List");
+        signInTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+        GridPane.setHalignment(signInTitle, HPos.CENTER);
+
+        // Username
+        TextField usernameText = new TextField();
+        Label usernameLabel = new Label("Username: ");
+        HBox usernameHbox = new HBox();
+        usernameHbox.getChildren().addAll(usernameLabel, usernameText);
+        usernameHbox.setSpacing(10);
+        usernameLabel.setFont(signInFont);
+        usernameText.setPrefWidth(200);
+
+        // Password
+        PasswordField passwordText = new PasswordField();
+        Label passwordLabel = new Label("Password: ");
+        HBox passwordHbox = new HBox();
+        passwordHbox.getChildren().addAll(passwordLabel, passwordText);
+        passwordHbox.setSpacing(13);
+        passwordLabel.setFont(signInFont);
+        passwordText.setPrefWidth(200);
+
+        Text errorText = new Text();
+        errorText.setFont(signInFont);
+        errorText.setFill(Color.TOMATO);
+
+        // Creating VBox 
+        VBox signInVbox = new VBox();
+        signInVbox.setPrefSize(300, 100);
+        signInVbox.setSpacing(20);
+        signInVbox.getChildren().addAll(usernameHbox, passwordHbox, errorText);
+
+        // Sign in Button
+        Button signInBtn = new Button();
+        signInBtn.setText("Sign In");
+        signInBtn.setFont(signInFont);
+        signInBtn.setMaxSize(300, 50);
+        signInBtn.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    ifAccountSaved(primaryStage, "src/simulator/Accounts.txt", usernameText.getText(), passwordText.getText(), errorText);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Create New Account Button
+        Button createNewBtn = new Button();
+        createNewBtn.setText("Create New Account");
+        createNewBtn.setFont(signInFont);
+        createNewBtn.setMaxSize(300, 50);
+        createNewBtn.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    newAccountScreen(primaryStage);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Adding everything to gridpane
+        signInGrid.setAlignment(Pos.TOP_CENTER);
+        signInGrid.add(signInTitle, 0, 0);
+        signInGrid.add(signInVbox, 0, 1);
+        signInGrid.add(signInBtn, 0, 2);
+        signInGrid.add(createNewBtn, 0, 3);
+
+        // Setting up Background of Menu
+        primaryStage.setScene(new Scene(signInGrid));
+        primaryStage.show();
+    }
 
     /**
      * Method that checks if the user's inputted password and username correspond with an account in the text file, Accounts.txt.
@@ -231,215 +438,5 @@ public class Account {
         }
         TXTFile.close();
         TXTFileWrite.close();
-    }
-
-    ///////////////////// Screens /////////////////////
-
-    /**
-     * Screen for creating a new account. Allows the user to input a new password and username
-     * 
-     * @param primaryStage
-     * @throws IOException
-     */
-    public static void newAccountScreen(Stage primaryStage) throws IOException {
-        // Refreshes stage
-        primaryStage.setWidth(601);
-
-        // Creating gridpane to organize stage
-        GridPane newAccountGrid = new GridPane();
-        newAccountGrid.setVgap(10);
-        newAccountGrid.setHgap(10);
-        newAccountGrid.setGridLinesVisible(false);
-        newAccountGrid.setPadding(new Insets(25, 25, 25, 25));
-        Font newAccountFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
-
-        // Title
-        Text newAccountTitle = new Text("Creating New Account");
-        newAccountTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
-
-        // Username
-        TextField usernameText = new TextField();
-        Label usernameLabel = new Label("Username: ");
-        HBox usernameHbox = new HBox();
-        usernameHbox.getChildren().addAll(usernameLabel, usernameText);
-        usernameHbox.setSpacing(10);
-        usernameLabel.setFont(newAccountFont);
-        usernameText.setPrefWidth(200);
-
-        // Password
-        PasswordField passwordText = new PasswordField();
-        Label passwordLabel = new Label("Password: ");
-        HBox passwordHbox = new HBox();
-        passwordHbox.getChildren().addAll(passwordLabel, passwordText);
-        passwordHbox.setSpacing(13);
-        passwordLabel.setFont(newAccountFont);
-        passwordText.setPrefWidth(200);
-
-        // Password
-        PasswordField reTypePasswordText = new PasswordField();
-        Label reTypePasswordLabel = new Label("Confirm Password: ");
-        HBox reTypePasswordHbox = new HBox();
-        reTypePasswordHbox.getChildren().addAll(reTypePasswordLabel, reTypePasswordText);
-        reTypePasswordHbox.setSpacing(13);
-        reTypePasswordLabel.setFont(newAccountFont);
-        reTypePasswordText.setPrefWidth(150);
-
-        // Error Box
-        Text errorText = new Text();
-        errorText.setFont(newAccountFont);
-        errorText.setFill(Color.TOMATO);
-
-        // Creating VBox 
-        VBox newAccountVbox = new VBox();
-        newAccountVbox.setPrefSize(300, 100);
-        newAccountVbox.setSpacing(20);
-        newAccountVbox.getChildren().addAll(usernameHbox, passwordHbox, reTypePasswordHbox, errorText);
-
-        // create account Button
-        Button newAccountBtn = new Button();
-        newAccountBtn.setText("Create Account");
-        newAccountBtn.setFont(newAccountFont);
-        newAccountBtn.setMaxSize(300, 50);
-        newAccountBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                if (passwordText.getText().equals(reTypePasswordText.getText())) {
-                    try {
-                        creatingNewAccount(passwordText.getText(), usernameText.getText(), "src/simulator/Accounts.txt", errorText);
-                        errorText.setText("Created Account");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else {
-                    errorText.setText("Confirm Password does not match");
-                }
-            }
-        });
-
-        // Return to Sign in Button
-        Button signInBtn = new Button();
-        signInBtn.setText("Back");
-        signInBtn.setFont(newAccountFont);
-        signInBtn.setMaxSize(300, 50);
-        signInBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    signInScreen(primaryStage);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        // Adding everything to gridpane
-        newAccountGrid.setAlignment(Pos.TOP_CENTER);
-        newAccountGrid.add(newAccountTitle, 0, 0);
-        newAccountGrid.add(newAccountVbox, 0, 1);
-        newAccountGrid.add(newAccountBtn, 0, 2);
-        newAccountGrid.add(signInBtn, 0, 3);
-
-        // Setting up Background of Menu
-        primaryStage.setScene(new Scene(newAccountGrid));
-        primaryStage.show();
-    }
-
-    /**
-     * A screen for the user to sign in with their account.
-     * 
-     * @param primaryStage
-     * @throws IOException
-     */
-    public static void signInScreen(Stage primaryStage) throws IOException {
-        
-        // Refreshes stage
-        primaryStage.setWidth(600);
-
-        // Creating gridpane to organize stage
-        GridPane signInGrid = new GridPane();
-        signInGrid.setVgap(10);
-        signInGrid.setHgap(10);
-        signInGrid.setGridLinesVisible(false);
-        signInGrid.setPadding(new Insets(25, 25, 25, 25));
-        Font signInFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
-
-        // Title
-        Text signInTitle = new Text("My Manga List");
-        signInTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
-
-        // Username
-        TextField usernameText = new TextField();
-        Label usernameLabel = new Label("Username: ");
-        HBox usernameHbox = new HBox();
-        usernameHbox.getChildren().addAll(usernameLabel, usernameText);
-        usernameHbox.setSpacing(10);
-        usernameLabel.setFont(signInFont);
-        usernameText.setPrefWidth(200);
-
-        // Password
-        PasswordField passwordText = new PasswordField();
-        Label passwordLabel = new Label("Password: ");
-        HBox passwordHbox = new HBox();
-        passwordHbox.getChildren().addAll(passwordLabel, passwordText);
-        passwordHbox.setSpacing(13);
-        passwordLabel.setFont(signInFont);
-        passwordText.setPrefWidth(200);
-
-        Text errorText = new Text();
-        errorText.setFont(signInFont);
-        errorText.setFill(Color.TOMATO);
-
-        // Creating VBox 
-        VBox signInVbox = new VBox();
-        signInVbox.setPrefSize(300, 100);
-        signInVbox.setSpacing(20);
-        signInVbox.getChildren().addAll(usernameHbox, passwordHbox, errorText);
-
-        // Sign in Button
-        Button signInBtn = new Button();
-        signInBtn.setText("Sign In");
-        signInBtn.setFont(signInFont);
-        signInBtn.setMaxSize(300, 50);
-        signInBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    ifAccountSaved(primaryStage, "src/simulator/Accounts.txt", usernameText.getText(), passwordText.getText(), errorText);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        // Create New Account Button
-        Button createNewBtn = new Button();
-        createNewBtn.setText("Create New Account");
-        createNewBtn.setFont(signInFont);
-        createNewBtn.setMaxSize(300, 50);
-        createNewBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    newAccountScreen(primaryStage);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        // Adding everything to gridpane
-        signInGrid.setAlignment(Pos.TOP_CENTER);
-        signInGrid.add(signInTitle, 0, 0);
-        signInGrid.add(signInVbox, 0, 1);
-        signInGrid.add(signInBtn, 0, 2);
-        signInGrid.add(createNewBtn, 0, 3);
-
-        // Setting up Background of Menu
-        primaryStage.setScene(new Scene(signInGrid));
-        primaryStage.show();
     }
 }

@@ -1,29 +1,29 @@
 package simulator.MethodsClasses;
 
-// Basic Imports
 import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.ArrayList;
-
-// Button Imports
 import javafx.scene.control.Button;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-
-// Text Imports
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
-// Table Imports
 import javafx.geometry.Insets;
-
-// Layout Imports
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class SummaryData {
+
+    /**
+     * Method that sets up a summary screen of the database.
+     * 
+     * @param primaryStage
+     * @param MangaList
+     * @param UserList
+     * @param currentAccount
+     */
     public static void dataSummaryScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
         
         // Refreshes stage
@@ -73,10 +73,22 @@ public class SummaryData {
         primaryStage.show();
     }
 
+    /**
+     * method that returns the amount of items in the database.
+     * 
+     * @param MangaList
+     * @return
+     */
     private static int mangaListCount(ArrayList<Manga> MangaList) {
         return MangaList.size();
     }
 
+    /**
+     * Method that returns the title of the manga with the highest score.
+     * 
+     * @param MangaList
+     * @return
+     */
     private static String mangaListMax(ArrayList<Manga> MangaList) {
         Manga Highest = MangaList.get(0);
         for (Manga Current : MangaList) {
@@ -87,6 +99,12 @@ public class SummaryData {
         return Highest.strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "");
     }
 
+    /**
+     * Method that returns the title of the manga with the lowest score.
+     * 
+     * @param MangaList
+     * @return
+     */
     private static String mangaListMin(ArrayList<Manga> MangaList) {
         Manga Lowest = MangaList.get(0);
         for (Manga Current : MangaList) {
@@ -97,6 +115,12 @@ public class SummaryData {
         return Lowest.strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "");
     }
 
+    /**
+     * Method that returns the mean score of the database.
+     * 
+     * @param MangaList
+     * @return
+     */
     private static double meanMangaScore(ArrayList<Manga> MangaList) {
         double dblTotalScore = 0.00;
         int intTotalManga = MangaList.size();
@@ -111,10 +135,23 @@ public class SummaryData {
         return 0;
     }
 
+    /**
+     * Method that returns the median score of the database.
+     * 
+     * @param MangaList
+     * @return
+     */
     private static double medianMangaScore(ArrayList<Manga> MangaList) {
         return Double.parseDouble(MangaList.get(MangaList.size() / 2).dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", ""));
     }
 
+    /**
+     * Method that calculates the standard deviation of the database.
+     * 
+     * @param dblMean
+     * @param MangaList
+     * @return
+     */
     private static double standardDeviation(double dblMean, ArrayList<Manga> MangaList) {
         double dblSum = 0;
         double dblStandardDeviation;

@@ -1,26 +1,17 @@
 package simulator.MethodsClasses;
 
-// Basic Imports
 import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.ArrayList;
-
-// Button Imports
 import javafx.scene.control.Button;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-
-// Text Imports
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-
-// Table Imports
 import javafx.geometry.Insets;
-
-// Layout Imports
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.geometry.VPos;
@@ -28,7 +19,16 @@ import javafx.geometry.HPos;
 
 public class IndividualManga {
 
-    public static void individualRecord(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Manga Current, Account currentAccount) {
+    /**
+     * Screen that shows the parameters of an individual manga.
+     * 
+     * @param primaryStage
+     * @param MangaList
+     * @param UserList
+     * @param Current
+     * @param currentAccount
+     */
+    public static void individualRecordScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Manga Current, Account currentAccount) {
         
         // Refreshes stage
         primaryStage.setWidth(601);

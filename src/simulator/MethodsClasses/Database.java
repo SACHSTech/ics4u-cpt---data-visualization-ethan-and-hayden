@@ -1,27 +1,20 @@
 package simulator.MethodsClasses;
 
-// Basic Imports
 import simulator.*;
 import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.ArrayList;
 import javafx.scene.Parent;
-
-// Button Imports
 import javafx.scene.control.Button;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-
-// Text Imports
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-
-// Table Imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -32,36 +25,326 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.geometry.Side;
-
-// Layout Imports
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.ListView;
-
-// Toolbox Imports
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.ComboBox;
 
 public class Database {
 
-    private static Parent searchBox(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane databaseGrid, Account currentAccount) { 
+    /**
+     * Screen that displays the main database.
+     * 
+     * @param primaryStage
+     * @param mangaList
+     * @param userList
+     * @param currentAccount
+     */
+    public static void DatabaseScreen(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
+
+        // Changes the width of the stage. Essentially refreshes the stage.
+        primaryStage.setWidth(600);
+
+        // Creating observablelist object. Essentially a copy of the Arraylist, mangaList. However, the program could modify this object without interfering with mangaList.
+        final ObservableList<Manga> data = FXCollections.observableArrayList(mangaList);
+
+        // Creating gridpane to organize children
+        GridPane databaseGrid = new GridPane();
+        databaseGrid.setVgap(10);
+        databaseGrid.setHgap(10);
+        databaseGrid.setGridLinesVisible(false);
+        databaseGrid.setPadding(new Insets(25, 25, 25, 25));
+        Font DatabaseFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
+
+        // Adding a method which returns a tableview to the gridpane
+        databaseGrid.add(createContent(mangaList, data), 0, 1);
+
+        // Creating toolbars
+        ToolBar searchToolbar = new ToolBar();
+        ToolBar filterToolbar = new ToolBar();
+        filterToolbar.setOrientation(Orientation.VERTICAL);
+
+        // Creating ListView to keep track of filters
+        final ListView<String> currentFilters = new ListView<String>(FXCollections.<String>observableArrayList());
+        Text currentFiltersTitle = new Text();
+        currentFiltersTitle.setText("Current Filters:");
+        currentFiltersTitle.setFont(DatabaseFont);
+        currentFilters.setPrefWidth(120);
+        currentFilters.setPrefHeight(140);
+
+        // Creating combobox for the genre filter
+        ComboBox<String> genreFilter = new ComboBox<>();
+        Text genreFilterTitle = new Text();
+        genreFilterTitle.setText("Filter by Genre:");
+        genreFilterTitle.setFont(DatabaseFont);
+        genreFilter.setPrefWidth(120);
+        genreFilter.setPromptText("Genres");
+        genreFilter.getItems().add("Action");
+        genreFilter.getItems().add("Adventure");
+        genreFilter.getItems().add("Horror");
+        genreFilter.getItems().add("Fantasy");
+        genreFilter.getItems().add("Psychological");
+        genreFilter.getItems().add("Mystery");
+        genreFilter.getItems().add("Comedy");
+        genreFilter.getItems().add("Romance");
+        genreFilter.getItems().add("Sci-Fi");
+        genreFilter.getItems().add("School");
+        genreFilter.getItems().add("Slice of Life");
+        genreFilter.getItems().add("Super Powers");
+        genreFilter.getItems().add("Music");
+        genreFilter.getItems().add("Shounen");
+        genreFilter.getItems().add("Seinen");
+        genreFilter.getItems().add("Shoujo");
+        genreFilter.getItems().add("Josei");
+        genreFilter.setOnAction((event) -> {
+            String strSelection = genreFilter.getSelectionModel().getSelectedItem();
+            currentFilters.getItems().add(strSelection);
+            switch (strSelection) {
+                case "Action" :
+                    sortGenre(mangaList, data, "Action");
+                    break;
+                case "Adventure" :
+                    sortGenre(mangaList, data, "Adventure");
+                    break;
+                case "Horror" :
+                    sortGenre(mangaList, data, "Horror");
+                    break;
+                case "Fantasy" :
+                    sortGenre(mangaList, data, "Fantasy");
+                    break;
+                case "Psychological" :
+                    sortGenre(mangaList, data, "Psychological");
+                    break;
+                case "Mystery" :
+                    sortGenre(mangaList, data, "Mystery");
+                    break;
+                case "Comedy" :
+                    sortGenre(mangaList, data, "Comedy");
+                    break;
+                case "Romance" :
+                    sortGenre(mangaList, data, "Romance");
+                    break;
+                case "Sci-Fi" :
+                    sortGenre(mangaList, data, "Sci-Fi");
+                    break;
+                case "School" :
+                    sortGenre(mangaList, data, "School");
+                    break;
+                case "Slice of Life" :
+                    sortGenre(mangaList, data, "Slice of Life");
+                    break;
+                case "Super Powers" :
+                    sortGenre(mangaList, data, "Super");
+                    break;
+                case "Music" :
+                    sortGenre(mangaList, data, "Music");
+                    break;
+                case "Shounen" :
+                    sortGenre(mangaList, data, "Shounen");
+                    break;
+                case "Seinen" :
+                    sortGenre(mangaList, data, "Seinen");
+                    break;
+                case "Shoujo" :
+                    sortGenre(mangaList, data, "Shoujo");
+                    break;
+                case "Josei" :
+                    sortGenre(mangaList, data, "Josei");
+                    break;
+            }
+        });
+
+        // Creating combobox for the year filter.
+        ComboBox<String> yearFilter = new ComboBox<>();
+        Text yearFilterTitle = new Text();
+        yearFilterTitle.setText("Filter by Year:");
+        yearFilterTitle.setFont(DatabaseFont);
+        yearFilter.setPrefWidth(120);
+        yearFilter.setPromptText("Year Ranges");
+        yearFilter.getItems().add("< 1979");
+        yearFilter.getItems().add("1980 - 1989");
+        yearFilter.getItems().add("1990 - 1999");
+        yearFilter.getItems().add("2000 - 2009");
+        yearFilter.getItems().add("2010 - 2020");
+        yearFilter.setOnAction((event) -> {
+            String strSelection = yearFilter.getSelectionModel().getSelectedItem();
+            currentFilters.getItems().add(strSelection);
+            switch (strSelection) {
+                case "< 1979" :
+                    sortYear(mangaList, data, strSelection);
+                    break;
+                case "1980 - 1989" :
+                    sortYear(mangaList, data, strSelection);
+                    break;
+                case "1990 - 1999" :
+                    sortYear(mangaList, data, strSelection);
+                    break;
+                case "2000 - 2009" :
+                    sortYear(mangaList, data, strSelection);
+                    break;
+                case "2010 - 2020" :
+                    sortYear(mangaList, data, strSelection);
+                    break;
+            }
+        });
+
+        // Creating combobox for the category sorter
+        ComboBox<String> categorySort = new ComboBox<>();
+        Text categorySortTitle = new Text();
+        categorySortTitle.setText("Sort By:");
+        categorySortTitle.setFont(DatabaseFont);
+        categorySort.setPrefWidth(120);
+        categorySort.setPromptText("Categories");
+        categorySort.getItems().add("Title");
+        categorySort.getItems().add("Type");
+        categorySort.getItems().add("Chapters");
+        categorySort.getItems().add("Status");
+        categorySort.getItems().add("Publish Year");
+        categorySort.getItems().add("Genres");
+        categorySort.getItems().add("Author");
+        categorySort.getItems().add("Serialization");
+        categorySort.getItems().add("Score");
+        categorySort.getItems().add("Rank");
+        categorySort.getItems().add("Popularity");
+        categorySort.getItems().add("Number of Scores");
+        categorySort.setOnAction((event) -> {
+            String strSelection = categorySort.getSelectionModel().getSelectedItem();
+            switch (strSelection) {
+                case "Title" :
+                    sortByString(data, "Title");
+                    break;
+                case "Type" :
+                    sortByString(data, "Type");
+                    break;
+                case "Chapters" :
+                    sortByString(data, "Chapters");
+                    break;
+                case "Status" :
+                    sortByString(data, "Status");
+                    break;
+                case "Publish Year" :
+                    sortByInteger(data, "Published");
+                    break;
+                case "Genres" :
+                    sortByString(data, "Genres");
+                    break;
+                case "Author" :
+                    sortByString(data, "Author");
+                    break;
+                case "Serialization" :
+                    sortByString(data, "Serialization");
+                    break;
+                case "Score" :
+                    sortByDouble(data);
+                    break;
+                case "Rank" :
+                    sortByInteger(data, "Rank");
+                    break;
+                case "Popularity" :
+                    sortByInteger(data, "Popularity");
+                    break;
+                case "Number of Scores" :
+                    sortByInteger(data, "Number of Scores");
+                    break;
+            }
+        });
+
+        // Creating button that displays the database's summary
+        Button summaryInfoBtn = new Button("Summary");
+        summaryInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                SummaryData.dataSummaryScreen(primaryStage, mangaList, userList, currentAccount);
+            }
+        });
         
-        // Context Box
+        // Creating button that resets all current filters on the database
+        Button resetFiltersBtn = new Button("Reset Filters");
+        resetFiltersBtn.setPrefWidth(125);
+        resetFiltersBtn.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                data.clear();
+                data.addAll(mangaList);
+                currentFilters.getItems().clear();
+            }
+        });
+
+        // Adding items to their specific toolbar
+        searchToolbar.getItems().add(searchBox(primaryStage, mangaList, userList, databaseGrid, currentAccount));
+        searchToolbar.getItems().add(summaryInfoBtn);
+        filterToolbar.getItems().add(categorySortTitle);
+        filterToolbar.getItems().add(categorySort);
+        filterToolbar.getItems().add(genreFilterTitle);
+        filterToolbar.getItems().add(genreFilter);
+        filterToolbar.getItems().add(yearFilterTitle);
+        filterToolbar.getItems().add(yearFilter);
+        filterToolbar.getItems().add(currentFiltersTitle);
+        filterToolbar.getItems().add(currentFilters);
+
+        // Adding items to the gridpane
+        databaseGrid.add(searchToolbar, 0, 0);
+        databaseGrid.add(resetFiltersBtn, 1, 0);
+        databaseGrid.add(filterToolbar, 1, 1);
+
+        // Home Menu Button
+        Button homeMenuBtn = new Button();
+        databaseGrid.add(homeMenuBtn, 0, 2);
+        homeMenuBtn.setText("Back");
+        homeMenuBtn.setFont(DatabaseFont);
+        homeMenuBtn.setMaxSize(100, 50);
+        homeMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                
+                // Resets all filters and sorts when the user leaves the database menu
+                data.clear();
+                data.addAll(mangaList);
+                Main.mainMenuScreen(primaryStage, mangaList, userList, currentAccount);
+            }
+        });
+
+        // Setting gridpane to stage
+        primaryStage.setScene(new Scene(databaseGrid));
+        primaryStage.show();
+    }
+
+    /**
+     * Method that creates a search box for individual search
+     * 
+     * @param primaryStage
+     * @param mangaList
+     * @param userList
+     * @param databaseGrid
+     * @param currentAccount
+     * @return
+     */
+    private static Parent searchBox(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, GridPane databaseGrid, Account currentAccount) { 
+        
+        // Creating context menu
         ContextMenu autoSuggest = new ContextMenu();
         
+        // Creating searchtext 
         TextField searchText = new TextField();
         searchText.setPrefWidth(310);
         searchText.setPromptText("Enter manga title here");
         searchText.setMaxSize(310, TextField.USE_COMPUTED_SIZE);
 
+        // Checking which character is in the textfield
         searchText.setOnKeyTyped((KeyEvent currentKeyChar) -> {
             String strPressedChar = searchText.getText();
-            SearchingByChar(strPressedChar, MangaList, autoSuggest, searchText);
+            searchingByChar(strPressedChar, mangaList, autoSuggest, searchText);
         });
+
+        // Checking when the user clicks enter on the textfield
         searchText.setOnKeyReleased((KeyEvent currentKey) -> {
             autoSuggest.show(searchText, Side.BOTTOM, 0, 0);
             if (currentKey.getCode() == KeyCode.ENTER) {
                 String strKey = searchText.getText();
-                individualSelect(primaryStage, MangaList, UserList, strKey, databaseGrid, currentAccount);
+                individualSelect(primaryStage, mangaList, userList, strKey, databaseGrid, currentAccount);
                 searchText.clear();
                 autoSuggest.hide();
             }
@@ -69,27 +352,45 @@ public class Database {
         return searchText;
     }
 
-    private static void individualSelect(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, String strKey, GridPane databaseGrid, Account currentAccount) {
-        for (Manga Current : MangaList) {
-            if (strKey.equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
-                IndividualManga.individualRecord(primaryStage, MangaList, UserList, Current, currentAccount);
+    /**
+     * Method that checks what manga title is written in the textfield then accesses the manga's individual record.
+     * 
+     * @param primaryStage
+     * @param mangaList
+     * @param userList
+     * @param strKey
+     * @param databaseGrid
+     * @param currentAccount
+     */
+    private static void individualSelect(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, String strKey, GridPane databaseGrid, Account currentAccount) {
+        for (Manga current : mangaList) {
+            if (strKey.equalsIgnoreCase(((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
+                IndividualManga.individualRecordScreen(primaryStage, mangaList, userList, current, currentAccount);
             }
         }
     }
 
-    private static void SearchingByChar(String strPressedChar, ArrayList<Manga> MangaList, ContextMenu autoSuggest, TextField searchText) {
+    /**
+     * Method that autosearches suggestions based on the characters the user typed in the textfield
+     * 
+     * @param strPressedChar
+     * @param MangaList
+     * @param autoSuggest
+     * @param searchText
+     */
+    private static void searchingByChar(String strPressedChar, ArrayList<Manga> mangaList, ContextMenu autoSuggest, TextField searchText) {
         autoSuggest.getItems().clear();
         int intCheck = 0;
         autoSuggest.setOnAction(e -> searchText.setText(((MenuItem)e.getTarget()).getText()));
-        for (Manga Current : MangaList) {
-            if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").length() >= strPressedChar.length()) {
-                if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
+        for (Manga current : mangaList) {
+            if (((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").length() >= strPressedChar.length()) {
+                if (((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
                     intCheck++;
                     if (intCheck == 5) {
-                        autoSuggest.getItems().addAll(new MenuItem(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                        autoSuggest.getItems().addAll(new MenuItem(((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
                         break;
                     }else if (intCheck < 5 && intCheck > 0) {
-                        autoSuggest.getItems().addAll(new MenuItem(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                        autoSuggest.getItems().addAll(new MenuItem(((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
                     }else if (intCheck <= 0 || intCheck > 5) {
                         autoSuggest.hide();
                         break;
@@ -101,7 +402,12 @@ public class Database {
         }
     }
 
-    // Selection Sort
+    /**
+     * Method that uses selection sort to sort the database by integers.
+     * 
+     * @param data
+     * @param strMethodName
+     */
     private static void sortByInteger(ObservableList<Manga> data, String strMethodName) {
         int currentMinIndex;
         for (int i = 0; i < data.size() - 1; i++) {
@@ -140,7 +446,11 @@ public class Database {
         }
     }
 
-    // Selection Sort
+    /**
+     * Method that uses selection sort to sort the database by doubles.
+     * 
+     * @param data
+     */
     private static void sortByDouble(ObservableList<Manga> data) {
         int currentMinIndex;
         for (int i = 0; i < data.size() - 1; i++) {
@@ -160,8 +470,12 @@ public class Database {
         }
     }
 
-    
-
+    /**
+     * Method that uses selection sort to sort the database by String. sorts the database alphabetically.
+     * 
+     * @param data
+     * @param strMethodName
+     */
     private static void sortByString(ObservableList<Manga> data, String strMethodName) {
         int currentMinIndex;
         for (int i = 0; i < data.size() - 1; i++) {
@@ -215,6 +529,13 @@ public class Database {
         }
     }
 
+    /**
+     * Method that filters the list by Genre.
+     * 
+     * @param MangaList
+     * @param data
+     * @param strGenre
+     */
     private static void sortGenre(ArrayList<Manga> MangaList, ObservableList<Manga> data, String strGenre) {
         int intCount;
         for (Manga current : MangaList) {
@@ -231,6 +552,13 @@ public class Database {
         }
     }
 
+    /**
+     * Method that filters the list by Year.
+     * 
+     * @param MangaList
+     * @param data
+     * @param strGenre
+     */
     private static void sortYear(ArrayList<Manga> MangaList, ObservableList<Manga> data, String strYearRange) {
         if (strYearRange.equalsIgnoreCase("< 1979")) {
             for (Manga current : MangaList) {
@@ -248,6 +576,13 @@ public class Database {
         }
     }
 
+    /**
+     * Constructor for the database TableView
+     * 
+     * @param MangaList
+     * @param data
+     * @return
+     */
     private static TableView<Manga> createContent(ArrayList<Manga> MangaList, ObservableList<Manga> data) {
 
         TableColumn<Object, String> titleColumn = new TableColumn<>();
@@ -315,269 +650,6 @@ public class Database {
         tableView.setItems(data);
         tableView.getColumns().addAll(titleColumn, typeColumn, chaptersColumn, statusColumn, publishDateColumn, genreColumn, authorColumn, serializationColumn, scoreColumn, rankedColumn, popularityColumn, scorenumbersColumn);
         return tableView;
-    }
-
-    public static void DatabaseScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
-
-        primaryStage.setWidth(600);
-
-        final ObservableList<Manga> data = FXCollections.observableArrayList(MangaList);
-
-        GridPane databaseGrid = new GridPane();
-        databaseGrid.setVgap(10);
-        databaseGrid.setHgap(10);
-        databaseGrid.setGridLinesVisible(false);
-        databaseGrid.setPadding(new Insets(25, 25, 25, 25));
-        Font DatabaseFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
-
-        // Table
-        databaseGrid.add(createContent(MangaList, data), 0, 1);
-
-        // Toolbox
-        ToolBar searchToolbar = new ToolBar();
-        ToolBar filterToolbar = new ToolBar();
-        filterToolbar.setOrientation(Orientation.VERTICAL);
-
-        // ListView to keep track of filters
-        final ListView<String> currentFilters = new ListView<String>(FXCollections.<String>observableArrayList());
-        Text currentFiltersTitle = new Text();
-        currentFiltersTitle.setText("Current Filters:");
-        currentFiltersTitle.setFont(DatabaseFont);
-        currentFilters.setPrefWidth(120);
-        currentFilters.setPrefHeight(140);
-
-        // GenreFilter combobox
-        ComboBox<String> genreFilter = new ComboBox<>();
-        Text genreFilterTitle = new Text();
-        genreFilterTitle.setText("Filter by Genre:");
-        genreFilterTitle.setFont(DatabaseFont);
-        genreFilter.setPrefWidth(120);
-        genreFilter.setPromptText("Genres");
-        genreFilter.getItems().add("Action");
-        genreFilter.getItems().add("Adventure");
-        genreFilter.getItems().add("Horror");
-        genreFilter.getItems().add("Fantasy");
-        genreFilter.getItems().add("Psychological");
-        genreFilter.getItems().add("Mystery");
-        genreFilter.getItems().add("Comedy");
-        genreFilter.getItems().add("Romance");
-        genreFilter.getItems().add("Sci-Fi");
-        genreFilter.getItems().add("School");
-        genreFilter.getItems().add("Slice of Life");
-        genreFilter.getItems().add("Super Powers");
-        genreFilter.getItems().add("Music");
-        genreFilter.getItems().add("Shounen");
-        genreFilter.getItems().add("Seinen");
-        genreFilter.getItems().add("Shoujo");
-        genreFilter.getItems().add("Josei");
-        genreFilter.setOnAction((event) -> {
-            String strSelection = genreFilter.getSelectionModel().getSelectedItem();
-            currentFilters.getItems().add(strSelection);
-            switch (strSelection) {
-                case "Action" :
-                    sortGenre(MangaList, data, "Action");
-                    break;
-                case "Adventure" :
-                    sortGenre(MangaList, data, "Adventure");
-                    break;
-                case "Horror" :
-                    sortGenre(MangaList, data, "Horror");
-                    break;
-                case "Fantasy" :
-                    sortGenre(MangaList, data, "Fantasy");
-                    break;
-                case "Psychological" :
-                    sortGenre(MangaList, data, "Psychological");
-                    break;
-                case "Mystery" :
-                    sortGenre(MangaList, data, "Mystery");
-                    break;
-                case "Comedy" :
-                    sortGenre(MangaList, data, "Comedy");
-                    break;
-                case "Romance" :
-                    sortGenre(MangaList, data, "Romance");
-                    break;
-                case "Sci-Fi" :
-                    sortGenre(MangaList, data, "Sci-Fi");
-                    break;
-                case "School" :
-                    sortGenre(MangaList, data, "School");
-                    break;
-                case "Slice of Life" :
-                    sortGenre(MangaList, data, "Slice of Life");
-                    break;
-                case "Super Powers" :
-                    sortGenre(MangaList, data, "Super");
-                    break;
-                case "Music" :
-                    sortGenre(MangaList, data, "Music");
-                    break;
-                case "Shounen" :
-                    sortGenre(MangaList, data, "Shounen");
-                    break;
-                case "Seinen" :
-                    sortGenre(MangaList, data, "Seinen");
-                    break;
-                case "Shoujo" :
-                    sortGenre(MangaList, data, "Shoujo");
-                    break;
-                case "Josei" :
-                    sortGenre(MangaList, data, "Josei");
-                    break;
-            }
-        });
-
-        ComboBox<String> yearFilter = new ComboBox<>();
-        Text yearFilterTitle = new Text();
-        yearFilterTitle.setText("Filter by Year:");
-        yearFilterTitle.setFont(DatabaseFont);
-        yearFilter.setPrefWidth(120);
-        yearFilter.setPromptText("Year Ranges");
-        yearFilter.getItems().add("< 1979");
-        yearFilter.getItems().add("1980 - 1989");
-        yearFilter.getItems().add("1990 - 1999");
-        yearFilter.getItems().add("2000 - 2009");
-        yearFilter.getItems().add("2010 - 2020");
-        yearFilter.setOnAction((event) -> {
-            String strSelection = yearFilter.getSelectionModel().getSelectedItem();
-            currentFilters.getItems().add(strSelection);
-            switch (strSelection) {
-                case "< 1979" :
-                    sortYear(MangaList, data, strSelection);
-                    break;
-                case "1980 - 1989" :
-                    sortYear(MangaList, data, strSelection);
-                    break;
-                case "1990 - 1999" :
-                    sortYear(MangaList, data, strSelection);
-                    break;
-                case "2000 - 2009" :
-                    sortYear(MangaList, data, strSelection);
-                    break;
-                case "2010 - 2020" :
-                    sortYear(MangaList, data, strSelection);
-                    break;
-            }
-        });
-
-        // Sort By combobox
-        ComboBox<String> categorySort = new ComboBox<>();
-        Text categorySortTitle = new Text();
-        categorySortTitle.setText("Sort By:");
-        categorySortTitle.setFont(DatabaseFont);
-        categorySort.setPrefWidth(120);
-        categorySort.setPromptText("Categories");
-        categorySort.getItems().add("Title");
-        categorySort.getItems().add("Type");
-        categorySort.getItems().add("Chapters");
-        categorySort.getItems().add("Status");
-        categorySort.getItems().add("Publish Year");
-        categorySort.getItems().add("Genres");
-        categorySort.getItems().add("Author");
-        categorySort.getItems().add("Serialization");
-        categorySort.getItems().add("Score");
-        categorySort.getItems().add("Rank");
-        categorySort.getItems().add("Popularity");
-        categorySort.getItems().add("Number of Scores");
-
-        categorySort.setOnAction((event) -> {
-            String strSelection = categorySort.getSelectionModel().getSelectedItem();
-            switch (strSelection) {
-                case "Title" :
-                    sortByString(data, "Title");
-                    break;
-                case "Type" :
-                    sortByString(data, "Type");
-                    break;
-                case "Chapters" :
-                    sortByString(data, "Chapters");
-                    break;
-                case "Status" :
-                    sortByString(data, "Status");
-                    break;
-                case "Publish Year" :
-                    sortByInteger(data, "Published");
-                    break;
-                case "Genres" :
-                    sortByString(data, "Genres");
-                    break;
-                case "Author" :
-                    sortByString(data, "Author");
-                    break;
-                case "Serialization" :
-                    sortByString(data, "Serialization");
-                    break;
-                case "Score" :
-                    sortByDouble(data);
-                    break;
-                case "Rank" :
-                    sortByInteger(data, "Rank");
-                    break;
-                case "Popularity" :
-                    sortByInteger(data, "Popularity");
-                    break;
-                case "Number of Scores" :
-                    sortByInteger(data, "Number of Scores");
-                    break;
-            }
-        });
-
-
-        Button summaryInfo = new Button("Summary");
-        summaryInfo.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                SummaryData.dataSummaryScreen(primaryStage, MangaList, UserList, currentAccount);
-            }
-        });
-        
-        Button resetFilters = new Button("Reset Filters");
-        resetFilters.setPrefWidth(125);
-        resetFilters.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                data.clear();
-                data.addAll(MangaList);
-                currentFilters.getItems().clear();
-            }
-        });
-
-        searchToolbar.getItems().add(searchBox(primaryStage, MangaList, UserList, databaseGrid, currentAccount));
-        searchToolbar.getItems().add(summaryInfo);
-        filterToolbar.getItems().add(categorySortTitle);
-        filterToolbar.getItems().add(categorySort);
-        filterToolbar.getItems().add(genreFilterTitle);
-        filterToolbar.getItems().add(genreFilter);
-        filterToolbar.getItems().add(yearFilterTitle);
-        filterToolbar.getItems().add(yearFilter);
-        filterToolbar.getItems().add(currentFiltersTitle);
-        filterToolbar.getItems().add(currentFilters);
-        databaseGrid.add(searchToolbar, 0, 0);
-        databaseGrid.add(resetFilters, 1, 0);
-        databaseGrid.add(filterToolbar, 1, 1);
-
-        // Home Menu Button
-        Button homeMenu = new Button();
-        databaseGrid.add(homeMenu, 0, 2);
-        homeMenu.setText("Back");
-        homeMenu.setFont(DatabaseFont);
-        homeMenu.setMaxSize(100, 50);
-        homeMenu.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                data.clear();
-                data.addAll(MangaList);
-                Main.mainMenuScreen(primaryStage, MangaList, UserList, currentAccount);
-            }
-        });
-
-        // Refreshes the stage so the table would not be glitched
-        primaryStage.setScene(new Scene(databaseGrid));
-        primaryStage.show();
     }
 }
 
