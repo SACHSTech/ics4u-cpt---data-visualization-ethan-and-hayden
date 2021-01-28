@@ -1,26 +1,18 @@
 package simulator.MethodsClasses;
 
-// Basic Imports
 import simulator.*;
 import simulator.ObjectClasses.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.*;
-
-// Button Imports
 import javafx.scene.control.Button;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-
-// Text Imports
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
-// Layout Imports
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
-
-// Graph Imports
+import javafx.scene.layout.VBox;
 import javafx.collections.FXCollections;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
@@ -94,6 +86,12 @@ public class Compare {
                 genreVsTop500Screen(primaryStage, mangaList, userList, currentAccount);
             }
         });
+
+        VBox graphVBox = new VBox();
+        graphVBox.setPrefSize(200, 375);
+        graphVBox.setSpacing(20);
+        graphVBox.getChildren().addAll(scoreVsPopularityBtn,genreVsTop500Btn);
+        compareGrid.add(graphVBox, 0, 0); 
 
         // Setting the grid into the stage
         primaryStage.setScene(new Scene(compareGrid));

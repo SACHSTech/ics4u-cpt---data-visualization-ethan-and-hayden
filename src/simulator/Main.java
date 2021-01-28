@@ -1,33 +1,31 @@
 package simulator;
 
-// Importing other folders
 import simulator.ObjectClasses.*;
 import simulator.MethodsClasses.*;
-
-// Basic Libraries Import
 import java.util.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.io.IOException;
-
-// Button Imports
 import javafx.scene.control.Button;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-
-// Text Imports
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
-// Layout Imports
+import javafx.scene.control.Label;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 
 public class Main extends Application {
 
+    /**
+     * Start method. Runs when the application starts.
+     * 
+     * @param primaryStage
+     */
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("'My Manga List' by Ethan Lai");
         primaryStage.setHeight(500);
@@ -36,6 +34,14 @@ public class Main extends Application {
         Account.signInScreen(primaryStage);
     }
 
+    /**
+     * Sets up a screen that displays the main menu
+     * 
+     * @param primaryStage
+     * @param mangaList
+     * @param userList
+     * @param currentAccount
+     */
     public static void mainMenuScreen(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
 
         // Refreshes stage
@@ -43,20 +49,23 @@ public class Main extends Application {
 
         // Setting up gridpane
         GridPane menuGrid = new GridPane();
-        menuGrid.setVgap(10);
+        menuGrid.setVgap(40);
         menuGrid.setHgap(10);
         menuGrid.setGridLinesVisible(false);
+        menuGrid.setAlignment(Pos.TOP_CENTER);
         menuGrid.setPadding(new Insets(25, 25, 25, 25));
         Font menuFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Title
-        Text mainTitle = new Text(currentAccount.getUsername() + "'s Manga List");
+        Label mainTitle = new Label(currentAccount.getUsername() + "'s Manga List");
         mainTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         menuGrid.add(mainTitle, 0, 0);
+        GridPane.setHalignment(mainTitle, HPos.CENTER);
 
         // My List Button
         Button myListBtn = new Button();
         menuGrid.add(myListBtn, 0, 1);
+        GridPane.setHalignment(myListBtn, HPos.CENTER);
         myListBtn.setText("My List");
         myListBtn.setFont(menuFont);
         myListBtn.setWrapText(true);
@@ -72,6 +81,7 @@ public class Main extends Application {
         // Database Button
         Button databaseBtn = new Button();
         menuGrid.add(databaseBtn, 0, 2);
+        GridPane.setHalignment(databaseBtn, HPos.CENTER);
         databaseBtn.setText("Database");
         databaseBtn.setFont(menuFont);
         databaseBtn.setWrapText(true);
@@ -87,6 +97,7 @@ public class Main extends Application {
         // Game Comparison Button
         Button compareBtn = new Button();
         menuGrid.add(compareBtn, 0, 3);
+        GridPane.setHalignment(compareBtn, HPos.CENTER);
         compareBtn.setText("Graphs");
         compareBtn.setFont(menuFont);
         compareBtn.setWrapText(true);
@@ -102,6 +113,7 @@ public class Main extends Application {
         // Button to log off
         Button logOffBtn = new Button();
         menuGrid.add(logOffBtn, 0, 4);
+        GridPane.setHalignment(logOffBtn, HPos.CENTER);
         logOffBtn.setText("Save & Quit");
         logOffBtn.setFont(menuFont);
         logOffBtn.setWrapText(true);
@@ -125,6 +137,12 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Main method. Launches the application.
+     * 
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         Application.launch(args);
     }

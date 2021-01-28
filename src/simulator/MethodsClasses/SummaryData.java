@@ -51,6 +51,7 @@ public class SummaryData {
 
         VBox summaryInfoBox = new VBox(mangaCountText, highestScoreText, lowestScoreText, averageScoreText, medianScoreText, standardDeviationText);
         summaryInfoBox.setSpacing(10);
+        summaryInfoBox.setPrefHeight(375);
         summaryGrid.add(summaryInfoBox, 0, 1);
         
         // Database Button

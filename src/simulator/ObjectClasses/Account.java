@@ -129,7 +129,6 @@ public class Account {
                 if (passwordText.getText().equals(reTypePasswordText.getText())) {
                     try {
                         creatingNewAccount(passwordText.getText(), usernameText.getText(), "src/simulator/Accounts.txt", errorText);
-                        errorText.setText("Created Account");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -309,7 +308,7 @@ public class Account {
             strAccount[intCount][2] = TXTFile.readLine();
 
             // Checking if the username and password matches an account in the text file
-            if (strTypedUsername.equalsIgnoreCase(strAccount[intCount][0]) && strTypedPassword.equalsIgnoreCase(strAccount[intCount][1])) {
+            if (strTypedUsername.equalsIgnoreCase(strAccount[intCount][0]) && strTypedPassword.equals(strAccount[intCount][1])) {
 
                 // Creating an arraylist of all mangas in the database. Based from the csv file.
                 ArrayList<Manga> MangaList = Manga.csvToObject("src/simulator/AllManga.csv");
@@ -411,6 +410,7 @@ public class Account {
         String[][] strAccount;
         int intNumberofAccounts;
         int intNumberofLines;
+        int intCount;
 
         intNumberofLines = 0;
 
@@ -423,7 +423,7 @@ public class Account {
         strAccount = new String[intNumberofAccounts][3];
         TXTFile = new BufferedReader(new FileReader(fileName));
         PrintWriter TXTFileWrite = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
-        for (int intCount = 0; intCount < intNumberofAccounts; intCount++) {
+        for (intCount = 0; intCount < intNumberofAccounts; intCount++) {
             strAccount[intCount][0] = TXTFile.readLine();
             strAccount[intCount][1] = TXTFile.readLine();
             strAccount[intCount][2] = TXTFile.readLine();
@@ -431,12 +431,13 @@ public class Account {
                 errorText.setText("Account username is taken");
                 break;
             }else if (intCount == intNumberofAccounts - 1) {
+                errorText.setText("Created Account");
                 TXTFileWrite.println(strNewUser);
                 TXTFileWrite.println(strNewPass);
                 TXTFileWrite.println("");
+                TXTFileWrite.close();
             }
         }
         TXTFile.close();
-        TXTFileWrite.close();
     }
 }
