@@ -295,7 +295,7 @@ public class Account {
             }
         });
 
-        // Create New Account Button
+        // Creating new account button
         Button createNewBtn = new Button();
         createNewBtn.setText("Create New Account");
         createNewBtn.setFont(signInFont);

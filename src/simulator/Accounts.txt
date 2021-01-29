@@ -4,3 +4,6 @@ Berserk,10,Reading / Vinland Saga,9,Reading / The Flowers of Evil,9,Finished / U
 Test
 123
 Dorohedoro,7,Reading / Akira,5,Dropped / Toilet-Bound Hanako-kun,3,Finished / Hinamatsuri,2,Reading / 
+File
+ABC
+Fruits Basket,0,Reading / 

@@ -458,11 +458,17 @@ public class Database {
      * @param strMethodName - The name of the item of the combobox that is selected.
      */
     private static void sortByCategory(ObservableList<Manga> data, String strMethodName) {
+
+        // Variables
         int currentMinIndex;
         int sortedSide;
         int unsortedSide;
+
+        // For loop to iterate through the data
         for (sortedSide = 0; sortedSide < data.size() - 1; sortedSide++) {
             currentMinIndex = sortedSide;
+
+            // For loop to iterate through the data that has been unsorted
             for (unsortedSide = sortedSide + 1; unsortedSide < data.size(); unsortedSide++) {
 
                 // Switch statement that uses the name of the item of the combobox selected to sort the specific category.
@@ -536,7 +542,7 @@ public class Database {
                 }
             }
 
-            // swap numbers if needed
+            // Swapping indexes when needed
             if (sortedSide != currentMinIndex) {
                 Manga temp = data.get(currentMinIndex);
                 data.set(currentMinIndex, data.get(sortedSide));

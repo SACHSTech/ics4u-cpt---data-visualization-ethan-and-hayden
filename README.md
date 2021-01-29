@@ -27,4 +27,5 @@ Demo Video:
 [Click Here](https://youtu.be/mJZLzVaODmQ)
 
 Course Connections Video:
+[Click Here](https://youtu.be/15Nb5mjZgk8)
 
