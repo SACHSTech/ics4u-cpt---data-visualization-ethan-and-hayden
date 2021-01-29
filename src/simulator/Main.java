@@ -1,9 +1,9 @@
+package simulator;
+
 /**
  * ICS4U CPT
  * @author Ethan L.
  */
-
-package simulator;
 
 import simulator.ObjectClasses.*;
 import simulator.MethodsClasses.*;
@@ -48,10 +48,10 @@ public class Main extends Application {
      */
     public static void mainMenuScreen(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
 
-        // Refreshes stage
+        // Refreshes the stage.
         primaryStage.setWidth(601);
 
-        // Setting up gridpane
+        // Setting up gridpane to organize children.
         GridPane menuGrid = new GridPane();
         menuGrid.setVgap(40);
         menuGrid.setHgap(10);
@@ -60,13 +60,13 @@ public class Main extends Application {
         menuGrid.setPadding(new Insets(25, 25, 25, 25));
         Font menuFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
-        // Title
+        // Creating label for title.
         Label mainTitle = new Label(currentAccount.getUsername() + "'s Manga List");
         mainTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         menuGrid.add(mainTitle, 0, 0);
         GridPane.setHalignment(mainTitle, HPos.CENTER);
 
-        // My List Button
+        // Creating my list button.
         Button myListBtn = new Button();
         menuGrid.add(myListBtn, 0, 1);
         GridPane.setHalignment(myListBtn, HPos.CENTER);
@@ -82,7 +82,7 @@ public class Main extends Application {
             }
         });
 
-        // Database Button
+        // Creating database button.
         Button databaseBtn = new Button();
         menuGrid.add(databaseBtn, 0, 2);
         GridPane.setHalignment(databaseBtn, HPos.CENTER);
@@ -98,7 +98,7 @@ public class Main extends Application {
             }
         });
 
-        // Game Comparison Button
+        // Creating game comparison button.
         Button compareBtn = new Button();
         menuGrid.add(compareBtn, 0, 3);
         GridPane.setHalignment(compareBtn, HPos.CENTER);
@@ -114,7 +114,7 @@ public class Main extends Application {
             }
         });
 
-        // Button to log off
+        // Creating button to log off.
         Button logOffBtn = new Button();
         menuGrid.add(logOffBtn, 0, 4);
         GridPane.setHalignment(logOffBtn, HPos.CENTER);
@@ -138,7 +138,7 @@ public class Main extends Application {
             }
         });
 
-        // Setting up Background of Menu
+        // Displaying gridpane to stage.
         primaryStage.setScene(new Scene(menuGrid));
         primaryStage.show();
     }
