@@ -27,17 +27,17 @@ public class Compare {
     /**
      * Screen that shows all available graphs.
      * 
-     * @param primaryStage
-     * @param mangaList
-     * @param userList
-     * @param currentAccount
+     * @param primaryStage - the stage where every scene is displayed on
+     * @param mangaList - an arraylist filled with Manga objects. An arraylist of the entire dataset.
+     * @param userList - an arraylist filled with UserManga objects. An arraylist of the user's entire list.
+     * @param currentAccount - an account object.
      */
-    public static void CompareScreen (Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
+    public static void compareScreen (Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
 
         // Changing the width of the stage. Essentially refreshes the stage.
         primaryStage.setWidth(600);
 
-        // Creating gridpane to organize children
+        // Creating gridpane to organize children.
         GridPane compareGrid = new GridPane();
         compareGrid.setVgap(10);
         compareGrid.setHgap(10);
@@ -45,73 +45,79 @@ public class Compare {
         compareGrid.setPadding(new Insets(25, 25, 25, 25));
         Font CompareFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
-        // Creating button to allow the user to return back to the main menu
+        // Creating button to allow the user to return back to the main menu.
         Button homeMenuBtn = new Button();
         compareGrid.add(homeMenuBtn, 0, 2);
         homeMenuBtn.setText("Back");
         homeMenuBtn.setFont(CompareFont);
         homeMenuBtn.setMaxSize(100, 50);
         homeMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
+            
+            // Event method that runs a method that returns back to the main menu.
             @Override
             public void handle(ActionEvent event) {
                 Main.mainMenuScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
-        // Creating button to allow the user to access the score vs popularity graph
+        // Creating a button to allow the user to access the score vs popularity graph.
         Button scoreVsPopularityBtn = new Button();
         compareGrid.add(scoreVsPopularityBtn, 0, 0);
         scoreVsPopularityBtn.setText("Scores vs Popularity");
         scoreVsPopularityBtn.setFont(CompareFont);
         scoreVsPopularityBtn.setMaxSize(200, 50);
         scoreVsPopularityBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
+            
+            // Event method that runs a method that returns to the score vs popularity graph.
             @Override
             public void handle(ActionEvent event) {
                 scoreVsPopularityScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
-        // Creating button to allow the user to access the genre vs top 500 graph
+        // Creating button to allow the user to access the genre vs top 500 graph.
         Button genreVsTop500Btn = new Button();
         compareGrid.add(genreVsTop500Btn, 0, 1);
         genreVsTop500Btn.setText("Genre vs Top 500");
         genreVsTop500Btn.setFont(CompareFont);
         genreVsTop500Btn.setMaxSize(200, 50);
         genreVsTop500Btn.setOnAction(new EventHandler<ActionEvent>() {
- 
+            
+            // Event method that runs a method that returns to the genre vs top 500 graph.
             @Override
             public void handle(ActionEvent event) {
                 genreVsTop500Screen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
+        // Creating VBox to place every button on.
         VBox graphVBox = new VBox();
         graphVBox.setPrefSize(200, 375);
         graphVBox.setSpacing(20);
         graphVBox.getChildren().addAll(scoreVsPopularityBtn,genreVsTop500Btn);
+
+        // Adding vbox to gridpane.
         compareGrid.add(graphVBox, 0, 0); 
 
-        // Setting the grid into the stage
+        // Setting the grid into the stage.
         primaryStage.setScene(new Scene(compareGrid));
         primaryStage.show();
     }
 
     /**
-     * Method that shows the graph, "Score vs popularity" on the stage.
+     * Method that displays the graph, "Score vs popularity" on the stage.
      * 
-     * @param primaryStage
-     * @param mangaList
-     * @param userList
-     * @param currentAccount
+     * @param primaryStage - stage that every scene is displayed on
+     * @param mangaList - an arraylist of Manga objects
+     * @param userList - an arraylist of UserManga objects 
+     * @param currentAccount - an account object
      */
     private static void scoreVsPopularityScreen(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
 
-        // Refreshes the stage
+        // Refreshes the stage.
         primaryStage.setWidth(601);
 
-        // Creating gridpane to organize children
+        // Creating gridpane to organize children.
         GridPane scoreVsPopularityGrid = new GridPane();
         scoreVsPopularityGrid.setVgap(10);
         scoreVsPopularityGrid.setHgap(10);
@@ -119,42 +125,43 @@ public class Compare {
         scoreVsPopularityGrid.setPadding(new Insets(25, 25, 25, 25));
         Font CompareFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
-        // Adding a method which returns a scatterplot to the grid
+        // Adding a method which returns a scatterplot to the grid.
         scoreVsPopularityGrid.add(ScoreVsPopularityGraph(mangaList, userList), 0, 0);
 
-        // Creating button that allows the user to return to the compare menu
+        // Creating button that allows the user to return to the compare menu.
         Button compareMenuBtn = new Button();
         scoreVsPopularityGrid.add(compareMenuBtn, 0, 1);
         compareMenuBtn.setText("Back");
         compareMenuBtn.setFont(CompareFont);
         compareMenuBtn.setMaxSize(100, 50);
         compareMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
+            
+            // Event method that runs a method that returns to the compare screen.
             @Override
             public void handle(ActionEvent event) {
-                CompareScreen(primaryStage, mangaList, userList, currentAccount);
+                compareScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
-        // Setting the gridpane on the stage
+        // Setting the gridpane on the stage.
         primaryStage.setScene(new Scene(scoreVsPopularityGrid));
         primaryStage.show();
     }
 
     /**
-     * Method that shows the graph, "genre vs top 500 manga" on the stage.
+     * Method that displays the graph, "genre vs top 500 manga" on the stage.
      * 
-     * @param primaryStage
-     * @param mangaList
-     * @param userList
-     * @param currentAccount
+     * @param primaryStage - the stage where every scene is displayed on.
+     * @param mangaList - an arraylist filled with Manga objects.
+     * @param userList - an arraylist filled with UserManga objects.
+     * @param currentAccount - an account object.
      */
     private static void genreVsTop500Screen(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
 
-        // Refreshes the stage
+        // Refreshes the stage.
         primaryStage.setWidth(601);
 
-        // Creating gridpane to organize children
+        // Creating gridpane to organize children.
         GridPane genreVsPopularityGrid = new GridPane();
         genreVsPopularityGrid.setVgap(10);
         genreVsPopularityGrid.setHgap(10);
@@ -162,24 +169,25 @@ public class Compare {
         genreVsPopularityGrid.setPadding(new Insets(25, 25, 25, 25));
         Font CompareFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
-        // Adding a method which returns a bar graph into the gridpane
+        // Adding a method which returns a bar graph into the gridpane.
         genreVsPopularityGrid.add(GenreVsTop500Graph(mangaList), 0, 0);
 
-        // Button that allows the user to return to the compare menu
+        // Button that allows the user to return to the compare menu.
         Button compareMenuBtn = new Button();
         genreVsPopularityGrid.add(compareMenuBtn, 0, 1);
         compareMenuBtn.setText("Back");
         compareMenuBtn.setFont(CompareFont);
         compareMenuBtn.setMaxSize(100, 50);
         compareMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
- 
+            
+            // Event method that returns to the compare screen.
             @Override
             public void handle(ActionEvent event) {
-                CompareScreen(primaryStage, mangaList, userList, currentAccount);
+                compareScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
-        // Setting the gridpane onto the stage
+        // Setting the gridpane onto the stage.
         primaryStage.setScene(new Scene(genreVsPopularityGrid));
         primaryStage.show();
     }
@@ -187,11 +195,13 @@ public class Compare {
     /**
      * Method that sets up the graph, Score vs Popularity.
      * 
-     * @param mangaList
-     * @return ScatterChart<Double, Integer>
+     * @param mangaList - an arraylist of Manga objects.
+     * @param userList - an arraylist of UserManga objects.
+     * @return ScatterChart<Double, Integer> - a javafx object that displays a scatterplot with an Xaxis for doubles and Yaxis for Integers
      */
     private static ScatterChart<Double, Integer> ScoreVsPopularityGraph(ArrayList<Manga> mangaList, ArrayList<UserManga> userList) {
 
+        // Variables.
         int intCount;
 
         // Setting up y and x axis.
@@ -206,18 +216,32 @@ public class Compare {
 
         // For loop that iterates through the manga database. Then, places all manga with a popularity rank less than 100 in their appropriate series.
         for (Manga current : mangaList) {
+
+            // Initializing count.
             intCount = 0;
+
+            // If statement that checks if the current manga's popularity is less or equal to 100.
             if (current.getPopularity() <= 100) {
+
+                // If statement that checks if userlist's size is 1.
                 if (userList.size() >= 1) {
+
+                    // Iterates through the user's list.
                     for (UserManga currentUserManga : userList) {
                         intCount++;
+
+                        // If the current manga from database is equal to the current manga from the userlist, adds the current manga's data to "MangaFromUserList" series.
                         if (current.getTitle().equalsIgnoreCase(currentUserManga.getTitle())) {
                             MangaFromUserList.getData().add(new Data<>(current.getScore(), current.getPopularity()));
                             break;
+                        
+                        // Otherwise, if the for loop reaches the end of the userlist, adds the current manga's data to "MangaFromDatabase" series.
                         }else if (intCount == userList.size()) {
                             MangaFromDatabase.getData().add(new Data<>(current.getScore(), current.getPopularity()));
                         } 
                     }
+                
+                // Otherwise, just adds current manga's data to "MangaFromDatabase" Series.
                 }else {
                     MangaFromDatabase.getData().add(new Data<>(current.getScore(), current.getPopularity()));
                 }
@@ -235,8 +259,8 @@ public class Compare {
     /**
      * Method that sets up the graph, Genre vs Top 500 Manga.
      * 
-     * @param MangaList
-     * @return BarChart<String, Integer>
+     * @param MangaList - an arraylist filled with Manga objects.
+     * @return BarChart<String, Integer> - a javafx object that displays a barchart with an Xaxis for Strings and a Yaxis for Integers.
      */ 
     private static BarChart<String, Integer> GenreVsTop500Graph(ArrayList<Manga> MangaList) {
 

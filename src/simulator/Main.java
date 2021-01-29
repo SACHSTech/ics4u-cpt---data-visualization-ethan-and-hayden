@@ -1,3 +1,8 @@
+/**
+ * ICS4U CPT
+ * @author Ethan L.
+ */
+
 package simulator;
 
 import simulator.ObjectClasses.*;
@@ -23,7 +28,7 @@ public class Main extends Application {
     /**
      * Start method. Runs when the application starts.
      * 
-     * @param primaryStage
+     * @param primaryStage - the stage that displays all the scenes.
      */
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("'My Manga List' by Ethan Lai");
@@ -34,12 +39,12 @@ public class Main extends Application {
     }
 
     /**
-     * Sets up a screen that displays the main menu
+     * Sets up a screen that displays the main menu.
      * 
-     * @param primaryStage
-     * @param mangaList
-     * @param userList
-     * @param currentAccount
+     * @param primaryStage - the stage that displays all the scenes.
+     * @param mangaList - an arraylist filled with Manga objects.
+     * @param userList - an arraylist filled with UserManga objects
+     * @param currentAccount - an Account object.
      */
     public static void mainMenuScreen(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
 
@@ -73,7 +78,7 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                MyList.MyListScreen(primaryStage, mangaList, userList, currentAccount);
+                MyList.myListScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
@@ -89,7 +94,7 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage, mangaList, userList, currentAccount);
+                Database.databaseScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
@@ -105,7 +110,7 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                Compare.CompareScreen(primaryStage, mangaList, userList, currentAccount);
+                Compare.compareScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
@@ -121,6 +126,8 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
+
+                // Try and catch method to read text file
                 try {
                     Account.savingToAccount(primaryStage, "src/simulator/Accounts.txt", userList, currentAccount);
                     
