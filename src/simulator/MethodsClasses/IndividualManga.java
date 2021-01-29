@@ -28,7 +28,7 @@ public class IndividualManga {
      * @param Current
      * @param currentAccount
      */
-    public static void individualRecordScreen(Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Manga Current, Account currentAccount) {
+    public static void individualRecordScreen(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Manga current, Account currentAccount) {
         
         // Refreshes stage
         primaryStage.setWidth(601);
@@ -41,12 +41,12 @@ public class IndividualManga {
         Font individualFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Title
-        Text individualTitle = new Text(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""));
+        Text individualTitle = new Text(current.getTitle());
         individualTitle.setFont(individualFont);
         individualGrid.add(individualTitle, 0, 0);
 
         // Synopsis
-        Text individualSynopsis = new Text("Synopsis: \n\n" + ((Current.strSynopsisProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").replace("*", ","));
+        Text individualSynopsis = new Text("Synopsis: \n\n" + (current.getSynopsis().replace("*", ",")));
         individualSynopsis.setTextAlignment(TextAlignment.LEFT);
         individualSynopsis.setWrappingWidth(350);
         individualSynopsis.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 10));
@@ -55,43 +55,43 @@ public class IndividualManga {
         GridPane.setValignment(individualSynopsis, VPos.TOP);
 
         // Other Summary VBox
-        Text individualScore = new Text("Score: " + (Current.dblScoreProperty().toString()).replace("DoubleProperty [value: ", "").replace("]", ""));
+        Text individualScore = new Text("Score: " + current.getScore());
         individualScore.setFont(individualFont);
         individualGrid.add(individualScore, 1, 0);
 
-        Text individualRank = new Text("Rank: " + (Current.intRankProperty().toString()).replace("IntegerProperty [value: ", "").replace("]", ""));
+        Text individualRank = new Text("Rank: " + current.getRank());
         individualRank.setWrappingWidth(180);
         individualRank.setFont(individualFont);
         
-        Text individualPopularity = new Text("Popularity: " + (Current.intPopularityProperty().toString()).replace("IntegerProperty [value: ", "").replace("]", ""));
+        Text individualPopularity = new Text("Popularity: " + current.getPopularity());
         individualPopularity.setWrappingWidth(180);
         individualPopularity.setFont(individualFont);
 
-        Text individualScoreNumber = new Text("Number of Scores: " + (Current.intScoreNumbersProperty().toString()).replace("IntegerProperty [value: ", "").replace("]", ""));
+        Text individualScoreNumber = new Text("Number of Scores: " + current.getScoreNumbers());
         individualScoreNumber.setWrappingWidth(180);
         individualScoreNumber.setFont(individualFont);
 
-        Text individualType = new Text("Type: " + (Current.strTypeProperty().toString()).replace("StringProperty [value: ", "").replace("]", ""));
+        Text individualType = new Text("Type: " + current.getType());
         individualType.setWrappingWidth(180);
         individualType.setFont(individualFont);
 
-        Text individualChapters = new Text("Chapters: " + (Current.strChapterProperty().toString()).replace("StringProperty [value: ", "").replace("]", ""));
+        Text individualChapters = new Text("Chapters: " + current.getChapter());
         individualChapters.setWrappingWidth(180);
         individualChapters.setFont(individualFont);
 
-        Text individualPublished = new Text("Publish Year: " + (Current.intPublishedProperty().toString()).replace("IntegerProperty [value: ", "").replace("]", ""));
+        Text individualPublished = new Text("Publish Year: " + current.getPublished());
         individualPublished.setWrappingWidth(180);
         individualPublished.setFont(individualFont);
 
-        Text individualGenre = new Text("Genres: " + (Current.strGenreProperty().toString()).replace("StringProperty [value: ", "").replace("]", ""));
+        Text individualGenre = new Text("Genres: " + current.getGenre());
         individualGenre.setWrappingWidth(180);
         individualGenre.setFont(individualFont);
 
-        Text individualAuthor = new Text("Author: " + (Current.strAuthorProperty().toString()).replace("StringProperty [value: ", "").replace("]", ""));
+        Text individualAuthor = new Text("Author: " + current.getAuthor());
         individualAuthor.setWrappingWidth(180);
         individualAuthor.setFont(individualFont);
 
-        Text individualSerialization = new Text("Serialization: " + (Current.strSerializationProperty().toString()).replace("StringProperty [value: ", "").replace("]", ""));
+        Text individualSerialization = new Text("Serialization: " + current.getSerialization());
         individualSerialization.setWrappingWidth(180);
         individualSerialization.setFont(individualFont);
 
@@ -111,7 +111,7 @@ public class IndividualManga {
  
             @Override
             public void handle(ActionEvent event) {
-                Database.DatabaseScreen(primaryStage, MangaList, UserList, currentAccount);
+                Database.DatabaseScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 

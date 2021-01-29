@@ -41,11 +41,11 @@ public class MyList {
      * @param UserList
      * @param currentAccount
      */
-    public static void MyListScreen (Stage primaryStage, ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, Account currentAccount) {
+    public static void MyListScreen (Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, Account currentAccount) {
 
         primaryStage.setWidth(600);
 
-        final ObservableList<UserManga> data = FXCollections.observableArrayList(UserList);
+        final ObservableList<UserManga> data = FXCollections.observableArrayList(userList);
 
         // Creating GridPane
         GridPane myListGrid = new GridPane();
@@ -56,7 +56,7 @@ public class MyList {
         Font MyListFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
         // Creating User's List
-        myListGrid.add(createMyList(UserList, data), 0, 1);
+        myListGrid.add(createMyList(userList, data), 0, 1);
 
         // Creating TextBox
         Text AddingItemText = new Text("Click on cells to edit");
@@ -67,22 +67,22 @@ public class MyList {
         // Creating Summary TextBox
         Font UserSummaryFont = Font.font("Comic Sans MS", FontWeight.BOLD, 12);
 
-        Text MeanScoreText = new Text("Mean Score: " + meanScore(UserList));
+        Text MeanScoreText = new Text("Mean Score: " + meanScore(userList));
         MeanScoreText.setTextAlignment(TextAlignment.CENTER);
         MeanScoreText.setWrappingWidth(120);
         MeanScoreText.setFont(UserSummaryFont);
 
-        Text TotalReadingText = new Text("Reading: " + totalReading(UserList));
+        Text TotalReadingText = new Text("Reading: " + totalReading(userList));
         TotalReadingText.setTextAlignment(TextAlignment.CENTER);
         TotalReadingText.setWrappingWidth(120);
         TotalReadingText.setFont(UserSummaryFont);
 
-        Text TotalFinishedText = new Text("Finished: " + totalFinished(UserList));
+        Text TotalFinishedText = new Text("Finished: " + totalFinished(userList));
         TotalFinishedText.setTextAlignment(TextAlignment.CENTER);
         TotalFinishedText.setWrappingWidth(120);
         TotalFinishedText.setFont(UserSummaryFont);
 
-        Text TotalDroppedText = new Text("Dropped: " + totalDropped(UserList));
+        Text TotalDroppedText = new Text("Dropped: " + totalDropped(userList));
         TotalDroppedText.setTextAlignment(TextAlignment.CENTER);
         TotalDroppedText.setWrappingWidth(120);
         TotalDroppedText.setFont(UserSummaryFont);
@@ -95,7 +95,7 @@ public class MyList {
         summaryRefresh.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                refreshSummary(UserList, MeanScoreText, TotalReadingText, TotalFinishedText, TotalDroppedText);
+                refreshSummary(userList, MeanScoreText, TotalReadingText, TotalFinishedText, TotalDroppedText);
             }
         });
 
@@ -104,7 +104,7 @@ public class MyList {
         myListGrid.add(UserSummaryBox, 1, 1);
 
         // Adding search box and text field to HBox
-        HBox UserInputTextBox = new HBox(searchBox(MangaList, UserList, myListGrid, AddingItemText, data), AddingItemText);
+        HBox UserInputTextBox = new HBox(searchBox(mangaList, userList, myListGrid, AddingItemText, data), AddingItemText);
         UserInputTextBox.setSpacing(10);
         myListGrid.add(UserInputTextBox, 0, 0);
 
@@ -118,7 +118,7 @@ public class MyList {
  
             @Override
             public void handle(ActionEvent event) {
-                Main.mainMenuScreen(primaryStage, MangaList, UserList, currentAccount);
+                Main.mainMenuScreen(primaryStage, mangaList, userList, currentAccount);
             }
         });
 
@@ -132,7 +132,7 @@ public class MyList {
  
             @Override
             public void handle(ActionEvent event) {
-                deleteFromList(UserList, myListGrid, data);
+                deleteFromList(userList, myListGrid, data);
             }
         });
 
@@ -150,7 +150,7 @@ public class MyList {
      * @param data
      * @return
      */
-    private static Parent searchBox(ArrayList<Manga> MangaList, ArrayList<UserManga> UserList, GridPane myListGrid, Text AddingItemText, ObservableList<UserManga> data) { 
+    private static Parent searchBox(ArrayList<Manga> mangaList, ArrayList<UserManga> userList, GridPane myListGrid, Text addingItemText, ObservableList<UserManga> data) { 
         
         // Context Box
         ContextMenu autoSuggest = new ContextMenu();
@@ -162,15 +162,15 @@ public class MyList {
 
         searchText.setOnKeyTyped((KeyEvent currentKeyChar) -> {
             String strPressedChar = searchText.getText();
-            SearchingByChar(strPressedChar, MangaList, autoSuggest, searchText);
+            SearchingByChar(strPressedChar, mangaList, autoSuggest, searchText);
         });
         searchText.setOnKeyReleased((KeyEvent currentKey) -> {
             autoSuggest.show(searchText, Side.BOTTOM, 0, 0);
             if (currentKey.getCode() == KeyCode.ENTER) {
                 String strKey = searchText.getText();
-                AddingToList(MangaList, strKey, UserList, AddingItemText, myListGrid);
+                AddingToList(mangaList, strKey, userList, addingItemText, myListGrid);
                 data.clear();
-                data.addAll(UserList);
+                data.addAll(userList);
                 searchText.clear();
                 autoSuggest.hide();
             }
@@ -186,19 +186,19 @@ public class MyList {
      * @param autoSuggest
      * @param searchText
      */
-    private static void SearchingByChar(String strPressedChar, ArrayList<Manga> MangaList, ContextMenu autoSuggest, TextField searchText) {
+    private static void SearchingByChar(String strPressedChar, ArrayList<Manga> mangaList, ContextMenu autoSuggest, TextField searchText) {
         autoSuggest.getItems().clear();
         int intCheck = 0;
         autoSuggest.setOnAction(e -> searchText.setText(((MenuItem)e.getTarget()).getText()));
-        for (Manga Current : MangaList) {
-            if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").length() >= strPressedChar.length()) {
-                if (((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
+        for (Manga current : mangaList) {
+            if (current.getTitle().length() >= strPressedChar.length()) {
+                if (current.getTitle().substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
                     intCheck++;
                     if (intCheck == 5) {
-                        autoSuggest.getItems().addAll(new MenuItem(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                        autoSuggest.getItems().addAll(new MenuItem(current.getTitle()));
                         break;
                     }else if (intCheck < 5 && intCheck > 0) {
-                        autoSuggest.getItems().addAll(new MenuItem(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                        autoSuggest.getItems().addAll(new MenuItem(current.getTitle()));
                     }else if (intCheck <= 0 || intCheck > 5) {
                         autoSuggest.hide();
                         break;
@@ -219,13 +219,13 @@ public class MyList {
      * @param AddingItemText
      * @param myListGrid
      */
-    private static void AddingToList(ArrayList<Manga> MangaList, String strKey, ArrayList<UserManga> UserList, Text AddingItemText, GridPane myListGrid) {
+    private static void AddingToList(ArrayList<Manga> mangaList, String strKey, ArrayList<UserManga> userList, Text addingItemText, GridPane myListGrid) {
         int intCheck = 0;
         boolean isItemInUserList = false;
-        for (Manga Current : MangaList) {
-            if (strKey.equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
-                for (UserManga CurrentUserList : UserList) {
-                    if (((CurrentUserList.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").equalsIgnoreCase(((Current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
+        for (Manga current : mangaList) {
+            if (strKey.equalsIgnoreCase(current.getTitle())) {
+                for (UserManga currentUserList : userList) {
+                    if (currentUserList.getTitle().equalsIgnoreCase(current.getTitle())) {
                         isItemInUserList = true;
                         break;
                     }else {
@@ -233,15 +233,15 @@ public class MyList {
                     }
                 }
                 if (isItemInUserList == true) {
-                    AddingItemText.setText("This is already in your list");
+                    addingItemText.setText("This is already in your list");
                 }else if (isItemInUserList == false) {
-                    UserList.add(UserManga.convertToUserManga(Current));
-                    AddingItemText.setText("Added Manga");
+                    userList.add(UserManga.convertToUserManga(current));
+                    addingItemText.setText("Added Manga");
                 }
             }else {
                 intCheck++;
-                if (intCheck == MangaList.size()) {
-                    AddingItemText.setText("This is not in the database");
+                if (intCheck == mangaList.size()) {
+                    addingItemText.setText("This is not in the database");
                 }
             }
         }
@@ -254,20 +254,20 @@ public class MyList {
      * @param myListGrid
      * @param data
      */
-    private static void deleteFromList(ArrayList<UserManga> UserList, GridPane myListGrid, ObservableList<UserManga> data) {
+    private static void deleteFromList(ArrayList<UserManga> userList, GridPane myListGrid, ObservableList<UserManga> data) {
         int intCheck = 0;
-        for (UserManga Current : UserList) {
+        for (UserManga current : userList) {
             intCheck++;
-            if (Boolean.parseBoolean((Current.isUserSelectedProperty()).toString().replace("BooleanProperty [value: ", "").replace("]", "")) == true) {
-                UserList.remove(Current);
+            if (current.getUserSelected() == true) {
+                userList.remove(current);
                 break;
             }
         }
-        if (intCheck == UserList.size()) {
+        if (intCheck == userList.size()) {
             data.clear();
-            data.addAll(UserList);
+            data.addAll(userList);
         }else {
-            deleteFromList(UserList, myListGrid, data);
+            deleteFromList(userList, myListGrid, data);
         }
     }
     
@@ -277,10 +277,10 @@ public class MyList {
      * @param UserList
      * @return
      */
-    private static int totalReading(ArrayList<UserManga> UserList) {
+    private static int totalReading(ArrayList<UserManga> userList) {
         int intTotalReading = 0;
-        for(UserManga current : UserList) {
-            if (((current.strUserStatusProperty()).toString().replace("StringProperty [value: ", "").replace("]", "")).equalsIgnoreCase("Reading")) {
+        for(UserManga current : userList) {
+            if (current.getUserStatus().equalsIgnoreCase("Reading")) {
                 intTotalReading++;
             }
         }
@@ -293,10 +293,10 @@ public class MyList {
      * @param UserList
      * @return
      */
-    private static int totalFinished(ArrayList<UserManga> UserList) {
+    private static int totalFinished(ArrayList<UserManga> userList) {
         int intTotalFinished = 0;
-        for(UserManga current : UserList) {
-            if (((current.strUserStatusProperty()).toString().replace("StringProperty [value: ", "").replace("]", "")).equalsIgnoreCase("Finished")) {
+        for(UserManga current : userList) {
+            if (current.getUserStatus().equalsIgnoreCase("Finished")) {
                 intTotalFinished++;
             }
         }
@@ -309,10 +309,10 @@ public class MyList {
      * @param UserList
      * @return
      */
-    private static int totalDropped(ArrayList<UserManga> UserList) {
+    private static int totalDropped(ArrayList<UserManga> userList) {
         int intTotalDropped = 0;
-        for(UserManga current : UserList) {
-            if (((current.strUserStatusProperty()).toString().replace("StringProperty [value: ", "").replace("]", "")).equalsIgnoreCase("Dropped")) {
+        for(UserManga current : userList) {
+            if (current.getUserStatus().equalsIgnoreCase("Dropped")) {
                 intTotalDropped++;
             }
         }
@@ -322,16 +322,16 @@ public class MyList {
     /**
      * Method that counts the mean score of the User's list.
      * 
-     * @param UserList
+     * @param userList
      * @return
      */
-    private static double meanScore(ArrayList<UserManga> UserList) {
+    private static double meanScore(ArrayList<UserManga> userList) {
         double dblTotalScore = 0.00;
-        int intTotalManga = UserList.size();
+        int intTotalManga = userList.size();
         double dblMeanScore = 0.00;
         if (intTotalManga != 0) {
-            for(UserManga Current : UserList) {
-                dblTotalScore = dblTotalScore + Integer.parseInt((Current.intUserScoreProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", ""));
+            for(UserManga current : userList) {
+                dblTotalScore = dblTotalScore + current.getUserScore();
             }
             dblMeanScore = dblTotalScore / intTotalManga;
             return Math.round(dblMeanScore * 100) / 100.00;

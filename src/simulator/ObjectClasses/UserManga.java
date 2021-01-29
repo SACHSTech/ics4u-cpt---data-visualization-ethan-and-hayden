@@ -31,6 +31,18 @@ public class UserManga extends Manga {
         return isUserSelected;
     }
 
+    public String getUserStatus() {
+        return strUserStatusProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
+    public int getUserScore() {
+        return Integer.parseInt(intUserScoreProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "").replace("*", ","));
+    }
+
+    public boolean getUserSelected() {
+        return Boolean.parseBoolean(isUserSelectedProperty().toString().replace("BooleanProperty [value: ", "").replace("]", "").replace("*", ","));
+    }
+
     public void setUserStatus(String strUserStatus) {
         this.strUserStatus = new SimpleStringProperty(strUserStatus);
     }
@@ -44,10 +56,10 @@ public class UserManga extends Manga {
     }
 
     public static UserManga convertToUserManga(Manga manga) {
-        return new UserManga((manga.strTitleProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strTypeProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strChapterProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strStatusProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), Integer.parseInt((manga.intPublishedProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", "")), (manga.strGenreProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strAuthorProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), (manga.strSerializationProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), Double.parseDouble((manga.dblScoreProperty()).toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt((manga.intRankProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", "")), Integer.parseInt((manga.intPopularityProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", "")), Integer.parseInt((manga.intScoreNumbersProperty()).toString().replace("IntegerProperty [value: ", "").replace("]", "")), (manga.strSynopsisProperty()).toString().replace("StringProperty [value: ", "").replace("]", ""), 0, "Reading", false);
+        return new UserManga(manga.getTitle(), manga.getType(), manga.getChapter(), manga.getStatus(), manga.getPublished(), manga.getGenre(), manga.getAuthor(), manga.getSerialization(), manga.getScore(), manga.getRank(), manga.getPopularity(), manga.getScoreNumbers(), manga.getSynopsis(), 0, "Reading", false);
     }
 
     public String toString() {
-        return strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "") + "," + intUserScoreProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "") + "," + strUserStatusProperty().toString().replace("StringProperty [value: ", "").replace("]", "");
+        return getTitle() + "," + getUserScore() + "," + getUserStatus();
     }
 }

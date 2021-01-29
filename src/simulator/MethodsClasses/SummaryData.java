@@ -87,40 +87,40 @@ public class SummaryData {
      * @param MangaList
      * @return
      */
-    private static int mangaListCount(ArrayList<Manga> MangaList) {
-        return MangaList.size();
+    private static int mangaListCount(ArrayList<Manga> mangaList) {
+        return mangaList.size();
     }
 
     /**
      * Method that returns the title of the manga with the highest score.
      * 
-     * @param MangaList
+     * @param mangaList
      * @return
      */
-    private static String mangaListMax(ArrayList<Manga> MangaList) {
-        Manga Highest = MangaList.get(0);
-        for (Manga Current : MangaList) {
-            if ( Double.parseDouble(Current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")) > Double.parseDouble(Highest.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", ""))) {
-                Highest = Current;
+    private static String mangaListMax(ArrayList<Manga> mangaList) {
+        Manga highest = mangaList.get(0);
+        for (Manga current : mangaList) {
+            if (current.getScore() > highest.getScore()) {
+                highest = current;
             }
         }
-        return Highest.strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "");
+        return highest.getTitle();
     }
 
     /**
      * Method that returns the title of the manga with the lowest score.
      * 
-     * @param MangaList
+     * @param mangaList
      * @return
      */
-    private static String mangaListMin(ArrayList<Manga> MangaList) {
-        Manga Lowest = MangaList.get(0);
-        for (Manga Current : MangaList) {
-            if ( Double.parseDouble(Current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")) < Double.parseDouble(Lowest.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", ""))) {
-                Lowest = Current;
+    private static String mangaListMin(ArrayList<Manga> mangaList) {
+        Manga lowest = mangaList.get(0);
+        for (Manga current : mangaList) {
+            if (current.getScore() < lowest.getScore()) {
+                lowest = current;
             }
         }
-        return Lowest.strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "");
+        return lowest.getTitle();
     }
 
     /**
@@ -134,8 +134,8 @@ public class SummaryData {
         int intTotalManga = MangaList.size();
         double dblMeanScore = 0.00;
         if (intTotalManga != 0) {
-            for(Manga Current : MangaList) {
-                dblTotalScore = dblTotalScore + Double.parseDouble((Current.dblScoreProperty()).toString().replace("DoubleProperty [value: ", "").replace("]", ""));
+            for(Manga current : MangaList) {
+                dblTotalScore = dblTotalScore + current.getScore();
             }
             dblMeanScore = dblTotalScore / intTotalManga;
             return Math.round(dblMeanScore * 100) / 100.00;
@@ -150,7 +150,7 @@ public class SummaryData {
      * @return
      */
     private static double medianMangaScore(ArrayList<Manga> MangaList) {
-        return Double.parseDouble(MangaList.get(MangaList.size() / 2).dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", ""));
+        return MangaList.get(MangaList.size() / 2).getScore();
     }
 
     /**
@@ -163,8 +163,8 @@ public class SummaryData {
     private static double standardDeviation(double dblMean, ArrayList<Manga> MangaList) {
         double dblSum = 0;
         double dblStandardDeviation;
-        for (Manga Current : MangaList) {
-            dblSum = dblSum + Math.pow(Double.parseDouble(Current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")) - dblMean, 2);
+        for (Manga current : MangaList) {
+            dblSum = dblSum + Math.pow(current.getScore() - dblMean, 2);
         }
         dblStandardDeviation = Math.sqrt(dblSum / MangaList.size());
         return Math.round(dblStandardDeviation * 100) / 100.00;

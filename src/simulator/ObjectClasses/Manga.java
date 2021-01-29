@@ -144,6 +144,58 @@ public class Manga {
         this.strSynopsis = new SimpleStringProperty(strSynopsis);
     }
 
+    public String getTitle() {
+        return strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
+    public String getType() {
+        return strTypeProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
+    public String getChapter() {
+        return strChapterProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
+    public String getStatus() {
+        return strStatusProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
+    public int getPublished() {
+        return Integer.parseInt(intPublishedProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "").replace("*", ","));
+    }
+
+    public String getGenre() {
+        return strGenreProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
+    public String getAuthor() {
+        return strAuthorProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
+    public String getSerialization() {
+        return strSerializationProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
+    public double getScore() {
+        return Double.parseDouble(dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "").replace("*", ","));
+    }
+
+    public int getRank() {
+        return Integer.parseInt(intRankProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "").replace("*", ","));
+    }
+
+    public int getPopularity() {
+        return Integer.parseInt(intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "").replace("*", ","));
+    }
+
+    public int getScoreNumbers() {
+        return Integer.parseInt(intScoreNumbersProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "").replace("*", ","));
+    }
+
+    public String getSynopsis() {
+        return strSynopsisProperty().toString().replace("StringProperty [value: ", "").replace("]", "").replace("*", ",");
+    }
+
     public static ArrayList<Manga> csvToObject(String fileName) throws IOException {
         BufferedReader CSVFile = new BufferedReader(new FileReader(fileName));  
         ArrayList<Manga> MangaList = new ArrayList<>();

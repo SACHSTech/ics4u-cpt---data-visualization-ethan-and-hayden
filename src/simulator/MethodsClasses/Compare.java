@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Font;
@@ -208,15 +207,19 @@ public class Compare {
         // For loop that iterates through the manga database. Then, places all manga with a popularity rank less than 100 in their appropriate series.
         for (Manga current : mangaList) {
             intCount = 0;
-            if (Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) <= 100) {
-                for (UserManga currentUserManga : userList) {
-                    intCount++;
-                    if (current.strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "").equalsIgnoreCase(currentUserManga.strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", ""))) {
-                        MangaFromUserList.getData().add(new Data<>(Double.parseDouble(current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
-                        break;
-                    }else if (intCount == userList.size()) {
-                        MangaFromDatabase.getData().add(new Data<>(Double.parseDouble(current.dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")), Integer.parseInt(current.intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))));
-                    } 
+            if (current.getPopularity() <= 100) {
+                if (userList.size() >= 1) {
+                    for (UserManga currentUserManga : userList) {
+                        intCount++;
+                        if (current.getTitle().equalsIgnoreCase(currentUserManga.getTitle())) {
+                            MangaFromUserList.getData().add(new Data<>(current.getScore(), current.getPopularity()));
+                            break;
+                        }else if (intCount == userList.size()) {
+                            MangaFromDatabase.getData().add(new Data<>(current.getScore(), current.getPopularity()));
+                        } 
+                    }
+                }else {
+                    MangaFromDatabase.getData().add(new Data<>(current.getScore(), current.getPopularity()));
                 }
             }
         }
@@ -278,7 +281,7 @@ public class Compare {
         for (Manga current : MangaList) {
 
             // Putting each manga's genres into an array.
-            strGenreArray = (current.strGenreProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).split(" / ");
+            strGenreArray = (current.getGenre()).split(" / ");
 
             // For loop that interates through the current Manga's genres. 
             for (intCurrentGenre = 0; intCurrentGenre < strGenreArray.length; intCurrentGenre++) {

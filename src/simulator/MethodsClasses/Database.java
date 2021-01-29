@@ -211,40 +211,40 @@ public class Database {
             String strSelection = categorySort.getSelectionModel().getSelectedItem();
             switch (strSelection) {
                 case "Title" :
-                    sortByString(data, "Title");
+                    sortByCategory(data, "Title");
                     break;
                 case "Type" :
-                    sortByString(data, "Type");
+                    sortByCategory(data, "Type");
                     break;
                 case "Chapters" :
-                    sortByString(data, "Chapters");
+                    sortByCategory(data, "Chapters");
                     break;
                 case "Status" :
-                    sortByString(data, "Status");
+                    sortByCategory(data, "Status");
                     break;
                 case "Publish Year" :
-                    sortByInteger(data, "Published");
+                    sortByCategory(data, "Published");
                     break;
                 case "Genres" :
-                    sortByString(data, "Genres");
+                    sortByCategory(data, "Genres");
                     break;
                 case "Author" :
-                    sortByString(data, "Author");
+                    sortByCategory(data, "Author");
                     break;
                 case "Serialization" :
-                    sortByString(data, "Serialization");
+                    sortByCategory(data, "Serialization");
                     break;
                 case "Score" :
-                    sortByDouble(data);
+                    sortByCategory(data, "Score");
                     break;
                 case "Rank" :
-                    sortByInteger(data, "Rank");
+                    sortByCategory(data, "Rank");
                     break;
                 case "Popularity" :
-                    sortByInteger(data, "Popularity");
+                    sortByCategory(data, "Popularity");
                     break;
                 case "Number of Scores" :
-                    sortByInteger(data, "Number of Scores");
+                    sortByCategory(data, "Number of Scores");
                     break;
             }
         });
@@ -369,7 +369,7 @@ public class Database {
      */
     private static void individualSelect(Stage primaryStage, ArrayList<Manga> mangaList, ArrayList<UserManga> userList, String strKey, GridPane databaseGrid, Account currentAccount) {
         for (Manga current : mangaList) {
-            if (strKey.equalsIgnoreCase(((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", ""))) {
+            if (strKey.equalsIgnoreCase(current.getTitle())) {
                 IndividualManga.individualRecordScreen(primaryStage, mangaList, userList, current, currentAccount);
             }
         }
@@ -388,14 +388,14 @@ public class Database {
         int intCheck = 0;
         autoSuggest.setOnAction(e -> searchText.setText(((MenuItem)e.getTarget()).getText()));
         for (Manga current : mangaList) {
-            if (((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").length() >= strPressedChar.length()) {
-                if (((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "").substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
+            if (current.getTitle().length() >= strPressedChar.length()) {
+                if (current.getTitle().substring(0, strPressedChar.length()).equalsIgnoreCase(strPressedChar)) {
                     intCheck++;
                     if (intCheck == 5) {
-                        autoSuggest.getItems().addAll(new MenuItem(((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                        autoSuggest.getItems().addAll(new MenuItem(current.getTitle()));
                         break;
                     }else if (intCheck < 5 && intCheck > 0) {
-                        autoSuggest.getItems().addAll(new MenuItem(((current.strTitleProperty()).toString()).replace("StringProperty [value: ", "").replace("]", "")));
+                        autoSuggest.getItems().addAll(new MenuItem(current.getTitle()));
                     }else if (intCheck <= 0 || intCheck > 5) {
                         autoSuggest.hide();
                         break;
@@ -413,112 +413,75 @@ public class Database {
      * @param data
      * @param strMethodName
      */
-    private static void sortByInteger(ObservableList<Manga> data, String strMethodName) {
+    private static void sortByCategory(ObservableList<Manga> data, String strMethodName) {
         int currentMinIndex;
         for (int i = 0; i < data.size() - 1; i++) {
             currentMinIndex = i;
             for (int j = i + 1; j < data.size(); j++) {
                 switch (strMethodName) {
+
+                    // Sorting by integer
                     case "Published" :
-                        if (Integer.parseInt(data.get(j).intPublishedProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) < Integer.parseInt(data.get(currentMinIndex).intPublishedProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))) {
+                        if (data.get(j).getPublished() < data.get(currentMinIndex).getPublished()) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Rank":
-                        if (Integer.parseInt(data.get(j).intRankProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) < Integer.parseInt(data.get(currentMinIndex).intRankProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))) {
+                        if (data.get(j).getRank() < data.get(currentMinIndex).getRank()) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Popularity":
-                        if (Integer.parseInt(data.get(j).intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) < Integer.parseInt(data.get(currentMinIndex).intPopularityProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))) {
+                        if (data.get(j).getPopularity() < data.get(currentMinIndex).getPopularity()) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Number of Scores":
-                        if (Integer.parseInt(data.get(j).intScoreNumbersProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) > Integer.parseInt(data.get(currentMinIndex).intScoreNumbersProperty().toString().replace("IntegerProperty [value: ", "").replace("]", ""))) {
+                        if (data.get(j).getScoreNumbers() > data.get(currentMinIndex).getScoreNumbers()) {
                             currentMinIndex = j;
                         }
                         break;
-                }
-            }
-
-            // swap numbers if needed
-            if (i != currentMinIndex) {
-                Manga temp = data.get(currentMinIndex);
-                data.set(currentMinIndex, data.get(i));
-                data.set(i, temp);
-            }
-        }
-    }
-
-    /**
-     * Method that uses selection sort to sort the database by doubles.
-     * 
-     * @param data
-     */
-    private static void sortByDouble(ObservableList<Manga> data) {
-        int currentMinIndex;
-        for (int i = 0; i < data.size() - 1; i++) {
-            currentMinIndex = i;
-            for (int j = i + 1; j < data.size(); j++) {
-                if (Double.parseDouble(data.get(j).dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", "")) > Double.parseDouble(data.get(currentMinIndex).dblScoreProperty().toString().replace("DoubleProperty [value: ", "").replace("]", ""))) {
-                    currentMinIndex = j;
-                }
-            }
-
-            // swap numbers if needed
-            if (i != currentMinIndex) {
-                Manga temp = data.get(currentMinIndex);
-                data.set(currentMinIndex, data.get(i));
-                data.set(i, temp);
-            }
-        }
-    }
-
-    /**
-     * Method that uses selection sort to sort the database by String. sorts the database alphabetically.
-     * 
-     * @param data
-     * @param strMethodName
-     */
-    private static void sortByString(ObservableList<Manga> data, String strMethodName) {
-        int currentMinIndex;
-        for (int i = 0; i < data.size() - 1; i++) {
-            currentMinIndex = i;
-            for (int j = i + 1; j < data.size(); j++) {
-                switch (strMethodName) {
-                    case "Title":
-                        if ((data.get(j).strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(data.get(currentMinIndex).strTitleProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0) {
+                    
+                    // Sorting by Double
+                    case "Score" :
+                        if (data.get(j).getScore() > data.get(currentMinIndex).getScore()) {
+                            currentMinIndex = j;
+                        }
+                        break;
+                    
+                    // Sorting by String
+                        case "Title":
+                        if (data.get(j).getTitle().compareToIgnoreCase(data.get(currentMinIndex).getTitle()) < 0) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Type":
-                        if ((data.get(j).strTypeProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(data.get(currentMinIndex).strTypeProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0) {
+                        if (data.get(j).getType().compareToIgnoreCase(data.get(currentMinIndex).getType()) < 0) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Chapters":
-                        if ((data.get(j).strChapterProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(data.get(currentMinIndex).strChapterProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0) {
+                        if (data.get(j).getChapter().compareToIgnoreCase(data.get(currentMinIndex).getChapter()) < 0) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Status":
-                        if ((data.get(j).strStatusProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(data.get(currentMinIndex).strStatusProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0) {
+                        if (data.get(j).getStatus().compareToIgnoreCase(data.get(currentMinIndex).getStatus()) < 0) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Genres":
-                        if ((data.get(j).strGenreProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(data.get(currentMinIndex).strGenreProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0) {
+                        if (data.get(j).getGenre().compareToIgnoreCase(data.get(currentMinIndex).getGenre()) < 0) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Author":
-                        if ((data.get(j).strAuthorProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(data.get(currentMinIndex).strAuthorProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0) {
+                        if (data.get(j).getAuthor().compareToIgnoreCase(data.get(currentMinIndex).getAuthor()) < 0) {
                             currentMinIndex = j;
                         }
                         break;
                     case "Serialization":
-                        if ((data.get(j).strSerializationProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).compareToIgnoreCase(data.get(currentMinIndex).strSerializationProperty().toString().replace("StringProperty [value: ", "").replace("]", "")) < 0) {
+                        if (data.get(j).getSerialization().compareToIgnoreCase(data.get(currentMinIndex).getSerialization()) < 0) {
                             currentMinIndex = j;
                         }
                         break;
@@ -544,7 +507,7 @@ public class Database {
     private static void sortGenre(ArrayList<Manga> MangaList, ObservableList<Manga> data, String strGenre) {
         int intCount;
         for (Manga current : MangaList) {
-            String[] strCurrentGenre = (current.strGenreProperty().toString().replace("StringProperty [value: ", "").replace("]", "")).split(" / ");
+            String[] strCurrentGenre = (current.getGenre()).split(" / ");
             intCount = 0;
             for (int i = 0; i < strCurrentGenre.length; i++) {
                 if (!strCurrentGenre[i].equalsIgnoreCase(strGenre)) {
@@ -567,14 +530,14 @@ public class Database {
     private static void sortYear(ArrayList<Manga> MangaList, ObservableList<Manga> data, String strYearRange) {
         if (strYearRange.equalsIgnoreCase("< 1979")) {
             for (Manga current : MangaList) {
-                if (Integer.parseInt(current.intPublishedProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) > 1979){
+                if (current.getPublished() > 1979){
                     data.remove(current);
                 }
             }
         }else {
             String[] strYearRangeValues = (strYearRange.split(" - "));
             for (Manga current : MangaList) {
-                if (Integer.parseInt(current.intPublishedProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) < Integer.parseInt(strYearRangeValues[0]) || Integer.parseInt(current.intPublishedProperty().toString().replace("IntegerProperty [value: ", "").replace("]", "")) > Integer.parseInt(strYearRangeValues[1])){
+                if (current.getPublished() < Integer.parseInt(strYearRangeValues[0]) || current.getPublished() > Integer.parseInt(strYearRangeValues[1])){
                     data.remove(current);
                 }  
             }
