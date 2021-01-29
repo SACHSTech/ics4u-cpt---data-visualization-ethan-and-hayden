@@ -17,22 +17,22 @@ public class UserManga extends Manga {
     /**
      * Constructor for UserManga.
      * 
-     * @param strTitle
-     * @param strType
-     * @param strChapter
-     * @param strStatus
-     * @param intPublished
-     * @param strGenre
-     * @param strAuthor
-     * @param strSerialization
-     * @param dblScore
-     * @param intRank
-     * @param intPopularity
-     * @param intScoreNumbers
-     * @param strSynopsis
-     * @param intUserScore
-     * @param strUserStatus
-     * @param isUserSelected
+     * @param strTitle - the title of the User Manga.
+     * @param strType - the type of the User Manga.
+     * @param strChapter - the chapters of the User Manga.
+     * @param strStatus - the status of the User Manga.
+     * @param intPublished - when the User Manga was published.
+     * @param strGenre - the genre of the User Manga.
+     * @param strAuthor - the author of the User Manga.
+     * @param strSerialization - the serialization of the User Manga.
+     * @param dblScore - the score of the User Manga.
+     * @param intRank - the rank of the User Manga.
+     * @param intPopularity - the popularity of the User Manga.
+     * @param intScoreNumbers - the number of scores of the User Manga.
+     * @param strSynopsis - the synopsis of the User Manga.
+     * @param intUserScore - the user score of the User Manga.
+     * @param strUserStatus - the user status of the User Manga.
+     * @param isUserSelected - the user selection of the User Manga.
      */
     public UserManga(String strTitle, String strType, String strChapter, String strStatus, int intPublished, String strGenre, String strAuthor, String strSerialization, double dblScore, int intRank, int intPopularity, int intScoreNumbers, String strSynopsis, int intUserScore, String strUserStatus, boolean isUserSelected) {
         super(strTitle, strType, strChapter, strStatus, intPublished, strGenre, strAuthor, strSerialization, dblScore, intRank, intPopularity, intScoreNumbers, strSynopsis);
@@ -44,7 +44,7 @@ public class UserManga extends Manga {
     /**
      * Getter method for User Status
      * 
-     * @return strUserStatus
+     * @return strUserStatus - a string property
      */
     public StringProperty strUserStatusProperty() {
         return strUserStatus;
@@ -53,7 +53,7 @@ public class UserManga extends Manga {
     /**
      * Getter method for User score
      * 
-     * @return intUserScore
+     * @return intUserScore - an integer property
      */
     public IntegerProperty intUserScoreProperty() {
         return intUserScore;
@@ -62,7 +62,7 @@ public class UserManga extends Manga {
     /**
      * Getter method for User selection
      * 
-     * @return isUserSelected
+     * @return isUserSelected - a boolean property
      */
     public BooleanProperty isUserSelectedProperty() {
         return isUserSelected;
@@ -98,7 +98,7 @@ public class UserManga extends Manga {
     /**
      * Setter method for user status
      * 
-     * @param strUserStatus
+     * @param strUserStatus - a string
      */
     public void setUserStatus(String strUserStatus) {
         this.strUserStatus = new SimpleStringProperty(strUserStatus);
@@ -107,7 +107,7 @@ public class UserManga extends Manga {
     /**
      * Setter method for user score
      * 
-     * @param intUserScore
+     * @param intUserScore - an integer
      */
     public void setUserScore(int intUserScore) {
         this.intUserScore = new SimpleIntegerProperty(intUserScore);
@@ -116,7 +116,7 @@ public class UserManga extends Manga {
     /**
      * Setter method for user selection
      * 
-     * @param isUserSelected
+     * @param isUserSelected - a boolean
      */
     public void setUserSelected(Boolean isUserSelected) {
         this.isUserSelected = new SimpleBooleanProperty(isUserSelected);
